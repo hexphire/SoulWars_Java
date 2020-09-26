@@ -1,0 +1,21 @@
+## Resolved Issues ##
+
+- **[0]** Create repository with issuse and ReadMe
+
+## Open Issues ##
+
+
+- **[1]** get initial skeleton up, soulWarsGame, Main Menu state and playing state.
+- **[2]** Develop tile/map system.
+- **[3]** Create Quadrant view
+- **[3]**  Add a basic map.
+- **[5]** Add a basic generalized unit. 
+- **[5.5]** Add initial controls.
+- **[6]**   Add basic pathfinding.
+- **[7]**  Test group pathing solutions.
+- **[8]**  Add souls.
+- **[9]**  Add HQ.
+- **[11]**  and minimap.
+- **[12]** Add HQ health, soul counter, unit UI.
+- **[13]** Add player 2 controls/mode.
+- **[14]** Add basic scripted "AI" for opponent in single player.

@@ -1,11 +1,11 @@
 ## Resolved Issues ##
 
 - **[0]** Create repository with issuse and ReadMe
-
+- **[1]** get initial skeleton up, soulWarsGame, Main Menu state and playing state.
 ## Open Issues ##
 
 
-- **[1]** get initial skeleton up, soulWarsGame, Main Menu state and playing state.
+
 - **[2]** Develop tile/map system.
 - **[3]** Create Quadrant view
 - **[3]**  Add a basic map.

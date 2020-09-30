@@ -24,6 +24,10 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final double VERSION = .01;
 	
 	
+	public final int screenWidth;
+	public final int screenHeight;
+	
+	
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new StartSplashState());
 		addState(new MainMenuState());
@@ -31,13 +35,15 @@ public class SoulWarsGame extends StateBasedGame {
 		
 	}
 	
-	public SoulWarsGame(String title) {
+	public SoulWarsGame(String title, int width, int height) {
 		super(title);
+		screenWidth = width;
+		screenHeight = height;
 	}
 	
 	public static void main(String[] args) {
 		try {
-			AppGameContainer app = new AppGameContainer(new SoulWarsGame("SoulWars " + VERSION));
+			AppGameContainer app = new AppGameContainer(new SoulWarsGame("SoulWars " + VERSION, WIDTH, HEIGHT));
 			app.setDisplayMode(WIDTH, HEIGHT, false);
 			app.setTargetFrameRate(FPS);
 			app.setShowFPS(true);

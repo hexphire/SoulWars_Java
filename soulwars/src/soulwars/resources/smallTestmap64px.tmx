@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="midevil_kenny.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3VQQ7EIAgF0N5rep3e/wqzmmTSgIKCfJTF3zSt9SnifV3XfXieTlDnF+nvfTMT6j/U/7P5pXOROFH8K2rdo/5Q/SvynrvnWUbM+/xEz6f8sf6ZPoSc1txH/NnWwMrfGws11Jyljt63qJEYZmon2ufll9bJ79lnIo/RONSYM37N/mf2U2twip+rgVPqX3oGNP5WP9L4tb3Osv7R/dQYo37r/q+dN6p/tP9p6zbaT62Blx9t/7k1WOWP7n8tb7S/9a7l/Wft1ybaL3m2q5+rh5n7P5ufspf/HL9F/aNG2v8o++l+zd2BmlX+ledfM2b5x/qfl79XrxH+Xu+39qPt/+l+6/rX1vhu/a/8tj1xJtn8O+8/dw527X9Z/Nb3n/Rslh/Db13/kj6H4vfof9qUv/zZ/ahpGbj3eq5M/v/5Un7q7uPuQ26tUNPb79a+7uBv1Sf1zo5+bg2s1nGnlL/8q8+/dh4evbD8cX7vsa383lnxf2T/qjU+2S/JF2RxOaUAQAAA
+  </data>
+ </layer>
+</map>

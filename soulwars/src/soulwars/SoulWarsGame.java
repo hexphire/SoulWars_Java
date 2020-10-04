@@ -18,6 +18,9 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYINGSTATE = 2;
 	
+	//Tile Identifiers
+	public static final String TILE_RSC_59 = "soulwars/resources/Tile/medievalTile_15.png";
+	public static final String TILE_RSC_101 = "soulwars/resources/Tile/medievalTile_57.png";
 	//App properties
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
@@ -30,6 +33,8 @@ public class SoulWarsGame extends StateBasedGame {
 	
 	private boolean mapReady;
 	
+	public SoulWarsMap gameMap;
+	
 	public TiledMap map;
 	
 	
@@ -38,6 +43,8 @@ public class SoulWarsGame extends StateBasedGame {
 		addState(new MainMenuState());
 		addState(new PlayingState());
 		
+		ResourceManager.loadImage(TILE_RSC_59);
+		ResourceManager.loadImage(TILE_RSC_101);
 	}
 	
 	public SoulWarsGame(String title, int width, int height) throws SlickException {
@@ -45,9 +52,11 @@ public class SoulWarsGame extends StateBasedGame {
 		screenWidth = width;
 		screenHeight = height;
 		mapReady = false;
+		gameMap = new SoulWarsMap();		
 		loadMap();
 		if(mapReady == true) {
-			System.out.println("map loaded");
+			System.out.println("map loading");
+			gameMap.loadNewMap(map);
 		}
 		
 		
@@ -60,7 +69,7 @@ public class SoulWarsGame extends StateBasedGame {
 	}
 	
 	public void loadMap() throws SlickException {
-		map = new TiledMap("src/soulwars/resources/smallTestmap64px.tmx", false);
+		map = new TiledMap("src/soulwars/resources/tinyTestmap64px.tmx", false);
 		mapReady = true;
 	}
 	

@@ -23,7 +23,7 @@ public class PlayingState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
-		System.out.println(swg.map.getTileId(2,2,0));
+		swg.gameMap.printMapArray();
 		
 	}
 		
@@ -37,7 +37,7 @@ public class PlayingState extends BasicGameState {
 		//lets test getting map info from our tiledMap
 		g.drawString("map size: "+swg.map.getWidth()+"x "+swg.map.getHeight()+"y", 30, 30);
 		g.drawString("tile size: "+swg.map.getTileWidth()+"x "+swg.map.getTileHeight()+"y", 30, 60);
-		
+		swg.gameMap.renderMe(0, 0, g);
 	}
 
 	@Override

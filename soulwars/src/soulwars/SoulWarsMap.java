@@ -51,6 +51,9 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
+		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
+			return true;
+		}
 		return false;
 	}
 
@@ -63,8 +66,8 @@ public class SoulWarsMap implements TileBasedMap{
 	
 	public void renderView(int x, int y, int xOffSet, int yOffset, Graphics g) {
 		int tileId;
-		for (int xTile = 0; xTile < 10; xTile++) {
-			for (int yTile = 0; yTile < 10; yTile++) {
+		for (int xTile = 0; xTile < 16; xTile++) {
+			for (int yTile = 0; yTile < 14; yTile++) {
 				tileId = terrainTiles[xTile + xOffSet][yTile + yOffset];
 				if(tileId == 101) {
 				g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), xTile*tileWidth, yTile*tileHeight);

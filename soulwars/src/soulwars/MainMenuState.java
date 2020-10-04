@@ -30,7 +30,7 @@ public class MainMenuState extends BasicGameState {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
 		
-		g.drawString("press space to begin", swg.screenWidth/2, swg.screenHeight/2);
+		g.drawString("press space to begin", swg.screenWidth/2 - 100, swg.screenHeight/2);
 	}
 
 	@Override

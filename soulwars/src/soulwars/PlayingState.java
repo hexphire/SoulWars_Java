@@ -25,7 +25,7 @@ public class PlayingState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
-		swg.gameMap.printMapArray();
+		//swg.gameMap.printMapArray();
 		
 	}
 		
@@ -35,7 +35,8 @@ public class PlayingState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		//render map
+		
+		//render map using camera
 		gameView.renderView(0, 0, g);
 		
 		//lets test getting map info from our tiledMap

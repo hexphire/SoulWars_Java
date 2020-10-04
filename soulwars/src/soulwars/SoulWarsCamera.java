@@ -6,8 +6,8 @@ import jig.ResourceManager;
 
 public class SoulWarsCamera {
 	
-	private int xOffSet = 0;
-	private int yOffSet = 0;
+	private int xOffSet;
+	private int yOffSet;
 	private int tileWidth;
 	private int tileHeight;
 	private int mapHeight;
@@ -17,13 +17,15 @@ public class SoulWarsCamera {
 	
 	
 	public SoulWarsCamera(SoulWarsMap map) {
+		xOffSet = 0;
+		yOffSet = 0;
 		currentGame = map;
 		tileWidth = currentGame.getTileWidth();
 		tileHeight = currentGame.getTileHeight();
 		mapHeight = currentGame.getHeightInTiles();
 		mapWidth = currentGame.getWidthInTiles();
 	}
-	
+	//horizontal move
 	public void moveCameraX(int dx) {
 		if (dx > 0 && xOffSet < mapWidth - 16) {
 			xOffSet = xOffSet + 1;
@@ -32,7 +34,7 @@ public class SoulWarsCamera {
 		}
 		return;
 	}
-	
+	//vertical move
 	public void moveCameraY(int dy) {
 		if (dy > 0 && yOffSet < mapHeight - 14) {
 			yOffSet = yOffSet + 1;
@@ -43,6 +45,7 @@ public class SoulWarsCamera {
 		return;
 	}
 	
+	//getters for camera offset
 	public int getCameraX() {
 		return xOffSet;
 	}
@@ -50,7 +53,7 @@ public class SoulWarsCamera {
 	public int getCameraY() {
 		return yOffSet;
 	}
-	
+	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
 		int[][] terrain = currentGame.getTerrain();
 		int tileId;

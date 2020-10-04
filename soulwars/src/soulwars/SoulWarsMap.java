@@ -61,11 +61,11 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	
-	public void renderMe(int x, int y, Graphics g) {
+	public void renderView(int x, int y, int xOffSet, int yOffset, Graphics g) {
 		int tileId;
-		for (int xTile = 0; xTile < mapWidth; xTile++) {
-			for (int yTile =0; yTile < mapHeight; yTile++) {
-				tileId = terrainTiles[xTile][yTile];
+		for (int xTile = 0; xTile < 10; xTile++) {
+			for (int yTile = 0; yTile < 10; yTile++) {
+				tileId = terrainTiles[xTile + xOffSet][yTile + yOffset];
 				if(tileId == 101) {
 				g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), xTile*tileWidth, yTile*tileHeight);
 				}else

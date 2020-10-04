@@ -28,18 +28,22 @@ public class SoulWarsMap implements TileBasedMap{
 
 	@Override
 	public int getWidthInTiles() {
-		if (mapWidth != 0) {
-			return mapWidth;
-		}
-		return 0;
+		
+		return mapWidth;
 	}
 
 	@Override
 	public int getHeightInTiles() {
-		if (mapHeight != 0) {
-			return mapHeight;
-		}
-		return 0;
+		
+		return mapHeight;
+	}
+	
+	public int getTileHeight() {
+		return tileHeight;
+	}
+	
+	public int getTileWidth() {
+		return tileWidth;
 	}
 
 	@Override
@@ -64,17 +68,8 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	
-	public void renderView(int x, int y, int xOffSet, int yOffset, Graphics g) {
-		int tileId;
-		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 14; yTile++) {
-				tileId = terrainTiles[xTile + xOffSet][yTile + yOffset];
-				if(tileId == 101) {
-				g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), xTile*tileWidth, yTile*tileHeight);
-				}else
-				g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_59), xTile*tileWidth, yTile*tileHeight);
-			}
-		}
+	public int[][] getTerrain(){
+		return terrainTiles;
 	}
 	
 	public void loadNewMap(TiledMap mapPlan) {
@@ -96,6 +91,8 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	public void printMapArray() {
+		System.out.println(mapWidth);
+		System.out.println(mapHeight);
 		System.out.println(Arrays.deepToString(terrainTiles).replace("],", "]\n"));
 	}
 

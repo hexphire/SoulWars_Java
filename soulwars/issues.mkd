@@ -2,11 +2,12 @@
 
 - **[0]** Create repository with issuse and ReadMe
 - **[1]** get initial skeleton up, soulWarsGame, Main Menu state and playing state.
+- **[2]** Develop tile/map system.
 ## Open Issues ##
 
 
 
-- **[2]** Develop tile/map system.
+
 - **[3]** Create Quadrant view
 - **[3]**  Add a basic map.
 - **[5]** Add a basic generalized unit. 

@@ -54,7 +54,7 @@ public class SoulWarsGame extends StateBasedGame {
 		screenWidth = width;
 		screenHeight = height;
 		
-		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
+		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		mapReady = false;
 		gameMap = new SoulWarsMap();		
 		loadMap();
@@ -68,9 +68,9 @@ public class SoulWarsGame extends StateBasedGame {
 		
 	}
 	
-	public void spawnUnit(float x, float y) {
+	public void spawnUnit(float x, float y, int cameraX, int cameraY) {
 		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1);
-		gameMap.placeUnit(newUnit);
+		gameMap.placeUnit(newUnit, cameraX, cameraY);
 	}
 	
 	public boolean mapCheck() {

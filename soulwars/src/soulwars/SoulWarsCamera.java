@@ -65,12 +65,14 @@ public class SoulWarsCamera {
 				
 				if(tileId == 101) {
 					g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), xTile*tileWidth, yTile*tileHeight);
+					g.flush();
 				}else {
 					g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_59), xTile*tileWidth, yTile*tileHeight);
+					g.flush();
 				}
-				g.flush();
 				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
 					units[xTile + xOffSet][yTile + yOffSet].render(g);
+					g.flush();
 				}
 			}
 		}

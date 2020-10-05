@@ -11,7 +11,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class PlayingState extends BasicGameState {
 
-	SoulWarsCamera gameView;
+	public SoulWarsCamera gameView;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -90,7 +90,7 @@ public class PlayingState extends BasicGameState {
 		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON) && input.isKeyPressed(Input.KEY_LCONTROL)) {
 			float mouseTileX = (input.getMouseX());
 			float mouseTileY = (input.getMouseY());
-			swg.spawnUnit(mouseTileX, mouseTileY);	
+			swg.spawnUnit(mouseTileX, mouseTileY, gameView.getCameraX(), gameView.getCameraY());	
 			
 		}
 	}
@@ -101,6 +101,7 @@ public class PlayingState extends BasicGameState {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 	@Override
 	public int getID() {

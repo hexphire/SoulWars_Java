@@ -80,8 +80,8 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	public CoordinatePair<Integer, Integer> getUnitMapLoc(SoulWarsUnit target) {
-		float unitXf = target.getPos().getX();
-		float unitYf = target.getPos().getY();
+		float unitXf = (target.getPos().getX()/tileWidth);
+		float unitYf = (target.getPos().getY()/tileHeight);
 		int unitX = (int) unitXf;
 		int unitY =  (int) unitYf;
 		CoordinatePair<Integer,Integer> unitTileLoc = new CoordinatePair<Integer,Integer>(unitX,unitY);
@@ -90,10 +90,10 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	
-	public void placeUnit(SoulWarsUnit unit) {
+	public void placeUnit(SoulWarsUnit unit, int cameraX, int cameraY) {
 		CoordinatePair<Integer,Integer> unitLoc = getUnitMapLoc(unit);
-		if(units[unitLoc.getX()][unitLoc.getY()] == null) {
-			units[unitLoc.getX()][unitLoc.getY()] = unit;
+		if(units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] == null) {
+			units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] = unit;
 		}
 	}
 	

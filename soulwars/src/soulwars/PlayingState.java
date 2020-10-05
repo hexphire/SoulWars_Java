@@ -77,9 +77,20 @@ public class PlayingState extends BasicGameState {
 		
 		//Mouse Controls
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			float mouseTileX = (input.getMouseX() / 64) + gameView.getCameraX();
-			float mouseTileY = (input.getMouseY() / 64) + gameView.getCameraY();
+			float mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
+			float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
+			if(swg.gameMap.getUnitAt((int) mouseTileX, (int)mouseTileY) != null) {
+				System.out.println("someone here!");
+			}else {
+				System.out.println("no one here!");
+			}
 			System.out.println("x: " + mouseTileX + "y: " + mouseTileY);	
+			
+		}
+		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON) && input.isKeyPressed(Input.KEY_LCONTROL)) {
+			float mouseTileX = (input.getMouseX());
+			float mouseTileY = (input.getMouseY());
+			swg.spawnUnit(mouseTileX, mouseTileY);	
 			
 		}
 	}

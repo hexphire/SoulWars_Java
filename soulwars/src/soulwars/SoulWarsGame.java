@@ -21,6 +21,7 @@ public class SoulWarsGame extends StateBasedGame {
 	//Tile Identifiers
 	public static final String TILE_RSC_59 = "soulwars/resources/Tile/medievalTile_15.png";
 	public static final String TILE_RSC_101 = "soulwars/resources/Tile/medievalTile_57.png";
+	public static final String UNIT_RSC_REDW = "soulwars/resources/Unit/medievalUnit_09.png";
 	//App properties
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
@@ -45,12 +46,15 @@ public class SoulWarsGame extends StateBasedGame {
 		
 		ResourceManager.loadImage(TILE_RSC_59);
 		ResourceManager.loadImage(TILE_RSC_101);
+		ResourceManager.loadImage(UNIT_RSC_REDW);
 	}
 	
 	public SoulWarsGame(String title, int width, int height) throws SlickException {
 		super(title);
 		screenWidth = width;
 		screenHeight = height;
+		
+		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
 		mapReady = false;
 		gameMap = new SoulWarsMap();		
 		loadMap();
@@ -59,9 +63,14 @@ public class SoulWarsGame extends StateBasedGame {
 			gameMap.loadNewMap(map);
 		}
 		
+	
 		
 		
-		
+	}
+	
+	public void spawnUnit(float x, float y) {
+		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1);
+		gameMap.placeUnit(newUnit);
 	}
 	
 	public boolean mapCheck() {
@@ -69,7 +78,7 @@ public class SoulWarsGame extends StateBasedGame {
 	}
 	
 	public void loadMap() throws SlickException {
-		map = new TiledMap("src/soulwars/resources/smallTestmap64px.tmx", false);
+		map = new TiledMap("src/soulwars/resources/tinyTestmap64px.tmx", false);
 		mapReady = true;
 	}
 	

@@ -54,28 +54,43 @@ public class SoulWarsCamera {
 	public int getCameraY() {
 		return yOffSet;
 	}
-	//renders the current camera view on screen
-	public void renderView(int x, int y, Graphics g) {
-		int[][] terrain = currentGame.getTerrain();
-		SoulWarsUnit[][] units = currentGame.getUnits();
+	
+	public void renderTerrain(int[][] terrain, Graphics g) {
+		Image image;
 		int tileId;
 		for (int xTile = 0; xTile < 16; xTile++) {
 			for (int yTile = 0; yTile < 14; yTile++) {
 				tileId = terrain[xTile + xOffSet][yTile + yOffSet];
 				
 				if(tileId == 101) {
-					g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), xTile*tileWidth, yTile*tileHeight);
-					g.flush();
+					image = ResourceManager.getImage(SoulWarsGame.TILE_RSC_101);
+					image.setFilter(Image.FILTER_LINEAR);
+					g.drawImage(image, xTile*tileWidth, yTile*tileHeight);
 				}else {
-					g.drawImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_59), xTile*tileWidth, yTile*tileHeight);
-					g.flush();
+					image = ResourceManager.getImage(SoulWarsGame.TILE_RSC_59);
+					image.setFilter(Image.FILTER_LINEAR);
+					g.drawImage(image , xTile*tileWidth, yTile*tileHeight);
 				}
+			}
+		}
+	}
+	public void renderUnits(SoulWarsUnit[][] units, Graphics g) {
+		for (int xTile = 0; xTile < 16; xTile++) {
+			for (int yTile = 0; yTile < 14; yTile++) {
+		
 				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
 					units[xTile + xOffSet][yTile + yOffSet].render(g);
 					g.flush();
 				}
 			}
 		}
-		return;
+	}
+	//renders the current camera view on screen
+	public void renderView(int x, int y, Graphics g) {
+		int[][] terrain = currentGame.getTerrain();
+		SoulWarsUnit[][] units = currentGame.getUnits();
+		renderTerrain(terrain, g);
+		renderUnits(units, g);
+		
 	}
 }

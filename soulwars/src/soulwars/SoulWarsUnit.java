@@ -1,5 +1,7 @@
 package soulwars;
 
+import org.newdawn.slick.Image;
+
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -11,6 +13,7 @@ public class SoulWarsUnit extends Entity {
 	private int soulCount;
 	private int attack;
 	private boolean isRanged;
+	Image unitSprite;
 	
 	
 	
@@ -21,7 +24,9 @@ public class SoulWarsUnit extends Entity {
 			isRanged = false;
 			health = 5;
 			soulCount = 1;
-			addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW));
+			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
+			unitSprite.setFilter(Image.FILTER_LINEAR);
+			addImageWithBoundingBox(unitSprite);
 			
 		}
 	}

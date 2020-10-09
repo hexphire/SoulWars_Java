@@ -26,7 +26,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
 	public static final int FPS = 60;
-	public static final double VERSION = .01;
+	public static final double VERSION = .05;
 	
 	
 	public final int screenWidth;
@@ -54,6 +54,7 @@ public class SoulWarsGame extends StateBasedGame {
 		screenWidth = width;
 		screenHeight = height;
 		
+		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		mapReady = false;
 		gameMap = new SoulWarsMap();		

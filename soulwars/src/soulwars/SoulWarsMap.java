@@ -2,14 +2,12 @@ package soulwars;
 
 import java.util.Arrays;
 
-import org.newdawn.slick.Graphics;
+
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
-import jig.ResourceManager;
 
-import org.newdawn.slick.state.StateBasedGame;
 
 public class SoulWarsMap implements TileBasedMap{
 	
@@ -20,11 +18,16 @@ public class SoulWarsMap implements TileBasedMap{
 	private int tileHeight;
 	
 	private int[][] terrainTiles;
-	//private int[][] units;
-	//private boolean[][] visited;
+	private SoulWarsUnit[][] units;
+	private boolean[][] visited;
 	
-	//private int[][] redBasePath;
-	//private int[][] blueBasePath;
+	private int[][] redBasePath;
+	private int[][] blueBasePath;
+	
+	
+	public SoulWarsMap() {
+		super();
+	}
 
 	@Override
 	public int getWidthInTiles() {
@@ -44,6 +47,9 @@ public class SoulWarsMap implements TileBasedMap{
 	
 	public int getTileWidth() {
 		return tileWidth;
+	}
+	public SoulWarsUnit[][] getUnits(){
+		return units;
 	}
 
 	@Override
@@ -67,6 +73,29 @@ public class SoulWarsMap implements TileBasedMap{
 		return 0;
 	}
 	
+	public SoulWarsUnit getUnitAt(int x, int y) {
+		if (units[x][y] != null)
+			return units[x][y];
+		return null;
+	}
+	
+	public CoordinatePair<Integer, Integer> getUnitMapLoc(SoulWarsUnit target) {
+		float unitXf = (target.getPos().getX()/tileWidth);
+		float unitYf = (target.getPos().getY()/tileHeight);
+		int unitX = (int) unitXf;
+		int unitY =  (int) unitYf;
+		CoordinatePair<Integer,Integer> unitTileLoc = new CoordinatePair<Integer,Integer>(unitX,unitY);
+		return unitTileLoc;
+		
+	}
+	
+	
+	public void placeUnit(SoulWarsUnit unit, int cameraX, int cameraY) {
+		CoordinatePair<Integer,Integer> unitLoc = getUnitMapLoc(unit);
+		if(units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] == null) {
+			units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] = unit;
+		}
+	}
 	
 	public int[][] getTerrain(){
 		return terrainTiles;
@@ -80,6 +109,10 @@ public class SoulWarsMap implements TileBasedMap{
 		tileHeight = mapPlan.getTileHeight();
 		
 		terrainTiles = new int[mapWidth][mapHeight];
+		units = new SoulWarsUnit[mapWidth][mapHeight];
+		visited = new boolean[mapWidth][mapHeight];
+		redBasePath = new int[mapWidth][mapHeight];
+		blueBasePath = new int[mapWidth][mapHeight];
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
 			for (int yTile =0; yTile < mapHeight; yTile++) {

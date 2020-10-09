@@ -6,9 +6,10 @@
 - **[3]** Create Quadrant view
 - **[3.5]**  Add a basic map.
 - **[4]** Add initial controls.
+- **[5]** Add a basic generalized unit.
 ## Open Issues ##
 
-- **[5]** Add a basic generalized unit. 
+ 
 - **[6]**   Add basic pathfinding.
 - **[7]**  Test group pathing solutions.
 - **[8]**  Add souls.

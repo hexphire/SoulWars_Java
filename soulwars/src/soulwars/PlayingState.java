@@ -26,7 +26,7 @@ public class PlayingState extends BasicGameState {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
 		//swg.gameMap.printMapArray();
-		
+		swg.spawnUnit(1 * swg.getRandom(63), 1 * swg.getRandom(64), 0, 0);
 	}
 		
 		

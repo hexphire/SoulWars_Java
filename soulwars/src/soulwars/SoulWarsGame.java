@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import java.util.Random;
 
 
 public class SoulWarsGame extends StateBasedGame {
@@ -29,14 +30,17 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final double VERSION = .05;
 	
 	
+	
 	public final int screenWidth;
 	public final int screenHeight;
 	
 	private boolean mapReady;
-	
+	//map variables
 	public SoulWarsMap gameMap;
 	
 	public TiledMap map;
+	
+	private Random rndm;
 	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
@@ -53,7 +57,7 @@ public class SoulWarsGame extends StateBasedGame {
 		super(title);
 		screenWidth = width;
 		screenHeight = height;
-		
+		rndm = new Random();
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		mapReady = false;
@@ -81,6 +85,11 @@ public class SoulWarsGame extends StateBasedGame {
 	public void loadMap() throws SlickException {
 		map = new TiledMap("src/soulwars/resources/tinyTestmap64px.tmx", false);
 		mapReady = true;
+	}
+	
+	public int getRandom(int ceiling) {
+		int randint = rndm.nextInt(ceiling);
+		return randint;
 	}
 	
 	

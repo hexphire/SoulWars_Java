@@ -57,6 +57,14 @@ public class SoulWarsMap implements TileBasedMap{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void clearVisited() {
+		for(int x=0; x < getWidthInTiles(); x++) {
+			for (int y = 0; y < getHeightInTiles(); y++) {
+				visited[x][y] = false;
+			}
+		}
+	}
 
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
@@ -70,13 +78,12 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public float getCost(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 	
-	public SoulWarsUnit getUnitAt(int x, int y) {
-		if (units[x][y] != null)
-			return units[x][y];
-		return null;
+	public SoulWarsUnit getUnit(int x, int y) {
+		return units[x][y];
+		
 	}
 	
 	public CoordinatePair<Integer, Integer> getUnitMapLoc(SoulWarsUnit target) {

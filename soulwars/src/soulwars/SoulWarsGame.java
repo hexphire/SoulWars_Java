@@ -8,6 +8,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
+
 import java.util.Random;
 
 
@@ -38,6 +41,8 @@ public class SoulWarsGame extends StateBasedGame {
 	//map variables
 	public SoulWarsMap gameMap;
 	
+	public AStarPathFinder APather;
+	
 	public TiledMap map;
 	
 	private Random rndm;
@@ -66,7 +71,9 @@ public class SoulWarsGame extends StateBasedGame {
 		if(mapReady == true) {
 			System.out.println("map loading");
 			gameMap.loadNewMap(map);
+			APather = new AStarPathFinder(gameMap, 5000, false);
 		}
+		
 		
 	
 		

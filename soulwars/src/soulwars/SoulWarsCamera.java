@@ -2,6 +2,7 @@ package soulwars;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.util.pathfinding.Path;
 
 import jig.ResourceManager;
 
@@ -53,6 +54,23 @@ public class SoulWarsCamera {
 	
 	public int getCameraY() {
 		return yOffSet;
+	}
+	
+	public void renderPath(Path currentPath, Graphics g) {
+		boolean[][] pathMap = new boolean[mapWidth][mapHeight];
+		for (int i = 0; i < currentPath.getLength(); i++) {
+			pathMap[currentPath.getX(i)][currentPath.getY(i)] = true;
+		}
+		for (int xTile = 0; xTile < 16; xTile++) {
+			for (int yTile = 0; yTile < 14; yTile++) {
+		
+				if(pathMap[xTile + xOffSet][yTile + yOffSet] != false) {
+					g.drawString("X", (xTile*tileWidth)+16, (yTile*tileHeight)+16);
+					
+				}
+			}
+		}
+		
 	}
 	
 	public void renderTerrain(int[][] terrain, Graphics g) {

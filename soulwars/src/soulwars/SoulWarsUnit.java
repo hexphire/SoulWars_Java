@@ -1,18 +1,20 @@
 package soulwars;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.util.pathfinding.Mover;
 
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 
-public class SoulWarsUnit extends Entity {
+public class SoulWarsUnit extends Entity implements Mover {
 	
 	private Vector velocity;
 	private int health;
 	private int soulCount;
 	private int attack;
 	private boolean isRanged;
+	private int unitType;
 	Image unitSprite;
 	
 	
@@ -21,6 +23,7 @@ public class SoulWarsUnit extends Entity {
 	public SoulWarsUnit(final float x, final float y, int type) {
 		super(x, y);
 		if(type == 1) {
+			unitType = 1;
 			isRanged = false;
 			health = 5;
 			soulCount = 1;
@@ -29,6 +32,22 @@ public class SoulWarsUnit extends Entity {
 			addImageWithBoundingBox(unitSprite);
 			
 		}
+	}
+	
+	public Vector getVelocity() {
+		return velocity;
+	}
+	
+	public int getSoulCount() {
+		return soulCount;
+	}
+	
+	public int getType() {
+		return unitType;
+	}
+	
+	public boolean ranged() {
+		return isRanged;
 	}
 	
 	public CoordinatePair<Float,Float> getPos() {
@@ -48,7 +67,8 @@ public class SoulWarsUnit extends Entity {
 	}
 	
 	public void update(final int delta) {
-		
+				
 	}
-
+	
+	
 }

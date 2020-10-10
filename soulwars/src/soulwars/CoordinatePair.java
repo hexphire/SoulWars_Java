@@ -34,4 +34,10 @@ public class CoordinatePair<X, Y> {
 	public Y getY() {
 		return yPos;
 	}
+	
+	public int hashCode() {
+		int x = (int)xPos;
+		int y = (int)yPos;
+		return x * y;
+	}
 }

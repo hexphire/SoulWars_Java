@@ -54,7 +54,7 @@ public class SoulWarsMap implements TileBasedMap{
 
 	@Override
 	public void pathFinderVisited(int x, int y) {
-		// TODO Auto-generated method stub
+		visited[x][y] = true;
 		
 	}
 	
@@ -72,6 +72,9 @@ public class SoulWarsMap implements TileBasedMap{
 		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
 			return true;
 		}
+		//if(units[tx][ty] != null) {
+		//	return true;
+		//}
 		return false;
 	}
 
@@ -96,11 +99,32 @@ public class SoulWarsMap implements TileBasedMap{
 		
 	}
 	
+	public CoordinatePair<Integer, Integer> findUnit(SoulWarsUnit unit) {
+		for(int xTile = 0; xTile < mapWidth; xTile++) {
+			for(int yTile = 0; yTile < mapHeight; yTile++) {
+				if (units[xTile][yTile] == unit) {
+					return new CoordinatePair<Integer,Integer>(xTile,yTile);
+				}
+			}
+		}
+		return null;
+	}
+	
 	
 	public void placeUnit(SoulWarsUnit unit, int cameraX, int cameraY) {
 		CoordinatePair<Integer,Integer> unitLoc = getUnitMapLoc(unit);
 		if(units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] == null) {
 			units[unitLoc.getX() + cameraX][unitLoc.getY() + cameraY] = unit;
+		}
+	}
+	
+	public void updateUnit(SoulWarsUnit unit) {
+		CoordinatePair<Integer, Integer> prevLoc = findUnit(unit);
+		CoordinatePair<Integer, Integer> currentLoc = getUnitMapLoc(unit);	
+		if(currentLoc.compare(prevLoc) == false) {
+			units[prevLoc.getX()][prevLoc.getY()] = null;
+			units[currentLoc.getX()][currentLoc.getY()] = unit;
+					
 		}
 	}
 	

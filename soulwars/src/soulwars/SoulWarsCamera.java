@@ -1,5 +1,6 @@
 package soulwars;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -39,7 +40,7 @@ public class SoulWarsCamera {
 	}
 	//vertical move
 	public void moveCameraY(int dy) {
-		if (dy > 0 && yOffSet < mapHeight - 14) {
+		if (dy > 0 && yOffSet < mapHeight - 16) {
 			yOffSet += 1;
 		}else if(dy < 0 && yOffSet > 0) {
 			yOffSet -= 1;
@@ -62,7 +63,7 @@ public class SoulWarsCamera {
 			pathMap[currentPath.getX(i)][currentPath.getY(i)] = true;
 		}
 		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 14; yTile++) {
+			for (int yTile = 0; yTile < 16; yTile++) {
 		
 				if(pathMap[xTile + xOffSet][yTile + yOffSet] != false) {
 					g.drawString("X", (xTile*tileWidth)+16, (yTile*tileHeight)+16);
@@ -73,11 +74,16 @@ public class SoulWarsCamera {
 		
 	}
 	
+	public void renderSelected(SoulWarsUnit selected, Graphics g) {
+		g.setColor(Color.black);
+		g.drawRect(selected.getX()-10, selected.getY()-15, 18, 28);
+	}
+	
 	public void renderTerrain(int[][] terrain, Graphics g) {
 		Image image;
 		int tileId;
 		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 14; yTile++) {
+			for (int yTile = 0; yTile < 16; yTile++) {
 				tileId = terrain[xTile + xOffSet][yTile + yOffSet];
 				
 				if(tileId == 101) {
@@ -94,7 +100,7 @@ public class SoulWarsCamera {
 	}
 	public void renderUnits(SoulWarsUnit[][] units, Graphics g) {
 		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 14; yTile++) {
+			for (int yTile = 0; yTile < 16; yTile++) {
 		
 				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
 					units[xTile + xOffSet][yTile + yOffSet].render(g);

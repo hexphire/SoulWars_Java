@@ -40,4 +40,12 @@ public class CoordinatePair<X, Y> {
 		int y = (int)yPos;
 		return x * y;
 	}
+
+	public boolean compare(CoordinatePair<Integer,Integer> otherTile) {
+		if(this.getX() == otherTile.getX() && this.getY() == otherTile.getY()) {
+			return true;
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

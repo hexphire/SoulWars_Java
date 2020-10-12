@@ -38,6 +38,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	private boolean mapReady;
+	
 	//map variables
 	public SoulWarsMap gameMap;
 	

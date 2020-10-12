@@ -93,6 +93,23 @@ public class SoulWarsMap implements TileBasedMap{
 		
 	}
 	
+	public ArrayList<SoulWarsUnit> getNear(SoulWarsUnit unit, int range){
+		ArrayList<SoulWarsUnit> possibleTargets = new ArrayList<SoulWarsUnit>(range*2);
+		for (int xTile = unit.getMapPosX() - range; xTile < unit.getMapPosX() + range; xTile++) {
+			for (int yTile = unit.getMapPosY() - range; yTile < unit.getMapPosX() + range; yTile++) {
+				if (xTile > -1 && yTile > -1) {
+					if(xTile < getWidthInTiles() && yTile < getHeightInTiles()) {
+						if(units[xTile][yTile] != null) {
+							possibleTargets.add(units[xTile][yTile]);
+						}
+					}
+				}
+				
+			}
+		}
+		return possibleTargets;
+	}
+	
 	public ArrayList<SoulWarsUnit> getUnitList(){
 		ArrayList<SoulWarsUnit> unitsList = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
 	

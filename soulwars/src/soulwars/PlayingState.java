@@ -85,7 +85,7 @@ public class PlayingState extends BasicGameState {
 		}
 		
 		
-		//Camera Controls
+		/*Camera Controls
 		if (input.isKeyDown(Input.KEY_W)){
 			gameView.moveCameraY(-1);
 			
@@ -102,7 +102,7 @@ public class PlayingState extends BasicGameState {
 		if (input.isKeyDown(Input.KEY_D)){
 			gameView.moveCameraX(1);
 		}
-		
+		*/
 		
 		//Mouse Controls
 		
@@ -172,7 +172,18 @@ public class PlayingState extends BasicGameState {
 			
 		}
 		
-		// Pathing test controls
+		//Pathing test controls
+		if(input.isKeyDown(Input.KEY_N)) {
+			float mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
+			float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
+			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnitList();
+			for (SoulWarsUnit unit : units) {
+				if(swg.gameMap.getNear(unit, 5).size() != 0) {
+					SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
+					unit.setPath(swg.APather.findPath(null, target.getMapPosX(), target.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
+				}
+			}
+		}
 		if(input.isKeyDown(Input.KEY_C)) {
 			float mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 			float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();

@@ -69,19 +69,25 @@ public class PlayingState extends BasicGameState {
 		//Path testing
 		
 		//unit test controls
+		
+		
 		if (input.isKeyDown(Input.KEY_UP)) {
-			selected.translate(new Vector(0, -.1f));
+			if(selected != null)
+				selected.translate(new Vector(0, -2f));
 		}
 		if (input.isKeyDown(Input.KEY_LEFT)) {
-			selected.translate(new Vector(-.1f, 0));
+			if(selected != null)
+				selected.translate(new Vector(-2f, 0));
 		}
 		
 		if (input.isKeyDown(Input.KEY_DOWN)) {
-			selected.translate(new Vector(0, .1f));
+			if(selected != null)
+				selected.translate(new Vector(0, 2f));
 		}
 		
 		if (input.isKeyDown(Input.KEY_RIGHT)) {
-			selected.translate(new Vector(.1f, 0));
+			if(selected != null)
+				selected.translate(new Vector(2f, 0));
 		}
 		
 		
@@ -161,16 +167,7 @@ public class PlayingState extends BasicGameState {
 		}
 		
 		
-		for (int xTile = 0; xTile < swg.gameMap.getWidthInTiles(); xTile++) {
-			for (int yTile =0; yTile < swg.gameMap.getHeightInTiles(); yTile++) {
-				SoulWarsUnit unitToUpdate = swg.gameMap.getUnit(xTile, yTile);
-				if(unitToUpdate != null) {
-					swg.gameMap.updateUnit(unitToUpdate);
-					unitToUpdate.update(delta);
-				}
-			}
-			
-		}
+		
 		
 		//Pathing test controls
 		if(input.isKeyDown(Input.KEY_N)) {
@@ -178,9 +175,12 @@ public class PlayingState extends BasicGameState {
 			float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
 			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnitList();
 			for (SoulWarsUnit unit : units) {
-				if(swg.gameMap.getNear(unit, 5).size() != 0) {
-					SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
-					unit.setPath(swg.APather.findPath(null, target.getMapPosX(), target.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
+					if(selected != null) {
+						if(unit.getHash() != selected.getHash())
+							if(swg.gameMap.getNear(unit, 5).size() != 0) {
+								SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
+								unit.setPath(swg.APather.findPath(null, target.getMapPosX(), target.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
+					}
 				}
 			}
 		}
@@ -196,6 +196,14 @@ public class PlayingState extends BasicGameState {
 			if(selected != null) {
 				int[] coords = swg.gameMap.findUnit(selected);
 				System.out.println("unit location x:"+ coords[0] +"y:"+ coords[1]);
+			}
+		}
+		
+		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnitList();
+		if(units.size() != 0) {
+			for(SoulWarsUnit unit : units) {
+				swg.gameMap.updateUnit(unit);
+				unit.update(delta);
 			}
 		}
 	}

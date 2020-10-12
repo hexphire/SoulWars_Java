@@ -91,6 +91,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 		currentPath = null;
 	}
 	
+	public int getHash() {
+		int hash = (int)(this.getY() * this.getX());
+		return hash;
+	}
+	
 	public Vector followPath(final int delta) {
 		Step currentStep = currentPath.getStep(stepCount);
 		

@@ -73,9 +73,9 @@ public class SoulWarsMap implements TileBasedMap{
 		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
 			return true;
 		}
-		//if(units[tx][ty] != null) {
-		//	return true;
-		//}
+		if(units[tx][ty] != null) {
+			return true;
+		}
 		return false;
 	}
 
@@ -100,7 +100,9 @@ public class SoulWarsMap implements TileBasedMap{
 				if (xTile > -1 && yTile > -1) {
 					if(xTile < getWidthInTiles() && yTile < getHeightInTiles()) {
 						if(units[xTile][yTile] != null) {
-							possibleTargets.add(units[xTile][yTile]);
+							if(units[xTile][yTile].getHash() != unit.getHash()) {
+								possibleTargets.add(units[xTile][yTile]);
+							}
 						}
 					}
 				}
@@ -126,9 +128,11 @@ public class SoulWarsMap implements TileBasedMap{
 	public int[] findUnit(SoulWarsUnit unit) {
 		for(int xTile = 0; xTile < mapWidth; xTile++) {
 			for(int yTile = 0; yTile < mapHeight; yTile++) {
-				if (units[xTile][yTile] == unit) {
-					int[] coords = {xTile,yTile};
-					return coords ;
+				if(units[xTile][yTile] != null) {
+					if (units[xTile][yTile].getHash() == unit.getHash()) {
+						int[] coords = {xTile,yTile};
+						return coords ;
+					}
 				}
 			}
 		}
@@ -147,14 +151,17 @@ public class SoulWarsMap implements TileBasedMap{
 	public void updateUnit(SoulWarsUnit unit) {
 		int newX = unit.getMapPosX();
 		int newY = unit.getMapPosY();
-		int [] mapPos = findUnit(unit);
-		int oldX = mapPos[0];
-		int oldY = mapPos[1];
-		if(newX != oldX && newY != oldY) {
-			units[oldX][oldY] = null;
-			units[newX][newY] = unit;
-					
+		if(findUnit(unit) != null) {
+			int [] mapPos = findUnit(unit);
+			int oldX = mapPos[0];
+			int oldY = mapPos[1];
+			if(newX != oldX && newY != oldY) {
+				units[oldX][oldY] = null;
+				units[newX][newY] = unit;
+						
+			}
 		}
+		
 	}
 	
 	public int[][] getTerrain(){

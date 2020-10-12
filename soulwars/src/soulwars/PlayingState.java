@@ -115,7 +115,8 @@ public class PlayingState extends BasicGameState {
 					float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
 					swg.gameMap.clearVisited();
 					selected.clearPath();
-					testPath = swg.APather.findPath(null, swg.gameMap.getUnitMapLoc(selected).getX(), swg.gameMap.getUnitMapLoc(selected).getY(), (int)mouseTileX, (int)mouseTileY);
+					swg.gameMap.updateUnit(selected);
+					testPath = swg.APather.findPath(null, selected.getMapPosX(), selected.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
 					if(testPath != null) {
 						for (int i = 0; i < testPath.getLength(); i++) {
 							System.out.println(testPath.getStep(i).toString());
@@ -171,8 +172,8 @@ public class PlayingState extends BasicGameState {
 		}
 		if(input.isKeyDown(Input.KEY_L)) {
 			if(selected != null) {
-				CoordinatePair<Integer,Integer> unitLoc = swg.gameMap.findUnit(selected);
-				System.out.println("unit location x:"+ unitLoc.getX() +"y:"+ unitLoc.getY());
+				int[] coords = swg.gameMap.findUnit(selected);
+				System.out.println("unit location x:"+ coords[0] +"y:"+ coords[1]);
 			}
 		}
 	}

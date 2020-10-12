@@ -56,10 +56,17 @@ public class SoulWarsUnit extends Entity implements Mover {
 		return isRanged;
 	}
 	
-	public CoordinatePair<Float,Float> getPos() {
-		CoordinatePair<Float,Float> unitPos = new CoordinatePair<Float,Float>(this.getX(),this.getY());
-		return unitPos;
+	public int getMapPosX() {
+		int mapPos = (int)(this.getX()/64);
+		return mapPos;
 	}
+	
+	public int getMapPosY() {
+		int mapPos = (int)(this.getY()/64);
+		return mapPos;
+	}
+	
+
 	public void setVelocity(int dx, int dy) {
 		velocity = new Vector(dx,dy);		
 	}
@@ -82,25 +89,25 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	public Vector followPath(final int delta) {
 		Step currentStep = currentPath.getStep(stepCount);
-		CoordinatePair<Integer,Integer> unitMapPos = new CoordinatePair<Integer,Integer>((int)this.getX()/64,(int)this.getY()/64);
 		
-		if(currentStep.getY() < unitMapPos.getY() ) {//north
+		
+		if(currentStep.getY() < getMapPosY() ) {//north
 			System.out.println("moving north");
 			lastStepDir = 1;
-			return new Vector(0, -.5f*delta);			
-		}else if(currentStep.getX() > unitMapPos.getX() ) {//east
+			return new Vector(0, -.15f*delta);			
+		}else if(currentStep.getX() > getMapPosX() ) {//east
 			System.out.println("moving east");
 			lastStepDir = 2;
-			return new Vector(.5f*delta, 0);
-		}else if(currentStep.getY() > unitMapPos.getY() ) {//south
+			return new Vector(.15f*delta, 0);
+		}else if(currentStep.getY() > getMapPosY() ) {//south
 			System.out.println("moving south");
 			lastStepDir = 3;
-			return new Vector(0, .5f*delta);			
-		}else if(currentStep.getX() < unitMapPos.getX() ) {//west
+			return new Vector(0, .15f*delta);			
+		}else if(currentStep.getX() < getMapPosX()) {//west
 			System.out.println("moving west");
 			lastStepDir = 4;
-			return new Vector(-.5f*delta, 0);
-		}else if(currentStep.getY() == unitMapPos.getY() && currentStep.getX() == unitMapPos.getX() ) {//we are there
+			return new Vector(-.15f*delta, 0);
+		}else if(currentStep.getY() == getMapPosY() && currentStep.getX() == getMapPosX() ) {//we are there
 			System.out.println("at step goal");
 			stepCount = stepCount + 1;
 			lastStepDir = 0;

@@ -66,6 +66,15 @@ public class PlayingState extends BasicGameState {
 		
 		SoulWarsGame swg = (SoulWarsGame)game;
 		Input input = container.getInput();
+		
+		ArrayList<SoulWarsUnit> unitsToUpdate = swg.gameMap.getUnitList();
+		if(unitsToUpdate.size() != 0) {
+			for(SoulWarsUnit unit : unitsToUpdate) {
+				swg.gameMap.updateUnit(unit);
+				
+			}
+		}
+	
 		//Path testing
 		
 		//unit test controls
@@ -204,6 +213,7 @@ public class PlayingState extends BasicGameState {
 			for(SoulWarsUnit unit : units) {
 				swg.gameMap.updateUnit(unit);
 				unit.update(delta);
+				swg.gameMap.updateUnit(unit);
 			}
 		}
 	}

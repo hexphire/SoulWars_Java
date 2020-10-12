@@ -104,6 +104,9 @@ public class SoulWarsCamera {
 		
 				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
 					units[xTile + xOffSet][yTile + yOffSet].render(g);
+						if(units[xTile + xOffSet][yTile + yOffSet].getPath() != null) {
+							renderPath(units[xTile + xOffSet][yTile + yOffSet].getPath(), g);
+						}
 					g.flush();
 				}
 			}

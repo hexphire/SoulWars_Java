@@ -1,5 +1,6 @@
 package soulwars;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -81,6 +82,9 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public float getCost(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
+		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
+			return Float.MAX_VALUE;
+		}
 		return 1;
 	}
 	
@@ -89,7 +93,18 @@ public class SoulWarsMap implements TileBasedMap{
 		
 	}
 	
+	public ArrayList<SoulWarsUnit> getUnitList(){
+		ArrayList<SoulWarsUnit> unitsList = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
 	
+		for (int xTile = 0; xTile < mapWidth; xTile++) {
+			for (int yTile =0; yTile < mapHeight; yTile++) {
+				if(units[xTile][yTile] != null) {
+					unitsList.add(units[xTile][yTile]);
+				}
+			}
+		}
+		return unitsList;
+	}
 	
 	public int[] findUnit(SoulWarsUnit unit) {
 		for(int xTile = 0; xTile < mapWidth; xTile++) {

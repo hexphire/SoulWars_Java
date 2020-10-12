@@ -79,6 +79,10 @@ public class SoulWarsUnit extends Entity implements Mover {
 		currentPath = newPath;
 	}
 	
+	public Path getPath() {
+		return this.currentPath;
+	}
+	
 	public void takeDamage(int dmg) {
 		health = health - dmg;
 	}

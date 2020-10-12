@@ -1,5 +1,7 @@
 package soulwars;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -51,9 +53,7 @@ public class PlayingState extends BasicGameState {
 		//lets test getting map info from our tiledMap
 		//g.drawString("map size: "+swg.map.getWidth()+"x "+swg.map.getHeight()+"y", 30, 30);
 		//g.drawString("tile size: "+swg.map.getTileWidth()+"x "+swg.map.getTileHeight()+"y", 30, 60);
-		if(testPath != null) {
-			gameView.renderPath(testPath, g);
-		}	
+			
 		if(selected != null) {
 			gameView.renderSelected(selected, g);
 		}
@@ -116,10 +116,11 @@ public class PlayingState extends BasicGameState {
 					swg.gameMap.clearVisited();
 					selected.clearPath();
 					swg.gameMap.updateUnit(selected);
+					selected.update(delta);
 					testPath = swg.APather.findPath(null, selected.getMapPosX(), selected.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
 					if(testPath != null) {
 						for (int i = 0; i < testPath.getLength(); i++) {
-							System.out.println(testPath.getStep(i).toString());
+							System.out.println(testPath.getX(i) + "," + testPath.getY(i));
 						}
 					}
 					selected.setPath(testPath);
@@ -169,6 +170,16 @@ public class PlayingState extends BasicGameState {
 				}
 			}
 			
+		}
+		
+		// Pathing test controls
+		if(input.isKeyDown(Input.KEY_C)) {
+			float mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
+			float mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
+			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnitList();
+			for (SoulWarsUnit unit : units) {
+				unit.setPath(swg.APather.findPath(null, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
+			}
 		}
 		if(input.isKeyDown(Input.KEY_L)) {
 			if(selected != null) {

@@ -1,5 +1,7 @@
 package soulwars;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -98,24 +100,21 @@ public class SoulWarsCamera {
 			}
 		}
 	}
-	public void renderUnits(SoulWarsUnit[][] units, Graphics g) {
-		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 16; yTile++) {
-		
-				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
-					units[xTile + xOffSet][yTile + yOffSet].render(g);
-						if(units[xTile + xOffSet][yTile + yOffSet].getPath() != null) {
-							renderPath(units[xTile + xOffSet][yTile + yOffSet].getPath(), g);
-						}
-					g.flush();
-				}
+	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
+		for (SoulWarsUnit unit : units) {		
+			unit.render(g);
+			if(unit.getPath() != null) {
+				renderPath(unit.getPath(), g);
 			}
+			g.flush();
 		}
 	}
+	
+
 	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
 		int[][] terrain = currentGame.getTerrain();
-		SoulWarsUnit[][] units = currentGame.getUnits();
+		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		renderTerrain(terrain, g);
 		renderUnits(units, g);
 		

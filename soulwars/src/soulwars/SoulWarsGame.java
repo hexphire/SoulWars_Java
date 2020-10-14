@@ -83,7 +83,7 @@ public class SoulWarsGame extends StateBasedGame {
 	
 	public void spawnUnit(float x, float y, int cameraX, int cameraY) {
 		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1);
-		gameMap.placeUnit(newUnit, cameraX, cameraY);
+		gameMap.placeUnit(newUnit);
 	}
 	
 	public boolean mapCheck() {

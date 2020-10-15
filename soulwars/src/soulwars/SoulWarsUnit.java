@@ -1,5 +1,7 @@
 package soulwars;
 
+import java.util.Stack;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -17,9 +19,8 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private int attack;
 	private boolean isRanged;
 	private int unitType;
-	private Path currentPath;
+	private Stack<Step> currentPath;
 	private int stepCount;
-	private int lastStepDir;
 	Image unitSprite;
 	
 	
@@ -33,6 +34,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 			health = 5;
 			soulCount = 1;
 			stepCount = 0;
+			currentPath = new Stack<Step>();
 			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
 			unitSprite.setFilter(Image.FILTER_LINEAR);
 			addImageWithBoundingBox(unitSprite);
@@ -76,10 +78,16 @@ public class SoulWarsUnit extends Entity implements Mover {
 	}
 	
 	public void setPath(Path newPath) {
-		currentPath = newPath;
+		if(newPath != null) {
+			for(int i = newPath.getLength() - 1; i > 0; i--) {
+				if(currentPath.search(newPath.getStep(i)) == -1) {
+					currentPath.push(newPath.getStep(i));
+				}
+			}
+		}
 	}
 	
-	public Path getPath() {
+	public Stack<Step> getPath() {
 		return this.currentPath;
 	}
 	
@@ -88,7 +96,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	}
 	
 	public void clearPath() {
-		currentPath = null;
+		currentPath.removeAllElements();
 	}
 	
 	public int getHash() {
@@ -96,50 +104,26 @@ public class SoulWarsUnit extends Entity implements Mover {
 		return hash;
 	}
 	
-	public Vector followPath(final int delta) {
-		Step currentStep = currentPath.getStep(stepCount);
-		
-		
-		if(currentStep.getY() < getMapPosY() ) {//north
-			System.out.println("moving north");
-			lastStepDir = 1;
-			return new Vector(0, -.15f*delta);			
-		}else if(currentStep.getX() > getMapPosX() ) {//east
-			System.out.println("moving east");
-			lastStepDir = 2;
-			return new Vector(.15f*delta, 0);
-		}else if(currentStep.getY() > getMapPosY() ) {//south
-			System.out.println("moving south");
-			lastStepDir = 3;
-			return new Vector(0, .15f*delta);			
-		}else if(currentStep.getX() < getMapPosX()) {//west
-			System.out.println("moving west");
-			lastStepDir = 4;
-			return new Vector(-.15f*delta, 0);
-		}else if(currentStep.getY() == getMapPosY() && currentStep.getX() == getMapPosX() ) {//we are there
-			System.out.println("at step goal");
-			stepCount = stepCount + 1;
-			lastStepDir = 0;
-			
+	public Vector followPath() {
+		Step nextStep = this.currentPath.peek();
+		Vector curPos = new Vector(this.getX(),this.getY());
+		Vector tarPos = new Vector((nextStep.getX() * 64) + 32, (nextStep.getY() * 64) + 32);
+		final double angleToStep = curPos.angleTo(tarPos);
+		if(curPos.epsilonEquals(tarPos, 10f)) {
+			currentPath.pop();
 		}
-		return null;
+
+		
+		Vector newVec = Vector.getVector(angleToStep, .1f);
+		return newVec;		
 	}
 	
 	public void update(final int delta) {
-		if(currentPath != null) {
-			if(stepCount < currentPath.getLength()) {
-				Vector nextStep = followPath(delta);
-				if(nextStep != null) {
-					translate(nextStep);
-				}
-				else if (stepCount == currentPath.getLength()){
-					clearPath();
-					stepCount = 0;
-				}
-				
-			}
+		if(currentPath.empty() != true) {
+			Vector nextStep = followPath();
+			translate(nextStep.scale(delta));
 		}
-				
+			
 	}
 	
 	

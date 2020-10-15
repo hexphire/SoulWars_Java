@@ -70,14 +70,12 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
-		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
+		if(terrainTiles[tx][ty] == 59) {
 			return true;
 		}
-		/*
-		if(getUnit(tx,ty) != null) {
-				return true;
-		}
-		*/
+		
+		
+		
 		return false;
 	}
 

@@ -6,6 +6,7 @@ import java.util.Stack;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
@@ -128,4 +129,5 @@ public class SoulWarsCamera {
 		renderUnits(units, g);
 		
 	}
+	
 }

@@ -19,7 +19,7 @@ public class SoulWarsMap implements TileBasedMap{
 	private int tileHeight;
 	
 	private int[][] terrainTiles;
-	private SoulWarsUnit[][] units;
+	private ArrayList<SoulWarsUnit> units;
 	private boolean[][] visited;
 	
 	private int[][] redBasePath;
@@ -49,7 +49,7 @@ public class SoulWarsMap implements TileBasedMap{
 	public int getTileWidth() {
 		return tileWidth;
 	}
-	public SoulWarsUnit[][] getUnits(){
+	public ArrayList<SoulWarsUnit> getUnits(){
 		return units;
 	}
 
@@ -70,12 +70,12 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
-		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
+		if(terrainTiles[tx][ty] == 59) {
 			return true;
 		}
-		if(units[tx][ty] != null) {
-			return true;
-		}
+		
+		
+		
 		return false;
 	}
 
@@ -89,80 +89,52 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	public SoulWarsUnit getUnit(int x, int y) {
-		return units[x][y];
-		
+		for(SoulWarsUnit unit : units) {
+			if (unit.getMapPosX() == x && unit.getMapPosY() == y) {
+				return unit;
+			}
+		}
+		return null;		
 	}
 	
 	public ArrayList<SoulWarsUnit> getNear(SoulWarsUnit unit, int range){
-		ArrayList<SoulWarsUnit> possibleTargets = new ArrayList<SoulWarsUnit>(range*2);
-		for (int xTile = unit.getMapPosX() - range; xTile < unit.getMapPosX() + range; xTile++) {
-			for (int yTile = unit.getMapPosY() - range; yTile < unit.getMapPosX() + range; yTile++) {
-				if (xTile > -1 && yTile > -1) {
-					if(xTile < getWidthInTiles() && yTile < getHeightInTiles()) {
-						if(units[xTile][yTile] != null) {
-							if(units[xTile][yTile].getHash() != unit.getHash()) {
-								possibleTargets.add(units[xTile][yTile]);
+		ArrayList<SoulWarsUnit> possibleTargets = new ArrayList<SoulWarsUnit>(range*range);
+		for (SoulWarsUnit possible : units) {
+			if (possible.getMapPosX() > (unit.getMapPosX()-range)) {
+				if(possible.getMapPosX() < (unit.getMapPosX()+range)) {
+					if(possible.getMapPosY() > (unit.getMapPosY()-range)) {
+						if(possible.getMapPosX() < (unit.getMapPosY()+ range)) {
+							if(possible.getHash() != unit.getHash()) {
+								possibleTargets.add(possible);
 							}
 						}
 					}
 				}
-				
 			}
+			
 		}
 		return possibleTargets;
 	}
 	
-	public ArrayList<SoulWarsUnit> getUnitList(){
-		ArrayList<SoulWarsUnit> unitsList = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
-	
-		for (int xTile = 0; xTile < mapWidth; xTile++) {
-			for (int yTile =0; yTile < mapHeight; yTile++) {
-				if(units[xTile][yTile] != null) {
-					unitsList.add(units[xTile][yTile]);
-				}
-			}
-		}
-		return unitsList;
-	}
 	
 	public int[] findUnit(SoulWarsUnit unit) {
-		for(int xTile = 0; xTile < mapWidth; xTile++) {
-			for(int yTile = 0; yTile < mapHeight; yTile++) {
-				if(units[xTile][yTile] != null) {
-					if (units[xTile][yTile].getHash() == unit.getHash()) {
-						int[] coords = {xTile,yTile};
-						return coords ;
-					}
-				}
+		int coords[] = new int[2];
+		for (SoulWarsUnit unitChecking : units) {
+			if(unitChecking.getHash() == unit.getHash()) {
+				coords[0] = unitChecking.getMapPosX();
+				coords[1] = unitChecking.getMapPosY();
+				return coords;
 			}
 		}
 		return null;
 	}
 	
 	
-	public void placeUnit(SoulWarsUnit unit, int cameraX, int cameraY) {
-		int unitX = unit.getMapPosX();
-		int unitY = unit.getMapPosY();
-		if(units[unitX + cameraX][unitY + cameraY] == null) {
-			units[unitX + cameraX][unitY + cameraY] = unit;
-		}
+	public void placeUnit(SoulWarsUnit unit) {
+		units.add(unit);
 	}
 	
-	public void updateUnit(SoulWarsUnit unit) {
-		int newX = unit.getMapPosX();
-		int newY = unit.getMapPosY();
-		if(findUnit(unit) != null) {
-			int [] mapPos = findUnit(unit);
-			int oldX = mapPos[0];
-			int oldY = mapPos[1];
-			if(newX != oldX && newY != oldY) {
-				units[oldX][oldY] = null;
-				units[newX][newY] = unit;
-						
-			}
-		}
-		
-	}
+	
 	
 	public int[][] getTerrain(){
 		return terrainTiles;
@@ -176,7 +148,7 @@ public class SoulWarsMap implements TileBasedMap{
 		tileHeight = mapPlan.getTileHeight();
 		
 		terrainTiles = new int[mapWidth][mapHeight];
-		units = new SoulWarsUnit[mapWidth][mapHeight];
+		units = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		redBasePath = new int[mapWidth][mapHeight];
 		blueBasePath = new int[mapWidth][mapHeight];

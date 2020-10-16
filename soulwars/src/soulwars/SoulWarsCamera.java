@@ -1,9 +1,13 @@
 package soulwars;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.util.pathfinding.Path;
+import org.newdawn.slick.util.pathfinding.Path.Step;
 
 import jig.ResourceManager;
 
@@ -57,10 +61,10 @@ public class SoulWarsCamera {
 		return yOffSet;
 	}
 	
-	public void renderPath(Path currentPath, Graphics g) {
+	public void renderPath(Stack<Step> currentPath, Graphics g) {
 		boolean[][] pathMap = new boolean[mapWidth][mapHeight];
-		for (int i = 0; i < currentPath.getLength(); i++) {
-			pathMap[currentPath.getX(i)][currentPath.getY(i)] = true;
+		for (int i = 0; i < currentPath.size(); i++) {
+			pathMap[currentPath.get(i).getX()][currentPath.get(i).getY()] = true;
 		}
 		for (int xTile = 0; xTile < 16; xTile++) {
 			for (int yTile = 0; yTile < 16; yTile++) {
@@ -98,24 +102,24 @@ public class SoulWarsCamera {
 			}
 		}
 	}
-	public void renderUnits(SoulWarsUnit[][] units, Graphics g) {
-		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 16; yTile++) {
-		
-				if(units[xTile + xOffSet][yTile + yOffSet] != null) {
-					units[xTile + xOffSet][yTile + yOffSet].render(g);
-						if(units[xTile + xOffSet][yTile + yOffSet].getPath() != null) {
-							renderPath(units[xTile + xOffSet][yTile + yOffSet].getPath(), g);
-						}
-					g.flush();
-				}
+	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
+		for (SoulWarsUnit unit : units) {
+			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {
+				unit.render(g);
 			}
+			
+			if(unit.getPath() != null) {
+				renderPath(unit.getPath(), g);
+			}
+			g.flush();
 		}
 	}
+	
+
 	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
 		int[][] terrain = currentGame.getTerrain();
-		SoulWarsUnit[][] units = currentGame.getUnits();
+		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		renderTerrain(terrain, g);
 		renderUnits(units, g);
 		

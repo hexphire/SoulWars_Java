@@ -85,6 +85,8 @@ public class SoulWarsCamera {
 		}
 	}
 	
+	
+	
 	public void renderTerrain(int[][] terrain, Graphics g) {
 		Image image;
 		int tileId;

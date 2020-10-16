@@ -80,7 +80,9 @@ public class SoulWarsCamera {
 	
 	public void renderSelected(SoulWarsUnit selected, Graphics g) {
 		g.setColor(Color.black);
-		g.drawRect(selected.getX()-10, selected.getY()-15, 18, 28);
+		if((selected.getX()/tileWidth) > this.xOffSet && (selected.getY()/tileHeight) > this.yOffSet ) {
+			g.drawRect((selected.getX()-10) - (xOffSet * 64), (selected.getY()-15) - (yOffSet*64), 18, 28);
+		}
 	}
 	
 	public void renderTerrain(int[][] terrain, Graphics g) {
@@ -105,7 +107,7 @@ public class SoulWarsCamera {
 	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
 		for (SoulWarsUnit unit : units) {
 			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {
-				unit.render(g);
+				unit.cameraRender(g, xOffSet, yOffSet);
 			}
 			
 			if(unit.getPath() != null) {

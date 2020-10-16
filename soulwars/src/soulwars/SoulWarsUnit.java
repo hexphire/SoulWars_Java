@@ -2,7 +2,10 @@ package soulwars;
 
 import java.util.Stack;
 
+
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+
 import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
@@ -10,6 +13,7 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
+
 
 public class SoulWarsUnit extends Entity implements Mover {
 	
@@ -116,6 +120,15 @@ public class SoulWarsUnit extends Entity implements Mover {
 		
 		Vector newVec = Vector.getVector(angleToStep, .1f);
 		return newVec;		
+	}
+	
+	//An exact copy of the Entity.render(g) method, except this accounts for the camera position
+	public void cameraRender(final Graphics g, int cameraX, int cameraY ) {
+		Vector actualPos = this.getPosition();
+		Vector cameraPos = new Vector(actualPos.getX() - (cameraX * 64), actualPos.getY() - (cameraY * 64));
+		this.setPosition(cameraPos);
+		this.render(g);
+		this.setPosition(actualPos);
 	}
 	
 	public void update(final int delta) {

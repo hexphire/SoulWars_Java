@@ -8,6 +8,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
+
 import java.util.Random;
 
 
@@ -35,8 +38,11 @@ public class SoulWarsGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	private boolean mapReady;
+	
 	//map variables
 	public SoulWarsMap gameMap;
+	
+	public AStarPathFinder APather;
 	
 	public TiledMap map;
 	
@@ -66,7 +72,9 @@ public class SoulWarsGame extends StateBasedGame {
 		if(mapReady == true) {
 			System.out.println("map loading");
 			gameMap.loadNewMap(map);
+			APather = new AStarPathFinder(gameMap, 100, false, new ManhattanHeuristic());
 		}
+		
 		
 	
 		
@@ -75,7 +83,7 @@ public class SoulWarsGame extends StateBasedGame {
 	
 	public void spawnUnit(float x, float y, int cameraX, int cameraY) {
 		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1);
-		gameMap.placeUnit(newUnit, cameraX, cameraY);
+		gameMap.placeUnit(newUnit);
 	}
 	
 	public boolean mapCheck() {
@@ -83,7 +91,7 @@ public class SoulWarsGame extends StateBasedGame {
 	}
 	
 	public void loadMap() throws SlickException {
-		map = new TiledMap("src/soulwars/resources/tinyTestmap64px.tmx", false);
+		map = new TiledMap("src/soulwars/resources/smallTestmap64px.tmx", false);
 		mapReady = true;
 	}
 	

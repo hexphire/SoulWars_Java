@@ -7,14 +7,15 @@
 - **[3.5]**  Add a basic map.
 - **[4]** Add initial controls.
 - **[5]** Add a basic generalized unit.
+- **[6]**   Add basic pathfinding.
 ## Open Issues ##
 
  
-- **[6]**   Add basic pathfinding.
-- **[7]**  Test group pathing solutions.
-- **[8]**  Add souls.
-- **[9]**  Add HQ.
-- **[11]**  and minimap.
-- **[12]** Add HQ health, soul counter, unit UI.
-- **[13]** Add player 2 controls/mode.
-- **[14]** Add basic scripted "AI" for opponent in single player.
+- **[7]** Improve unit selection
+- **[8]**  Test group pathing solutions/checkpoints.
+- **[9]**  Add souls.
+- **[10]**  Add HQ.
+- **[12]**  Add minimap/HUD.
+- **[13]** Add HQ health, soul counter, unit UI.
+- **[14]** Add player 2 controls/mode.
+- **[15]** Add basic scripted "AI" for opponent in single player.

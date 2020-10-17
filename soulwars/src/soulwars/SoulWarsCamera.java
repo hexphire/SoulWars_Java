@@ -79,10 +79,12 @@ public class SoulWarsCamera {
 		
 	}
 	
-	public void renderSelected(SoulWarsUnit selected, Graphics g) {
+	public void renderSelected(ArrayList<SoulWarsUnit> selectedList, Graphics g) {
 		g.setColor(Color.black);
-		if((selected.getX()/tileWidth) > this.xOffSet && (selected.getY()/tileHeight) > this.yOffSet ) {
-			g.drawRect((selected.getX()-10) - (xOffSet * 64), (selected.getY()-15) - (yOffSet*64), 18, 28);
+		for(SoulWarsUnit selected : selectedList) {
+			if((selected.getX()/tileWidth) > this.xOffSet && (selected.getY()/tileHeight) > this.yOffSet ) {
+				g.drawRect((selected.getX()-10) - (xOffSet * 64), (selected.getY()-15) - (yOffSet*64), 18, 28);
+			}
 		}
 	}
 	

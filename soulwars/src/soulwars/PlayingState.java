@@ -20,9 +20,12 @@ import jig.Vector;
 public class PlayingState extends BasicGameState {
 
 	public SoulWarsCamera gameView;
-	private SoulWarsUnit selected;
+	private ArrayList<SoulWarsUnit> selectedList;
 	private Path testPath;
 	private Rectangle selector;
+	private SoulWarsGame swg;
+	
+	private boolean dragged;
 	int sMouseX = -1;
 	int sMouseY = -1;
 	int fMouseX = -1;
@@ -30,24 +33,7 @@ public class PlayingState extends BasicGameState {
 	
 	
 	
-	@Override
-	public void mousePressed(int button, int x, int y) {
-		if (button == Input.MOUSE_LEFT_BUTTON) {
-			sMouseX = x;
-			sMouseY = y;
-		}
-	}
-	@Override
-	public void mouseReleased(int button, int x, int y) {
-		System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
-		System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
-	}
 	
-	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		fMouseX = newx;
-		fMouseY = newy;
-	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -60,7 +46,8 @@ public class PlayingState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
-		SoulWarsGame swg = (SoulWarsGame)game;
+		swg = (SoulWarsGame)game;
+		selectedList = new ArrayList<SoulWarsUnit>(100);
 		//swg.gameMap.printMapArray();
 		swg.spawnUnit((1 * 64)+32 , (1 * 64)+32, 0, 0);
 		//selected = swg.gameMap.getUnit(0,0);
@@ -80,13 +67,49 @@ public class PlayingState extends BasicGameState {
 		//g.drawString("map size: "+swg.map.getWidth()+"x "+swg.map.getHeight()+"y", 30, 30);
 		//g.drawString("tile size: "+swg.map.getTileWidth()+"x "+swg.map.getTileHeight()+"y", 30, 60);
 			
-		if(selected != null) {
-			gameView.renderSelected(selected, g);
+		if(selectedList != null) {
+			gameView.renderSelected(selectedList, g);
 		}
 		if(selector != null) {
-			g.draw(selector);
+			if(dragged)
+				g.draw(selector);
 		}
 		
+	}
+	//need to overwrite the mouselistener methods of this state, to handle drag select.
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		if(button == 0) {
+			selectedList.clear();
+			sMouseX = x;
+			sMouseY = y;
+			dragged = true;
+		}
+	}
+	@Override
+	public void mouseReleased(int button, int x, int y) {
+		System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
+		System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
+		dragged = false;
+		if(selector != null)
+			updateSelectedList();		
+	}
+	
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+		fMouseX = newx;
+		fMouseY = newy;
+		if(dragged) {
+			if(sMouseX > fMouseX && sMouseY > fMouseY) {
+				selector = new Rectangle(fMouseX, fMouseY, (sMouseX - fMouseX), (sMouseY - fMouseY));
+			}else if(sMouseX > fMouseX && sMouseY < fMouseY) {
+				selector = new Rectangle(fMouseX, sMouseY, (sMouseX - fMouseX), (fMouseY - sMouseY));
+			}else if(sMouseX < fMouseX && sMouseY < fMouseY){
+				selector = new Rectangle(sMouseX, sMouseY, (fMouseX - sMouseX), (fMouseY - sMouseY));
+			}else {
+				selector = new Rectangle(sMouseX, fMouseY, (fMouseX - sMouseX), (sMouseY - fMouseY));
+			}
+		}
 	}
 
 	@Override
@@ -94,7 +117,7 @@ public class PlayingState extends BasicGameState {
 		
 		// TODO Auto-generated method stub
 		
-		SoulWarsGame swg = (SoulWarsGame)game;
+		
 		Input input = container.getInput();
 		float mouseTileX;
 		float mouseTileY;
@@ -105,7 +128,7 @@ public class PlayingState extends BasicGameState {
 		
 		//unit test controls
 		
-		
+		/*
 		if (input.isKeyDown(Input.KEY_UP)) {
 			if(selected != null)
 				selected.translate(new Vector(0, -2f));
@@ -124,7 +147,7 @@ public class PlayingState extends BasicGameState {
 			if(selected != null)
 				selected.translate(new Vector(2f, 0));
 		}
-		
+		*/
 		
 		//Camera controls
 		
@@ -149,15 +172,17 @@ public class PlayingState extends BasicGameState {
 		//Mouse Controls
 		
 		
-		if (input.isKeyDown(Input.KEY_LSHIFT)) {
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				System.out.println("attempting to path");
-				if(selected != null) {
-					mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
-					mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
-					swg.gameMap.clearVisited();
+		
+		if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+			System.out.println("attempting to path");
+			if(selectedList != null) {
+				mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
+				mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
+				swg.gameMap.clearVisited();
+				for(SoulWarsUnit selected : selectedList) {
 					selected.clearPath();
 					selected.update(delta);
+					
 					testPath = swg.APather.findPath(selected, selected.getMapPosX(), selected.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
 					if(testPath != null) {
 						for (int i = 0; i < testPath.getLength(); i++) {
@@ -169,7 +194,9 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			selectedList.clear();
 			mouseTileX = input.getMouseX();
 			mouseTileY = input.getMouseY();
 			
@@ -178,7 +205,7 @@ public class PlayingState extends BasicGameState {
 			selector = new Rectangle(mouseTileX - 8, mouseTileY - 8, width, height);
 			for(SoulWarsUnit unit : swg.gameMap.getUnits()) {
 				if(selector.contains(unit.getX() - (64 * gameView.getCameraX()), unit.getY() - (64 * gameView.getCameraY()))) {
-						selected = unit;
+						selectedList.add(unit);
 						break;
 				}
 			}
@@ -198,22 +225,15 @@ public class PlayingState extends BasicGameState {
 		
 		
 		if (input.isKeyDown(Input.KEY_LCONTROL)) {
-				if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-					mouseTileX = (input.getMouseX());
-					mouseTileY = (input.getMouseY());
-					swg.spawnUnit(mouseTileX, mouseTileY, gameView.getCameraX(), gameView.getCameraY());
-				}
+				
+				mouseTileX = (input.getMouseX());
+				mouseTileY = (input.getMouseY());
+				swg.spawnUnit(mouseTileX, mouseTileY, gameView.getCameraX(), gameView.getCameraY());
+				
 			
 		}
 		
-		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
 				
-			selected = null;
-			System.out.println("selected should be clear");
-		}
-		
-		
-		
 		
 		//Pathing test controls
 		if(input.isKeyDown(Input.KEY_N)) {
@@ -221,8 +241,8 @@ public class PlayingState extends BasicGameState {
 			mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
 			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 			for (SoulWarsUnit unit : units) {
-					if(selected != null) {
-						if(unit.getHash() != selected.getHash())
+					if(selectedList.size() == 1) {
+						if(unit.getHash() != selectedList.get(0).getHash())
 							if(swg.gameMap.getNear(unit, 5).size() != 0) {
 								SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
 								unit.clearPath();
@@ -241,8 +261,8 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		if(input.isKeyDown(Input.KEY_L)) {
-			if(selected != null) {
-				int[] coords = swg.gameMap.findUnit(selected);
+			if(selectedList.size() == 1) {
+				int[] coords = swg.gameMap.findUnit(selectedList.get(0));
 				System.out.println("unit location x:"+ coords[0] +"y:"+ coords[1]);
 			}
 		}
@@ -267,6 +287,15 @@ public class PlayingState extends BasicGameState {
 	public int getID() {
 		// TODO Auto-generated method stub
 		return SoulWarsGame.PLAYINGSTATE;
+	}
+	
+	private void updateSelectedList() {
+		for(SoulWarsUnit unit: swg.gameMap.getUnits()) {
+			if(selector.contains(unit.getX(), unit.getY())) {
+				selectedList.add(unit);
+			}
+		}
+		
 	}
 
 

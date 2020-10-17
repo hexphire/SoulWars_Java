@@ -72,7 +72,7 @@ public class SoulWarsGame extends StateBasedGame {
 		if(mapReady == true) {
 			System.out.println("map loading");
 			gameMap.loadNewMap(map);
-			APather = new AStarPathFinder(gameMap, 500, true, new ChebyshevHeuristic());
+			APather = new AStarPathFinder(gameMap, 500, true, new ManhattanHeuristic());
 		}
 		
 		

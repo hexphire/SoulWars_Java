@@ -6,6 +6,7 @@ import java.util.Stack;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
@@ -78,10 +79,12 @@ public class SoulWarsCamera {
 		
 	}
 	
-	public void renderSelected(SoulWarsUnit selected, Graphics g) {
+	public void renderSelected(ArrayList<SoulWarsUnit> selectedList, Graphics g) {
 		g.setColor(Color.black);
-		if((selected.getX()/tileWidth) > this.xOffSet && (selected.getY()/tileHeight) > this.yOffSet ) {
-			g.drawRect((selected.getX()-10) - (xOffSet * 64), (selected.getY()-15) - (yOffSet*64), 18, 28);
+		for(SoulWarsUnit selected : selectedList) {
+			if((selected.getX()/tileWidth) > this.xOffSet && (selected.getY()/tileHeight) > this.yOffSet ) {
+				g.drawRect((selected.getX()-10) - (xOffSet * 64), (selected.getY()-15) - (yOffSet*64), 18, 28);
+			}
 		}
 	}
 	
@@ -128,4 +131,5 @@ public class SoulWarsCamera {
 		renderUnits(units, g);
 		
 	}
+	
 }

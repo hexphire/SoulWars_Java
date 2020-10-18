@@ -100,10 +100,10 @@ public class SoulWarsMap implements TileBasedMap{
 	public ArrayList<SoulWarsUnit> getNear(SoulWarsUnit unit, int range){
 		ArrayList<SoulWarsUnit> possibleTargets = new ArrayList<SoulWarsUnit>(range*range);
 		for (SoulWarsUnit possible : units) {
-			if (possible.getMapPosX() > (unit.getMapPosX()-range)) {
-				if(possible.getMapPosX() < (unit.getMapPosX()+range)) {
-					if(possible.getMapPosY() > (unit.getMapPosY()-range)) {
-						if(possible.getMapPosX() < (unit.getMapPosY()+ range)) {
+			if (possible.getMapPosX() > (unit.getMapPosX()-(range))) {
+				if(possible.getMapPosX() < (unit.getMapPosX()+(range))) {
+					if(possible.getMapPosY() > (unit.getMapPosY()-(range))) {
+						if(possible.getMapPosX() < (unit.getMapPosY()+ (range))) {
 							if(possible.getHash() != unit.getHash()) {
 								possibleTargets.add(possible);
 							}

@@ -8,10 +8,11 @@
 - **[4]** Add initial controls.
 - **[5]** Add a basic generalized unit.
 - **[6]**   Add basic pathfinding.
+- **[7]** Improve unit selection
 ## Open Issues ##
 
  
-- **[7]** Improve unit selection
+
 - **[8]**  Test group pathing solutions/checkpoints.
 - **[9]**  Add souls.
 - **[10]**  Add HQ.

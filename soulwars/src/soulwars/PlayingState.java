@@ -88,13 +88,15 @@ public class PlayingState extends BasicGameState {
 	}
 	@Override
 	public void mouseReleased(int button, int x, int y) {
-		System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
-		System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
-		dragged = false;
-		if(selector != null)
-			updateSelectedList();		
+		if(button == 0) {
+			System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
+			System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
+			dragged = false;
+			if(selector != null)
+				updateSelectedList();
+		}
 	}
-	
+	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #Javathings.
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		fMouseX = newx;

@@ -135,26 +135,27 @@ public class PlayingState extends BasicGameState {
 		
 		//unit test controls
 		
-		/*
-		if (input.isKeyDown(Input.KEY_UP)) {
-			if(selected != null)
-				selected.translate(new Vector(0, -2f));
-		}
-		if (input.isKeyDown(Input.KEY_LEFT)) {
-			if(selected != null)
-				selected.translate(new Vector(-2f, 0));
-		}
 		
-		if (input.isKeyDown(Input.KEY_DOWN)) {
-			if(selected != null)
-				selected.translate(new Vector(0, 2f));
-		}
+		if(selectedList.size() == 1){
+			if (input.isKeyDown(Input.KEY_UP)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(0, -2f));
+			}
+			if (input.isKeyDown(Input.KEY_LEFT)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(-2f, 0));
+			}
 		
-		if (input.isKeyDown(Input.KEY_RIGHT)) {
-			if(selected != null)
-				selected.translate(new Vector(2f, 0));
+			if (input.isKeyDown(Input.KEY_DOWN)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(0, 2f));
+			}
+		
+			if (input.isKeyDown(Input.KEY_RIGHT)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(2f, 0));
+			}
 		}
-		*/
 		
 		//Camera controls
 		
@@ -222,8 +223,8 @@ public class PlayingState extends BasicGameState {
 			
 			//System.out.println("x: " + mouseTileX + "y: " + mouseTileY);
 			//System.out.println("x: " + dMouseTileX + "y: " + dMouseTileY);
-			int[][] terrain = swg.gameMap.getTerrain();
-			System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())]);
+			SoulWarsTile[][] terrain = swg.gameMap.getTerrain();
+			System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())].getType());
 			
 		}
 		
@@ -277,6 +278,11 @@ public class PlayingState extends BasicGameState {
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
+				for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+					if(unit.collides(tile) != null) {
+						unit.translate(unit.collides(tile).getMinPenetration().scale(delta/4));
+					}
+				}
 				for(SoulWarsUnit collideCheck : units) {
 					if(unit.getVelocity().getX() != 0 & unit.getVelocity().getY() != 0) {
 						if(unit.getHash() != collideCheck.getHash()) {

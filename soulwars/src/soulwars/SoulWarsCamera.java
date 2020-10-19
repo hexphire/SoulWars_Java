@@ -11,6 +11,7 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 import jig.ResourceManager;
+import jig.Vector;
 
 public class SoulWarsCamera {
 	
@@ -90,25 +91,16 @@ public class SoulWarsCamera {
 	
 	
 	
-	public void renderTerrain(int[][] terrain, Graphics g) {
-		Image image;
-		int tileId;
+	public void renderTerrain(SoulWarsTile[][] terrain, Graphics g) {
 		for (int xTile = 0; xTile < 16; xTile++) {
 			for (int yTile = 0; yTile < 16; yTile++) {
-				tileId = terrain[xTile + xOffSet][yTile + yOffSet];
-				
-				if(tileId == 101) {
-					image = ResourceManager.getImage(SoulWarsGame.TILE_RSC_101);
-					image.setFilter(Image.FILTER_LINEAR);
-					g.drawImage(image, xTile*tileWidth, yTile*tileHeight);
-				}else {
-					image = ResourceManager.getImage(SoulWarsGame.TILE_RSC_59);
-					image.setFilter(Image.FILTER_LINEAR);
-					g.drawImage(image , xTile*tileWidth, yTile*tileHeight);
-				}
+				SoulWarsTile tile = terrain[xTile + xOffSet][yTile + yOffSet];
+				tile.setPosition(new Vector(xTile*64 + (xOffSet), yTile*64+ (yOffSet)));
+				tile.render(g);					
 			}
 		}
 	}
+	
 	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
 		for (SoulWarsUnit unit : units) {
 			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {
@@ -125,7 +117,7 @@ public class SoulWarsCamera {
 
 	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
-		int[][] terrain = currentGame.getTerrain();
+		SoulWarsTile[][] terrain = currentGame.getTerrain();
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		renderTerrain(terrain, g);
 		renderUnits(units, g);

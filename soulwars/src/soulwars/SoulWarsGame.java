@@ -62,14 +62,16 @@ public class SoulWarsGame extends StateBasedGame {
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		mapReady = false;
-		gameMap = new SoulWarsMap();		
+		gameMap = new SoulWarsMap();	
 		loadMap();
 		if(mapReady == true) {
 			System.out.println("map loading");
 			gameMap.loadNewMap(map);
 			APather = new AStarPathFinder(gameMap, 500, true, new ManhattanHeuristic());
 		}
+
 	}
+	
 	
 	public SoulWarsGame(String title, int width, int height) throws SlickException {
 		super(title);
@@ -95,6 +97,8 @@ public class SoulWarsGame extends StateBasedGame {
 		int randint = rndm.nextInt(ceiling);
 		return randint;
 	}
+	
+
 	
 	
 	

@@ -5,8 +5,11 @@ package soulwars;
 
 
 
+import org.newdawn.slick.Graphics;
+
 import jig.Entity;
 import jig.ResourceManager;
+import jig.Vector;
 
 
 public class SoulWarsTile extends Entity {
@@ -19,20 +22,21 @@ public class SoulWarsTile extends Entity {
 	
 	
 	SoulWarsTile(int x, int y, int type){
+		super(x,y);
 		this.tileX = x;
 		this.tileY = y;
 		this.type = type;
 
 		
-		if(type == 59) {
+		if(type == 59 || type == 60) {
 						
 			blocked = true;
 			
 			
-			addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.TILE_RSC_59));
+			addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.TILE_RSC_59), new Vector(31,31));
 		}else {
 			
-			addImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101));
+			addImage(ResourceManager.getImage(SoulWarsGame.TILE_RSC_101), new Vector(31,31));
 		}
 	}
 	
@@ -55,6 +59,14 @@ public class SoulWarsTile extends Entity {
 	public int getHash() {
 		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
 		return hash;
+	}
+	
+	public void cameraRender(final Graphics g, int tileX, int tileY ) {
+		Vector actualPos = this.getPosition();
+		Vector cameraPos = new Vector((tileX* 64), (tileY * 64));
+		this.setPosition(cameraPos);
+		this.render(g);
+		this.setPosition(actualPos);
 	}
 
 }

@@ -8,6 +8,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+import jig.ResourceManager;
+
 
 
 public class SoulWarsMap implements TileBasedMap{
@@ -18,7 +20,8 @@ public class SoulWarsMap implements TileBasedMap{
 	private int tileWidth;
 	private int tileHeight;
 	
-	private int[][] terrainTiles;
+	private SoulWarsTile[][] terrainTiles;
+	private ArrayList<SoulWarsTile> collidables;
 	private ArrayList<SoulWarsUnit> units;
 	private boolean[][] visited;
 	
@@ -70,11 +73,9 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
-		if(terrainTiles[tx][ty] == 59) {
+		if(terrainTiles[tx][ty].getBlocked()) {
 			return true;
 		}
-		
-		
 		
 		return false;
 	}
@@ -82,7 +83,7 @@ public class SoulWarsMap implements TileBasedMap{
 	@Override
 	public float getCost(PathFindingContext context, int tx, int ty) {
 		// TODO Auto-generated method stub
-		if(terrainTiles[tx][ty] == 59 || terrainTiles[tx][ty] == 60) {
+		if(terrainTiles[tx][ty].getBlocked()) {
 			return Float.MAX_VALUE;
 		}
 		return 1;
@@ -135,8 +136,12 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	
+	public ArrayList<SoulWarsTile> getCollideList() {
+		return collidables;	
+	}
 	
-	public int[][] getTerrain(){
+	
+	public SoulWarsTile[][] getTerrain(){
 		return terrainTiles;
 	}
 	
@@ -147,7 +152,8 @@ public class SoulWarsMap implements TileBasedMap{
 		tileWidth = mapPlan.getTileWidth();
 		tileHeight = mapPlan.getTileHeight();
 		
-		terrainTiles = new int[mapWidth][mapHeight];
+		terrainTiles = new SoulWarsTile[mapWidth][mapHeight];
+		collidables = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
 		units = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		redBasePath = new int[mapWidth][mapHeight];
@@ -155,7 +161,11 @@ public class SoulWarsMap implements TileBasedMap{
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
 			for (int yTile =0; yTile < mapHeight; yTile++) {
-				terrainTiles[xTile][yTile] = mapPlan.getTileId(xTile, yTile, 0);
+				SoulWarsTile tile = new SoulWarsTile(xTile, yTile, (mapPlan.getTileId(xTile, yTile, 0)));
+				terrainTiles[xTile][yTile] = tile;
+				if(mapPlan.getTileId(xTile, yTile, 0) == 59 || mapPlan.getTileId(xTile, yTile, 0) == 60){
+					collidables.add(tile);
+				}
 			}
 		}
 		

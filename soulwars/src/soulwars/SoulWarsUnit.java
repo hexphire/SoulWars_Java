@@ -42,6 +42,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
 			unitSprite.setFilter(Image.FILTER_LINEAR);
 			addImageWithBoundingBox(unitSprite);
+			setVelocity(0,0);
 			
 		}
 	}
@@ -133,8 +134,8 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	public void update(final int delta) {
 		if(currentPath.empty() != true) {
-			Vector nextStep = followPath();
-			translate(nextStep.scale(delta));
+			velocity = followPath();
+			translate(velocity.scale(delta));
 		}
 			
 	}

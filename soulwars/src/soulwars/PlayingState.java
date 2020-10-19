@@ -278,13 +278,15 @@ public class PlayingState extends BasicGameState {
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
 				for(SoulWarsUnit collideCheck : units) {
-					if(unit.getHash() != collideCheck.getHash()) {
-						if(unit.collides(collideCheck) != null) {
-							collisions.push(unit.collides(collideCheck));
+					if(unit.getVelocity().getX() != 0 & unit.getVelocity().getY() != 0) {
+						if(unit.getHash() != collideCheck.getHash()) {
+							if(unit.collides(collideCheck) != null) {
+								unit.translate(unit.collides(collideCheck).getMinPenetration());
+							}
 						}
 					}
 				}
-				unit.update(delta);
+			unit.update(delta);
 			}
 		}
 	}
@@ -305,7 +307,7 @@ public class PlayingState extends BasicGameState {
 	
 	private void updateSelectedList() {
 		for(SoulWarsUnit unit: swg.gameMap.getUnits()) {
-			if(selector.contains(unit.getX(), unit.getY())) {
+			if(selector.contains(unit.getX() - (64 * gameView.getCameraX()), unit.getY() - (64 * gameView.getCameraY()))) {
 				selectedList.add(unit);
 			}
 		}

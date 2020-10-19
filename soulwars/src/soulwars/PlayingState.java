@@ -1,6 +1,7 @@
 package soulwars;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.Path;
 
+import jig.Collision;
 import jig.Vector;
 
 public class PlayingState extends BasicGameState {
@@ -24,6 +26,7 @@ public class PlayingState extends BasicGameState {
 	private Path testPath;
 	private Rectangle selector;
 	private SoulWarsGame swg;
+	private Stack<Collision> collisions;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -40,6 +43,7 @@ public class PlayingState extends BasicGameState {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
 		gameView = new SoulWarsCamera(swg.gameMap);
+		collisions = new Stack<Collision>();
 		
 	}
 	
@@ -96,7 +100,7 @@ public class PlayingState extends BasicGameState {
 				updateSelectedList();
 		}
 	}
-	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #Javathings.
+	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #JustJavathings.
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		fMouseX = newx;
@@ -123,6 +127,7 @@ public class PlayingState extends BasicGameState {
 		Input input = container.getInput();
 		float mouseTileX;
 		float mouseTileY;
+		
 		
 		
 	
@@ -226,7 +231,7 @@ public class PlayingState extends BasicGameState {
 		
 		
 		
-		if (input.isKeyDown(Input.KEY_LCONTROL)) {
+		if (input.isKeyPressed(Input.KEY_LCONTROL)) {
 				
 				mouseTileX = (input.getMouseX());
 				mouseTileY = (input.getMouseY());
@@ -272,6 +277,13 @@ public class PlayingState extends BasicGameState {
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
+				for(SoulWarsUnit collideCheck : units) {
+					if(unit.getHash() != collideCheck.getHash()) {
+						if(unit.collides(collideCheck) != null) {
+							collisions.push(unit.collides(collideCheck));
+						}
+					}
+				}
 				unit.update(delta);
 			}
 		}

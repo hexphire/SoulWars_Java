@@ -104,7 +104,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	}
 	
 	public int getHash() {
-		int hash = (int)(this.getY() * this.getX());
+		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
 		return hash;
 	}
 	

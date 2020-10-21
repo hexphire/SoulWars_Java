@@ -13,10 +13,10 @@
 
  
 
-- **[8]**  Test group pathing solutions/checkpoints.
+- **[8]**  Add Player Character.
 - **[9]**  Add souls.
 - **[10]**  Add HQ.
 - **[12]**  Add minimap/HUD.
 - **[13]** Add HQ health, soul counter, unit UI.
 - **[14]** Add player 2 controls/mode.
-- **[15]** Add basic scripted "AI" for opponent in single player.
+- **[16]**  Test group pathing solutions/checkpoints.

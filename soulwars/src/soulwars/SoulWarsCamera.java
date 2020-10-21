@@ -21,6 +21,8 @@ public class SoulWarsCamera {
 	private int tileHeight;
 	private int mapHeight;
 	private int mapWidth;
+	private int mapActualHeight;
+	private int mapActualWidth;
 	
 	SoulWarsMap currentGame;
 	
@@ -34,6 +36,8 @@ public class SoulWarsCamera {
 		tileHeight = currentGame.getTileHeight();
 		mapHeight = currentGame.getHeightInTiles();
 		mapWidth = currentGame.getWidthInTiles();
+		mapActualHeight = tileHeight * mapHeight;
+		mapActualWidth = tileWidth * mapWidth;
 	}
 	//horizontal move
 	public void moveCameraX(int dx) {
@@ -95,16 +99,21 @@ public class SoulWarsCamera {
 		for (int xTile = 0; xTile < 16; xTile++) {
 			for (int yTile = 0; yTile < 16; yTile++) {
 				SoulWarsTile tile = terrain[xTile + xOffSet][yTile + yOffSet];
-				tile.setPosition(new Vector(xTile*64 + (xOffSet), yTile*64+ (yOffSet)));
-				tile.render(g);					
+				g.translate(-xOffSet*64,-yOffSet*64);
+				tile.render(g);
+				g.translate(xOffSet*64, yOffSet*64);
 			}
 		}
 	}
 	
 	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
 		for (SoulWarsUnit unit : units) {
-			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {
-				unit.cameraRender(g, xOffSet, yOffSet);
+			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {	
+				if(unit.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					unit.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				}
 			}
 			
 			if(unit.getPath() != null) {

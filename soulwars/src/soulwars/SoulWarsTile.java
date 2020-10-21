@@ -61,12 +61,6 @@ public class SoulWarsTile extends Entity {
 		return hash;
 	}
 	
-	public void cameraRender(final Graphics g, int tileX, int tileY ) {
-		Vector actualPos = this.getPosition();
-		Vector cameraPos = new Vector((tileX* 64), (tileY * 64));
-		this.setPosition(cameraPos);
-		this.render(g);
-		this.setPosition(actualPos);
-	}
+
 
 }

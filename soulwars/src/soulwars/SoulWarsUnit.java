@@ -104,11 +104,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 		currentPath.removeAllElements();
 	}
 	
-	public int getHash() {
-		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
-		return hash;
-	}
-	
+
 	public Vector followPath() {
 		Step nextStep = this.currentPath.peek();
 		Vector curPos = new Vector(this.getX(),this.getY());
@@ -124,13 +120,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	}
 	
 	//An exact copy of the Entity.render(g) method, except this accounts for the camera position
-	public void cameraRender(final Graphics g, int cameraX, int cameraY ) {
-		Vector actualPos = this.getPosition();
-		Vector cameraPos = new Vector(actualPos.getX() - (cameraX * 64), actualPos.getY() - (cameraY * 64));
-		this.setPosition(cameraPos);
-		this.render(g);
-		this.setPosition(actualPos);
-	}
+
 	
 	public void update(final int delta) {
 		if(currentPath.empty() != true) {
@@ -139,6 +129,12 @@ public class SoulWarsUnit extends Entity implements Mover {
 		}
 			
 	}
+	
+	public int getHash() {
+		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
+		return hash;
+	}
+	
 	
 	
 }

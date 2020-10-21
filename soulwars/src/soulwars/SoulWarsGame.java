@@ -53,32 +53,30 @@ public class SoulWarsGame extends StateBasedGame {
 		addState(new StartSplashState());
 		addState(new MainMenuState());
 		addState(new PlayingState());
-		
+		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		ResourceManager.loadImage(TILE_RSC_59);
 		ResourceManager.loadImage(TILE_RSC_101);
 		ResourceManager.loadImage(UNIT_RSC_REDW);
-	}
-	
-	public SoulWarsGame(String title, int width, int height) throws SlickException {
-		super(title);
-		screenWidth = width;
-		screenHeight = height;
+		
 		rndm = new Random();
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		mapReady = false;
-		gameMap = new SoulWarsMap();		
+		gameMap = new SoulWarsMap();	
 		loadMap();
 		if(mapReady == true) {
 			System.out.println("map loading");
 			gameMap.loadNewMap(map);
 			APather = new AStarPathFinder(gameMap, 500, true, new ManhattanHeuristic());
 		}
-		
-		
+
+	}
 	
-		
-		
+	
+	public SoulWarsGame(String title, int width, int height) throws SlickException {
+		super(title);
+		screenWidth = width;
+		screenHeight = height;
 	}
 	
 	public void spawnUnit(float x, float y, int cameraX, int cameraY) {
@@ -99,6 +97,8 @@ public class SoulWarsGame extends StateBasedGame {
 		int randint = rndm.nextInt(ceiling);
 		return randint;
 	}
+	
+
 	
 	
 	

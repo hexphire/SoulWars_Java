@@ -1,6 +1,7 @@
 package soulwars;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.Path;
 
+import jig.Collision;
 import jig.Vector;
 
 public class PlayingState extends BasicGameState {
@@ -24,6 +26,7 @@ public class PlayingState extends BasicGameState {
 	private Path testPath;
 	private Rectangle selector;
 	private SoulWarsGame swg;
+	private Stack<Collision> collisions;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -40,6 +43,7 @@ public class PlayingState extends BasicGameState {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
 		gameView = new SoulWarsCamera(swg.gameMap);
+		collisions = new Stack<Collision>();
 		
 	}
 	
@@ -96,7 +100,7 @@ public class PlayingState extends BasicGameState {
 				updateSelectedList();
 		}
 	}
-	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #Javathings.
+	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #JustJavathings.
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		fMouseX = newx;
@@ -125,31 +129,33 @@ public class PlayingState extends BasicGameState {
 		float mouseTileY;
 		
 		
+		
 	
 		//Path testing
 		
 		//unit test controls
 		
-		/*
-		if (input.isKeyDown(Input.KEY_UP)) {
-			if(selected != null)
-				selected.translate(new Vector(0, -2f));
-		}
-		if (input.isKeyDown(Input.KEY_LEFT)) {
-			if(selected != null)
-				selected.translate(new Vector(-2f, 0));
-		}
 		
-		if (input.isKeyDown(Input.KEY_DOWN)) {
-			if(selected != null)
-				selected.translate(new Vector(0, 2f));
-		}
+		if(selectedList.size() == 1){
+			if (input.isKeyDown(Input.KEY_UP)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(0, -2f));
+			}
+			if (input.isKeyDown(Input.KEY_LEFT)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(-2f, 0));
+			}
 		
-		if (input.isKeyDown(Input.KEY_RIGHT)) {
-			if(selected != null)
-				selected.translate(new Vector(2f, 0));
+			if (input.isKeyDown(Input.KEY_DOWN)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(0, 2f));
+			}
+		
+			if (input.isKeyDown(Input.KEY_RIGHT)) {
+				if(selectedList.get(0) != null)
+					selectedList.get(0).translate(new Vector(2f, 0));
+			}
 		}
-		*/
 		
 		//Camera controls
 		
@@ -217,8 +223,8 @@ public class PlayingState extends BasicGameState {
 			
 			//System.out.println("x: " + mouseTileX + "y: " + mouseTileY);
 			//System.out.println("x: " + dMouseTileX + "y: " + dMouseTileY);
-			int[][] terrain = swg.gameMap.getTerrain();
-			System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())]);
+			SoulWarsTile[][] terrain = swg.gameMap.getTerrain();
+			System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())].getType());
 			
 		}
 		
@@ -226,7 +232,7 @@ public class PlayingState extends BasicGameState {
 		
 		
 		
-		if (input.isKeyDown(Input.KEY_LCONTROL)) {
+		if (input.isKeyPressed(Input.KEY_LCONTROL)) {
 				
 				mouseTileX = (input.getMouseX());
 				mouseTileY = (input.getMouseY());
@@ -272,7 +278,21 @@ public class PlayingState extends BasicGameState {
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
-				unit.update(delta);
+				for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+					if(unit.collides(tile) != null) {
+						unit.translate(unit.collides(tile).getMinPenetration().scale(delta/4));
+					}
+				}
+				for(SoulWarsUnit collideCheck : units) {
+					if(unit.getVelocity().getX() != 0 & unit.getVelocity().getY() != 0) {
+						if(unit.getHash() != collideCheck.getHash()) {
+							if(unit.collides(collideCheck) != null) {
+								unit.translate(unit.collides(collideCheck).getMinPenetration());
+							}
+						}
+					}
+				}
+			unit.update(delta);
 			}
 		}
 	}
@@ -293,7 +313,7 @@ public class PlayingState extends BasicGameState {
 	
 	private void updateSelectedList() {
 		for(SoulWarsUnit unit: swg.gameMap.getUnits()) {
-			if(selector.contains(unit.getX(), unit.getY())) {
+			if(selector.contains(unit.getX() - (64 * gameView.getCameraX()), unit.getY() - (64 * gameView.getCameraY()))) {
 				selectedList.add(unit);
 			}
 		}

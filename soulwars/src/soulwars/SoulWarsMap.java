@@ -23,6 +23,7 @@ public class SoulWarsMap implements TileBasedMap{
 	private SoulWarsTile[][] terrainTiles;
 	private ArrayList<SoulWarsTile> collidables;
 	private ArrayList<SoulWarsUnit> units;
+	private WizardCharacter player;
 	private boolean[][] visited;
 	
 	private int[][] redBasePath;
@@ -68,6 +69,14 @@ public class SoulWarsMap implements TileBasedMap{
 				visited[x][y] = false;
 			}
 		}
+	}
+	
+	public WizardCharacter getPlayer() {
+		return player;
+	}
+	
+	public void setPlayer(WizardCharacter player) {
+		this.player = player; 
 	}
 
 	@Override

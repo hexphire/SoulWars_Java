@@ -21,8 +21,7 @@ public class SoulWarsCamera {
 	private int tileHeight;
 	private int mapHeight;
 	private int mapWidth;
-	private int mapActualHeight;
-	private int mapActualWidth;
+	
 	
 	SoulWarsMap currentGame;
 	
@@ -36,8 +35,7 @@ public class SoulWarsCamera {
 		tileHeight = currentGame.getTileHeight();
 		mapHeight = currentGame.getHeightInTiles();
 		mapWidth = currentGame.getWidthInTiles();
-		mapActualHeight = tileHeight * mapHeight;
-		mapActualWidth = tileWidth * mapWidth;
+
 	}
 	//horizontal move
 	public void moveCameraX(int dx) {
@@ -120,6 +118,17 @@ public class SoulWarsCamera {
 				renderPath(unit.getPath(), g);
 			}
 			g.flush();
+		}
+	}
+	
+	public void renderPlayer(Graphics g) {
+		WizardCharacter player = currentGame.getPlayer();
+		if((player.getX()/tileWidth) > this.xOffSet && (player.getY()/tileHeight) > this.yOffSet ) {	
+			if(player.getX() < 1024 + (xOffSet*64)) {
+				g.translate(-xOffSet*64,-yOffSet*64);
+				player.render(g);
+				g.translate(xOffSet*64, yOffSet*64);
+			}
 		}
 	}
 	

@@ -27,6 +27,7 @@ public class PlayingState extends BasicGameState {
 	private Rectangle selector;
 	private SoulWarsGame swg;
 	private Stack<Collision> collisions;
+	private WizardCharacter player;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -54,7 +55,9 @@ public class PlayingState extends BasicGameState {
 		selectedList = new ArrayList<SoulWarsUnit>(100);
 		//swg.gameMap.printMapArray();
 		swg.spawnUnit((1 * 64)+32 , (1 * 64)+32, 0, 0);
+		swg.spawnPlayer((2*64)+32, (2*64)+32);
 		//selected = swg.gameMap.getUnit(0,0);
+		player = swg.gameMap.getPlayer();
 	}
 		
 		
@@ -78,6 +81,8 @@ public class PlayingState extends BasicGameState {
 			if(dragged)
 				g.draw(selector);
 		}
+		
+		gameView.renderPlayer(g);
 		
 	}
 	//need to overwrite the mouselistener methods of this state, to handle drag select.
@@ -136,24 +141,20 @@ public class PlayingState extends BasicGameState {
 		//unit test controls
 		
 		
-		if(selectedList.size() == 1){
+		if(player != null){
 			if (input.isKeyDown(Input.KEY_UP)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(0, -2f));
+				player.translate(new Vector(0, -2f));
 			}
 			if (input.isKeyDown(Input.KEY_LEFT)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(-2f, 0));
+				player.translate(new Vector(-2f, 0));
 			}
 		
 			if (input.isKeyDown(Input.KEY_DOWN)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(0, 2f));
+				player.translate(new Vector(0, 2f));
 			}
 		
 			if (input.isKeyDown(Input.KEY_RIGHT)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(2f, 0));
+				player.translate(new Vector(2f, 0));
 			}
 		}
 		

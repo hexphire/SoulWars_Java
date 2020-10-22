@@ -24,7 +24,6 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private boolean isRanged;
 	private int unitType;
 	private Stack<Step> currentPath;
-	private int stepCount;
 	Image unitSprite;
 	
 	
@@ -37,7 +36,6 @@ public class SoulWarsUnit extends Entity implements Mover {
 			isRanged = false;
 			health = 5;
 			soulCount = 1;
-			stepCount = 0;
 			currentPath = new Stack<Step>();
 			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
 			unitSprite.setFilter(Image.FILTER_LINEAR);

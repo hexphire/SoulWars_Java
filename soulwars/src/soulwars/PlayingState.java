@@ -144,30 +144,41 @@ public class PlayingState extends BasicGameState {
 		if(player != null){
 			if (input.isKeyDown(Input.KEY_UP)) {
 				player.translate(new Vector(0, -2f));
+				if (player.getY()-(gameView.getCameraY()*64) < 448 && gameView.getCameraY() > 0) {
+					gameView.moveCameraY(-1);
+				}	
 			}
 			if (input.isKeyDown(Input.KEY_LEFT)) {
 				player.translate(new Vector(-2f, 0));
+				if (player.getX()-(gameView.getCameraX()*64) < 448 && gameView.getCameraX() > 0) {
+					gameView.moveCameraX(-1);
+				}
 			}
 		
 			if (input.isKeyDown(Input.KEY_DOWN)) {
 				player.translate(new Vector(0, 2f));
+				if (player.getY()-(gameView.getCameraY()*64) > 576 && gameView.getCameraY() < swg.gameMap.getHeightInTiles()) {
+					gameView.moveCameraY(1);
+				}
 			}
 		
 			if (input.isKeyDown(Input.KEY_RIGHT)) {
 				player.translate(new Vector(2f, 0));
+				if (player.getX()-(gameView.getCameraX()*64) > 576 && gameView.getCameraX() < swg.gameMap.getWidthInTiles()) {
+					gameView.moveCameraX(1);
+				}
 			}
 		}
 		
 		//Camera controls
-		
 		if (input.isKeyDown(Input.KEY_W)){
 			gameView.moveCameraY(-1);
 			
-		}		
+		}	
 		if (input.isKeyDown(Input.KEY_S)){
 			gameView.moveCameraY(1);
-			
-		}
+		}	
+		
 
 		if (input.isKeyDown(Input.KEY_A)){
 			gameView.moveCameraX(-1);
@@ -237,7 +248,7 @@ public class PlayingState extends BasicGameState {
 				
 				mouseTileX = (input.getMouseX());
 				mouseTileY = (input.getMouseY());
-				swg.spawnUnit(mouseTileX, mouseTileY, gameView.getCameraX(), gameView.getCameraY());
+				swg.spawnUnit(mouseTileX, mouseTileY, (int)gameView.getCameraX(), (int)gameView.getCameraY());
 				
 			
 		}

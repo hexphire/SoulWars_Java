@@ -22,6 +22,7 @@ public class SoulWarsMap implements TileBasedMap{
 	
 	private SoulWarsTile[][] terrainTiles;
 	private ArrayList<SoulWarsTile> collidables;
+	private ArrayList<SoulWarsTile> tileList;
 	private ArrayList<SoulWarsUnit> units;
 	private WizardCharacter player;
 	private boolean[][] visited;
@@ -149,6 +150,10 @@ public class SoulWarsMap implements TileBasedMap{
 		return collidables;	
 	}
 	
+	public ArrayList<SoulWarsTile> getTileList(){
+		return tileList;
+	}
+	
 	
 	public SoulWarsTile[][] getTerrain(){
 		return terrainTiles;
@@ -164,6 +169,7 @@ public class SoulWarsMap implements TileBasedMap{
 		terrainTiles = new SoulWarsTile[mapWidth][mapHeight];
 		collidables = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
 		units = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
+		tileList = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		redBasePath = new int[mapWidth][mapHeight];
 		blueBasePath = new int[mapWidth][mapHeight];
@@ -171,6 +177,7 @@ public class SoulWarsMap implements TileBasedMap{
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
 			for (int yTile =0; yTile < mapHeight; yTile++) {
 				SoulWarsTile tile = new SoulWarsTile(xTile*64, yTile*64, (mapPlan.getTileId(xTile, yTile, 0)));
+				tileList.add(tile);
 				terrainTiles[xTile][yTile] = tile;
 				if(mapPlan.getTileId(xTile, yTile, 0) == 59 || mapPlan.getTileId(xTile, yTile, 0) == 60){
 					collidables.add(tile);

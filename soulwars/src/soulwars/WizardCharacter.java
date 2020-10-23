@@ -26,9 +26,9 @@ public class WizardCharacter extends Entity{
 	
 	public WizardCharacter(final float x, final float y) throws SlickException {
 		super(x, y);
-		moveSheet = new SpriteSheet("src/soulwars/resources/necromancerSheet.png", 32, 32, null, 4);
-		attackSheet = new SpriteSheet("src/soulwars/resources/necroattackSheet.png", 32, 32, null, 4);
-		addImageWithBoundingBox(moveSheet.getSprite(0, 0));
+		moveSheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.CHAR_RSC_MAIN), 32, 32, 4, 0);
+		attackSheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.CHAR_RSC_ATK), 32, 32, 4, 0);
+		this.addImageWithBoundingBox(moveSheet.getSprite(0, 0));
 	}
 	
 	public Vector getVelocity() {

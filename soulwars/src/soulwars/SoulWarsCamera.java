@@ -106,6 +106,19 @@ public class SoulWarsCamera {
 		}
 	}
 	
+	public void renderProjectile(ArrayList<Projectile> projectiles, Graphics g) {
+		for(Projectile projectile : projectiles) {
+			if((projectile.getX()/tileWidth) > this.xOffSet && (projectile.getY()/tileHeight) > this.yOffSet ) {
+				if(projectile.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					projectile.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				
+				}
+			}
+		}
+	}
+	
 	public void renderUnits(ArrayList<SoulWarsUnit> units, Graphics g) {
 		for (SoulWarsUnit unit : units) {
 			if((unit.getX()/tileWidth) > this.xOffSet && (unit.getY()/tileHeight) > this.yOffSet ) {	
@@ -139,9 +152,15 @@ public class SoulWarsCamera {
 		WizardCharacter player = currentGame.getPlayer();
 		ArrayList<SoulWarsTile> terrain = currentGame.getTileList();
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
-		renderTerrain(terrain, g);
-		renderUnits(units, g);
-		renderPlayer(player,g);
+		ArrayList<Projectile> projectiles = currentGame.getProjectiles();
+		if(terrain != null)
+			renderTerrain(terrain, g);
+		if(units != null)
+			renderUnits(units, g);
+		if(player != null)
+			renderPlayer(player,g);
+		if(projectiles != null)
+			renderProjectile(projectiles, g);
 		
 	}
 	

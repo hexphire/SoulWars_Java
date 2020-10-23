@@ -38,20 +38,20 @@ public class SoulWarsCamera {
 
 	}
 	//horizontal move
-	public void moveCameraX(int dx) {
+	public void moveCameraX(int dx, int delta) {
 		if (dx > 0 && xOffSet < mapWidth - 16) {
-			xOffSet += .047f;
+			xOffSet += .00195f * delta;
 		}else if(dx < 0 && xOffSet > 0){
-			xOffSet -= .047f;
+			xOffSet -= .00195f * delta;
 		}
 		return;
 	}
 	//vertical move
-	public void moveCameraY(int dy) {
+	public void moveCameraY(int dy, int delta) {
 		if (dy > 0 && yOffSet < mapHeight - 16) {
-			yOffSet += .047f;
+			yOffSet += .00195f * delta;
 		}else if(dy < 0 && yOffSet > 0) {
-			yOffSet -= .047f;
+			yOffSet -= .00195f * delta;
 		}	
 		return;
 	}
@@ -123,8 +123,7 @@ public class SoulWarsCamera {
 		}
 	}
 	
-	public void renderPlayer(Graphics g) {
-		WizardCharacter player = currentGame.getPlayer();
+	public void renderPlayer(WizardCharacter player, Graphics g) {
 		if((player.getX()/tileWidth) > this.xOffSet && (player.getY()/tileHeight) > this.yOffSet ) {	
 			if(player.getX() < 1024 + (xOffSet*64)) {
 				g.translate(-xOffSet*64,-yOffSet*64);
@@ -137,10 +136,12 @@ public class SoulWarsCamera {
 
 	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
+		WizardCharacter player = currentGame.getPlayer();
 		ArrayList<SoulWarsTile> terrain = currentGame.getTileList();
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		renderTerrain(terrain, g);
 		renderUnits(units, g);
+		renderPlayer(player,g);
 		
 	}
 	

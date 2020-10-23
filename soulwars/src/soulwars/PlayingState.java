@@ -82,7 +82,7 @@ public class PlayingState extends BasicGameState {
 				g.draw(selector);
 		}
 		
-		gameView.renderPlayer(g);
+
 		
 	}
 	//need to overwrite the mouselistener methods of this state, to handle drag select.
@@ -142,50 +142,50 @@ public class PlayingState extends BasicGameState {
 		
 		
 		if(player != null){
-			if (input.isKeyDown(Input.KEY_UP)) {
+			if (input.isKeyDown(Input.KEY_W)) {
 				player.translate(new Vector(0, -2f));
-				if (player.getY()-(gameView.getCameraY()*64) < 448 && gameView.getCameraY() > 0) {
-					gameView.moveCameraY(-1);
+				if (player.getY()-(gameView.getCameraY()*64) < 512 && gameView.getCameraY() > 0) {
+					gameView.moveCameraY(-1, delta);
 				}	
 			}
-			if (input.isKeyDown(Input.KEY_LEFT)) {
+			if (input.isKeyDown(Input.KEY_A)) {
 				player.translate(new Vector(-2f, 0));
-				if (player.getX()-(gameView.getCameraX()*64) < 448 && gameView.getCameraX() > 0) {
-					gameView.moveCameraX(-1);
+				if (player.getX()-(gameView.getCameraX()*64) < 512 && gameView.getCameraX() > 0) {
+					gameView.moveCameraX(-1, delta);
 				}
 			}
 		
-			if (input.isKeyDown(Input.KEY_DOWN)) {
+			if (input.isKeyDown(Input.KEY_S)) {
 				player.translate(new Vector(0, 2f));
-				if (player.getY()-(gameView.getCameraY()*64) > 576 && gameView.getCameraY() < swg.gameMap.getHeightInTiles()) {
-					gameView.moveCameraY(1);
+				if (player.getY()-(gameView.getCameraY()*64) > 512 && gameView.getCameraY() < swg.gameMap.getHeightInTiles()) {
+					gameView.moveCameraY(1, delta);
 				}
 			}
 		
-			if (input.isKeyDown(Input.KEY_RIGHT)) {
+			if (input.isKeyDown(Input.KEY_D)) {
 				player.translate(new Vector(2f, 0));
-				if (player.getX()-(gameView.getCameraX()*64) > 576 && gameView.getCameraX() < swg.gameMap.getWidthInTiles()) {
-					gameView.moveCameraX(1);
+				if (player.getX()-(gameView.getCameraX()*64) > 512 && gameView.getCameraX() < swg.gameMap.getWidthInTiles()) {
+					gameView.moveCameraX(1, delta);
 				}
 			}
 		}
 		
 		//Camera controls
-		if (input.isKeyDown(Input.KEY_W)){
-			gameView.moveCameraY(-1);
+		if (input.isKeyDown(Input.KEY_UP)){
+			gameView.moveCameraY(-1, delta);
 			
 		}	
-		if (input.isKeyDown(Input.KEY_S)){
-			gameView.moveCameraY(1);
+		if (input.isKeyDown(Input.KEY_DOWN)){
+			gameView.moveCameraY(1, delta);
 		}	
 		
 
-		if (input.isKeyDown(Input.KEY_A)){
-			gameView.moveCameraX(-1);
+		if (input.isKeyDown(Input.KEY_LEFT)){
+			gameView.moveCameraX(-1, delta);
 			
 		}	
-		if (input.isKeyDown(Input.KEY_D)){
-			gameView.moveCameraX(1);
+		if (input.isKeyDown(Input.KEY_RIGHT)){
+			gameView.moveCameraX(1, delta);
 		}
 		
 		
@@ -287,6 +287,12 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+			if(player.collides(tile) != null) {
+				player.translate(player.collides(tile).getMinPenetration().scale(delta/4));
+			}
+		}
+		
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
@@ -303,6 +309,9 @@ public class PlayingState extends BasicGameState {
 							}
 						}
 					}
+				}
+				if(unit.collides(player) != null) {
+					unit.translate(unit.collides(player).getMinPenetration().scale(delta/4));
 				}
 			unit.update(delta);
 			}

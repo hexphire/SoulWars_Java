@@ -267,10 +267,16 @@ public class PlayingState extends BasicGameState {
 								SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
 								unit.clearPath();
 								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY() , target.getMapPosX(), target.getMapPosY()));
+							
+							}
+					}
+					if(swg.gameMap.isPlayerNear(unit, 10)) {
+						unit.clearPath();
+						unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY() , player.getMapPosX(), player.getMapPosY()));
 					}
 				}
-			}
 		}
+		
 		if(input.isKeyPressed(Input.KEY_C)) {
 			mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 			mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
@@ -280,6 +286,7 @@ public class PlayingState extends BasicGameState {
 				unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
 			}
 		}
+		
 		if(input.isKeyDown(Input.KEY_L)) {
 			if(selectedList.size() == 1) {
 				int[] coords = swg.gameMap.findUnit(selectedList.get(0));

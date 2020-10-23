@@ -127,6 +127,20 @@ public class SoulWarsMap implements TileBasedMap{
 		return possibleTargets;
 	}
 	
+	public Boolean isPlayerNear(SoulWarsUnit unit, int range){
+			if (player.getMapPosX() > (unit.getMapPosX()-(range))) {
+				if(player.getMapPosX() < (unit.getMapPosX()+(range))) {
+					if(player.getMapPosY() > (unit.getMapPosY()-(range))) {
+						if(player.getMapPosX() < (unit.getMapPosY()+ (range))) {
+							return true;
+							
+						}
+					}
+				}
+			}
+	return false;
+	}
+	
 	
 	public int[] findUnit(SoulWarsUnit unit) {
 		int coords[] = new int[2];

@@ -29,6 +29,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String CHAR_RSC_MAIN = "soulwars/resources/necromancerSheet.png";
 	public static final String CHAR_RSC_ATK = "soulwars/resources/necroattackSheet.png";
 	public static final String SPELL_RSC_FRBL = "soulwars/resources/fireballsheet.png";
+	public static final String SOUL_RSC_MAIN = "soulwars/resources/sSoul.png";
 	
 	//App properties
 	public static final int WIDTH = 1280;
@@ -64,6 +65,7 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(CHAR_RSC_MAIN);
 		ResourceManager.loadImage(CHAR_RSC_ATK);
 		ResourceManager.loadImage(SPELL_RSC_FRBL);
+		ResourceManager.loadImage(SOUL_RSC_MAIN);
 		
 		rndm = new Random();
 		Entity.antiAliasing = false;

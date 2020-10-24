@@ -304,17 +304,28 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		
+		
+		ArrayList<SoulWarsSoul> soulList = swg.gameMap.getSoulList();
+		ArrayList<SoulWarsSoul> collectedSoul = new ArrayList<SoulWarsSoul>(100);
+		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
+		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
+		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
+		ArrayList<SoulWarsUnit> deadUnit = new ArrayList<SoulWarsUnit>(units.size());
+		if(soulList != null) {
+			for(SoulWarsSoul soul : soulList) {
+				if(player.collides(soul) != null) {
+					player.collectSoul(soul.getCount());
+					collectedSoul.add(soul);
+				}
+			}
+			soulList.removeAll(collectedSoul);
+		}
 		for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
 			if(player.collides(tile) != null) {
 				player.translate(player.collides(tile).getMinPenetration().scale(delta/4));
 			}
 		}
-		
-		
-		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
-		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
-		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
-		ArrayList<SoulWarsUnit> deadUnit = new ArrayList<SoulWarsUnit>(units.size());
 		
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
@@ -331,6 +342,7 @@ public class PlayingState extends BasicGameState {
 							deadProject.add(projectile);
 							if(unit.getHealth() <= 0) {
 								deadUnit.add(unit);
+								swg.gameMap.addSoul(new SoulWarsSoul(unit.getX(), unit.getY(), unit.getSoulCount(), false));
 							}
 						}
 					}

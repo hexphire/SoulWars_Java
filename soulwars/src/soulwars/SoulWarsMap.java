@@ -25,6 +25,8 @@ public class SoulWarsMap implements TileBasedMap{
 	private ArrayList<SoulWarsTile> tileList;
 	private ArrayList<SoulWarsUnit> units;
 	private ArrayList<Projectile> projectiles;
+	private ArrayList<SoulWarsSoul> souls;
+	
 	private WizardCharacter player;
 	private boolean[][] visited;
 	
@@ -71,6 +73,14 @@ public class SoulWarsMap implements TileBasedMap{
 				visited[x][y] = false;
 			}
 		}
+	}
+	
+	public void addSoul(SoulWarsSoul soul) {
+		souls.add(soul);
+	}
+	
+	public ArrayList<SoulWarsSoul> getSoulList() {
+		return souls;
 	}
 	
 	public void addProjectile(Projectile projectile) {
@@ -198,6 +208,7 @@ public class SoulWarsMap implements TileBasedMap{
 		units = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
 		tileList = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
 		projectiles = new ArrayList<Projectile>(mapWidth * mapHeight);
+		souls = new ArrayList<SoulWarsSoul>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		redBasePath = new int[mapWidth][mapHeight];
 		blueBasePath = new int[mapWidth][mapHeight];

@@ -82,6 +82,18 @@ public class SoulWarsCamera {
 		
 	}
 	
+	public void renderSouls(ArrayList<SoulWarsSoul> soulList, Graphics g) {
+		for(SoulWarsSoul soul : soulList) {
+			if((soul.getX()/tileWidth) > this.xOffSet && (soul.getY()/tileHeight) > this.yOffSet ) {	
+				if(soul.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					soul.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				}
+			}
+		}
+	}
+	
 	public void renderSelected(ArrayList<SoulWarsUnit> selectedList, Graphics g) {
 		g.setColor(Color.black);
 		for(SoulWarsUnit selected : selectedList) {
@@ -153,6 +165,7 @@ public class SoulWarsCamera {
 		ArrayList<SoulWarsTile> terrain = currentGame.getTileList();
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		ArrayList<Projectile> projectiles = currentGame.getProjectiles();
+		ArrayList<SoulWarsSoul> souls = currentGame.getSoulList();
 		if(terrain != null)
 			renderTerrain(terrain, g);
 		if(units != null)
@@ -161,6 +174,8 @@ public class SoulWarsCamera {
 			renderPlayer(player,g);
 		if(projectiles != null)
 			renderProjectile(projectiles, g);
+		if(souls != null)
+			renderSouls(souls, g);
 		
 	}
 	

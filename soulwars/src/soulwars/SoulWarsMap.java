@@ -30,8 +30,7 @@ public class SoulWarsMap implements TileBasedMap{
 	private WizardCharacter player;
 	private boolean[][] visited;
 	
-	private int[][] redBasePath;
-	private int[][] blueBasePath;
+
 	
 	
 	public SoulWarsMap() {
@@ -210,8 +209,7 @@ public class SoulWarsMap implements TileBasedMap{
 		projectiles = new ArrayList<Projectile>(mapWidth * mapHeight);
 		souls = new ArrayList<SoulWarsSoul>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
-		redBasePath = new int[mapWidth][mapHeight];
-		blueBasePath = new int[mapWidth][mapHeight];
+
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
 			for (int yTile =0; yTile < mapHeight; yTile++) {

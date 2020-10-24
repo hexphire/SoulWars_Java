@@ -311,9 +311,16 @@ public class PlayingState extends BasicGameState {
 		}
 		
 		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
+		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
 		for(Projectile projectile : projectiles) {
+			for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+				if(projectile.collides(tile) != null)
+					deadProject.add(projectile);
+	
+			}
 			projectile.update(delta);
 		}
+		projectiles.removeAll(deadProject);
 		
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 		if(units.size() != 0) {
@@ -337,6 +344,7 @@ public class PlayingState extends BasicGameState {
 				}
 			unit.update(delta);
 			}
+
 		}
 	}
 

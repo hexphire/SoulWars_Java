@@ -78,12 +78,7 @@ public class SoulWarsMap implements TileBasedMap{
 	}
 	
 	public void removeProjectile(Projectile target) {
-		for(Projectile projectile : projectiles) {
-			if(projectile.hashCode() == target.hashCode()) {
-				projectiles.remove(projectile);
-			}
-			
-		}
+		projectiles.remove(target);
 	}
 	
 	public ArrayList<Projectile> getProjectiles(){

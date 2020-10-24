@@ -9,11 +9,12 @@
 - **[5]** Add a basic generalized unit.
 - **[6]**   Add basic pathfinding.
 - **[7]** Improve unit selection
+- **[8]**  Add Player Character.
 ## Open Issues ##
 
  
 
-- **[8]**  Add Player Character.
+
 - **[9]**  Add souls.
 - **[10]**  Add HQ.
 - **[12]**  Add minimap/HUD.

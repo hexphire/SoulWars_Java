@@ -77,6 +77,10 @@ public class WizardCharacter extends Entity{
 		
 	}
 	
+	public void collectSoul(int soulCount) {
+		this.soulCount += soulCount;		
+	}
+	
 	public void update(final int delta) {
 	
 	}

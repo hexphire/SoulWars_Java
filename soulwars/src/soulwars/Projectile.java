@@ -33,4 +33,8 @@ public class Projectile extends Entity {
 	public void update(final int delta) {
 		this.translate(velocity);
 	}
+
+	public int getType() {
+		return this.type;
+	}
 }

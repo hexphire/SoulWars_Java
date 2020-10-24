@@ -132,6 +132,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
 		return hash;
 	}
+
+	public int getHealth() {
+		
+		return health;
+	}
 	
 	
 	

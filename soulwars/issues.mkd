@@ -12,9 +12,6 @@
 - **[8]**  Add Player Character.
 ## Open Issues ##
 
- 
-
-
 - **[9]**  Add souls.
 - **[10]**  Add HQ.
 - **[12]**  Add minimap/HUD.

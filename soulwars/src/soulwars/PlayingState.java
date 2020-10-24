@@ -27,6 +27,7 @@ public class PlayingState extends BasicGameState {
 	private Rectangle selector;
 	private SoulWarsGame swg;
 	private Stack<Collision> collisions;
+	private WizardCharacter player;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -54,7 +55,9 @@ public class PlayingState extends BasicGameState {
 		selectedList = new ArrayList<SoulWarsUnit>(100);
 		//swg.gameMap.printMapArray();
 		swg.spawnUnit((1 * 64)+32 , (1 * 64)+32, 0, 0);
+		swg.spawnPlayer((2*64)+32, (2*64)+32);
 		//selected = swg.gameMap.getUnit(0,0);
+		player = swg.gameMap.getPlayer();
 	}
 		
 		
@@ -78,6 +81,8 @@ public class PlayingState extends BasicGameState {
 			if(dragged)
 				g.draw(selector);
 		}
+		
+
 		
 	}
 	//need to overwrite the mouselistener methods of this state, to handle drag select.
@@ -134,46 +139,63 @@ public class PlayingState extends BasicGameState {
 		//Path testing
 		
 		//unit test controls
-		
-		
-		if(selectedList.size() == 1){
-			if (input.isKeyDown(Input.KEY_UP)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(0, -2f));
+		if(input.isKeyDown(Input.KEY_LSHIFT)){
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				Vector mouseVec = new Vector(input.getMouseX(),input.getMouseY());
+				Vector playerPos = player.getPosition();
+				double shotAngle = playerPos.angleTo(mouseVec);
+				Projectile fireball = new Projectile(playerPos.getX() ,playerPos.getY(), Vector.getVector(shotAngle, 2f), 1);
+				fireball.rotate(180);
+				fireball.rotate(shotAngle);
+				swg.gameMap.addProjectile(fireball);
 			}
-			if (input.isKeyDown(Input.KEY_LEFT)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(-2f, 0));
+		}
+		
+		if(player != null){
+			if (input.isKeyDown(Input.KEY_W)) {
+				player.translate(new Vector(0, -2f));
+				if (player.getY()-(gameView.getCameraY()*64) < 512 && gameView.getCameraY() > 0) {
+					gameView.moveCameraY(-1, delta);
+				}	
+			}
+			if (input.isKeyDown(Input.KEY_A)) {
+				player.translate(new Vector(-2f, 0));
+				if (player.getX()-(gameView.getCameraX()*64) < 512 && gameView.getCameraX() > 0) {
+					gameView.moveCameraX(-1, delta);
+				}
 			}
 		
-			if (input.isKeyDown(Input.KEY_DOWN)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(0, 2f));
+			if (input.isKeyDown(Input.KEY_S)) {
+				player.translate(new Vector(0, 2f));
+				if (player.getY()-(gameView.getCameraY()*64) > 512 && gameView.getCameraY() < swg.gameMap.getHeightInTiles()) {
+					gameView.moveCameraY(1, delta);
+				}
 			}
 		
-			if (input.isKeyDown(Input.KEY_RIGHT)) {
-				if(selectedList.get(0) != null)
-					selectedList.get(0).translate(new Vector(2f, 0));
+			if (input.isKeyDown(Input.KEY_D)) {
+				player.translate(new Vector(2f, 0));
+				if (player.getX()-(gameView.getCameraX()*64) > 512 && gameView.getCameraX() < swg.gameMap.getWidthInTiles()) {
+					gameView.moveCameraX(1, delta);
+				}
 			}
 		}
 		
 		//Camera controls
-		
-		if (input.isKeyDown(Input.KEY_W)){
-			gameView.moveCameraY(-1);
-			
-		}		
-		if (input.isKeyDown(Input.KEY_S)){
-			gameView.moveCameraY(1);
-			
-		}
-
-		if (input.isKeyDown(Input.KEY_A)){
-			gameView.moveCameraX(-1);
+		if (input.isKeyDown(Input.KEY_UP)){
+			gameView.moveCameraY(-1, delta);
 			
 		}	
-		if (input.isKeyDown(Input.KEY_D)){
-			gameView.moveCameraX(1);
+		if (input.isKeyDown(Input.KEY_DOWN)){
+			gameView.moveCameraY(1, delta);
+		}	
+		
+
+		if (input.isKeyDown(Input.KEY_LEFT)){
+			gameView.moveCameraX(-1, delta);
+			
+		}	
+		if (input.isKeyDown(Input.KEY_RIGHT)){
+			gameView.moveCameraX(1, delta);
 		}
 		
 		
@@ -236,7 +258,7 @@ public class PlayingState extends BasicGameState {
 				
 				mouseTileX = (input.getMouseX());
 				mouseTileY = (input.getMouseY());
-				swg.spawnUnit(mouseTileX, mouseTileY, gameView.getCameraX(), gameView.getCameraY());
+				swg.spawnUnit(mouseTileX, mouseTileY, (int)gameView.getCameraX(), (int)gameView.getCameraY());
 				
 			
 		}
@@ -255,10 +277,16 @@ public class PlayingState extends BasicGameState {
 								SoulWarsUnit target = swg.gameMap.getNear(unit, 5).get(0);
 								unit.clearPath();
 								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY() , target.getMapPosX(), target.getMapPosY()));
+							
+							}
+					}
+					if(swg.gameMap.isPlayerNear(unit, 10)) {
+						unit.clearPath();
+						unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY() , player.getMapPosX(), player.getMapPosY()));
 					}
 				}
-			}
 		}
+		
 		if(input.isKeyPressed(Input.KEY_C)) {
 			mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 			mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
@@ -268,6 +296,7 @@ public class PlayingState extends BasicGameState {
 				unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
 			}
 		}
+		
 		if(input.isKeyDown(Input.KEY_L)) {
 			if(selectedList.size() == 1) {
 				int[] coords = swg.gameMap.findUnit(selectedList.get(0));
@@ -275,12 +304,35 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+			if(player.collides(tile) != null) {
+				player.translate(player.collides(tile).getMinPenetration().scale(delta/4));
+			}
+		}
+		
+		
+		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
 		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
+		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
+		ArrayList<SoulWarsUnit> deadUnit = new ArrayList<SoulWarsUnit>(units.size());
+		
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
 				for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
 					if(unit.collides(tile) != null) {
 						unit.translate(unit.collides(tile).getMinPenetration().scale(delta/4));
+					}
+				}
+				for(Projectile projectile : projectiles) {
+					if(unit.collides(projectile) != null) {
+						if(projectile.getType() == 1) {
+							unit.takeDamage(2);
+							unit.translate(unit.collides(projectile).getMinPenetration().scale(delta));
+							deadProject.add(projectile);
+							if(unit.getHealth() <= 0) {
+								deadUnit.add(unit);
+							}
+						}
 					}
 				}
 				for(SoulWarsUnit collideCheck : units) {
@@ -292,9 +344,25 @@ public class PlayingState extends BasicGameState {
 						}
 					}
 				}
+				if(unit.collides(player) != null) {
+					unit.translate(unit.collides(player).getMinPenetration().scale(delta/4));
+				}
 			unit.update(delta);
 			}
+
 		}
+		units.removeAll(deadUnit);
+		
+		
+		for(Projectile projectile : projectiles) {
+			for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
+				if(projectile.collides(tile) != null)
+					deadProject.add(projectile);
+	
+			}
+			projectile.update(delta);
+		}
+		projectiles.removeAll(deadProject);
 	}
 
 	

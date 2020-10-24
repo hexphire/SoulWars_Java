@@ -22,7 +22,10 @@ public class SoulWarsMap implements TileBasedMap{
 	
 	private SoulWarsTile[][] terrainTiles;
 	private ArrayList<SoulWarsTile> collidables;
+	private ArrayList<SoulWarsTile> tileList;
 	private ArrayList<SoulWarsUnit> units;
+	private ArrayList<Projectile> projectiles;
+	private WizardCharacter player;
 	private boolean[][] visited;
 	
 	private int[][] redBasePath;
@@ -68,6 +71,26 @@ public class SoulWarsMap implements TileBasedMap{
 				visited[x][y] = false;
 			}
 		}
+	}
+	
+	public void addProjectile(Projectile projectile) {
+		projectiles.add(projectile);
+	}
+	
+	public void removeProjectile(Projectile target) {
+		projectiles.remove(target);
+	}
+	
+	public ArrayList<Projectile> getProjectiles(){
+		return projectiles;
+	}
+	
+	public WizardCharacter getPlayer() {
+		return player;
+	}
+	
+	public void setPlayer(WizardCharacter player) {
+		this.player = player; 
 	}
 
 	@Override
@@ -117,6 +140,20 @@ public class SoulWarsMap implements TileBasedMap{
 		return possibleTargets;
 	}
 	
+	public Boolean isPlayerNear(SoulWarsUnit unit, int range){
+			if (player.getMapPosX() > (unit.getMapPosX()-(range))) {
+				if(player.getMapPosX() < (unit.getMapPosX()+(range))) {
+					if(player.getMapPosY() > (unit.getMapPosY()-(range))) {
+						if(player.getMapPosX() < (unit.getMapPosY()+ (range))) {
+							return true;
+							
+						}
+					}
+				}
+			}
+	return false;
+	}
+	
 	
 	public int[] findUnit(SoulWarsUnit unit) {
 		int coords[] = new int[2];
@@ -140,6 +177,10 @@ public class SoulWarsMap implements TileBasedMap{
 		return collidables;	
 	}
 	
+	public ArrayList<SoulWarsTile> getTileList(){
+		return tileList;
+	}
+	
 	
 	public SoulWarsTile[][] getTerrain(){
 		return terrainTiles;
@@ -155,6 +196,8 @@ public class SoulWarsMap implements TileBasedMap{
 		terrainTiles = new SoulWarsTile[mapWidth][mapHeight];
 		collidables = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
 		units = new ArrayList<SoulWarsUnit>(mapWidth * mapHeight);
+		tileList = new ArrayList<SoulWarsTile>(mapWidth * mapHeight);
+		projectiles = new ArrayList<Projectile>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		redBasePath = new int[mapWidth][mapHeight];
 		blueBasePath = new int[mapWidth][mapHeight];
@@ -162,6 +205,7 @@ public class SoulWarsMap implements TileBasedMap{
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
 			for (int yTile =0; yTile < mapHeight; yTile++) {
 				SoulWarsTile tile = new SoulWarsTile(xTile*64, yTile*64, (mapPlan.getTileId(xTile, yTile, 0)));
+				tileList.add(tile);
 				terrainTiles[xTile][yTile] = tile;
 				if(mapPlan.getTileId(xTile, yTile, 0) == 59 || mapPlan.getTileId(xTile, yTile, 0) == 60){
 					collidables.add(tile);

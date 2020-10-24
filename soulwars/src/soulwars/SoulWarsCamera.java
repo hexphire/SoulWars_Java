@@ -15,14 +15,13 @@ import jig.Vector;
 
 public class SoulWarsCamera {
 	
-	private int xOffSet;
-	private int yOffSet;
+	private float xOffSet;
+	private float yOffSet;
 	private int tileWidth;
 	private int tileHeight;
 	private int mapHeight;
 	private int mapWidth;
-	private int mapActualHeight;
-	private int mapActualWidth;
+	
 	
 	SoulWarsMap currentGame;
 	
@@ -36,34 +35,33 @@ public class SoulWarsCamera {
 		tileHeight = currentGame.getTileHeight();
 		mapHeight = currentGame.getHeightInTiles();
 		mapWidth = currentGame.getWidthInTiles();
-		mapActualHeight = tileHeight * mapHeight;
-		mapActualWidth = tileWidth * mapWidth;
+
 	}
 	//horizontal move
-	public void moveCameraX(int dx) {
+	public void moveCameraX(int dx, int delta) {
 		if (dx > 0 && xOffSet < mapWidth - 16) {
-			xOffSet += 1;
+			xOffSet += .00195f * delta;
 		}else if(dx < 0 && xOffSet > 0){
-			xOffSet -= 1;
+			xOffSet -= .00195f * delta;
 		}
 		return;
 	}
 	//vertical move
-	public void moveCameraY(int dy) {
+	public void moveCameraY(int dy, int delta) {
 		if (dy > 0 && yOffSet < mapHeight - 16) {
-			yOffSet += 1;
+			yOffSet += .00195f * delta;
 		}else if(dy < 0 && yOffSet > 0) {
-			yOffSet -= 1;
+			yOffSet -= .00195f * delta;
 		}	
 		return;
 	}
 	
 	//getters for camera offset
-	public int getCameraX() {
+	public float getCameraX() {
 		return xOffSet;
 	}
 	
-	public int getCameraY() {
+	public float getCameraY() {
 		return yOffSet;
 	}
 	
@@ -75,7 +73,7 @@ public class SoulWarsCamera {
 		for (int xTile = 0; xTile < 16; xTile++) {
 			for (int yTile = 0; yTile < 16; yTile++) {
 		
-				if(pathMap[xTile + xOffSet][yTile + yOffSet] != false) {
+				if(pathMap[xTile + (int)xOffSet][yTile + (int)yOffSet] != false) {
 					g.drawString("X", (xTile*tileWidth)+16, (yTile*tileHeight)+16);
 					
 				}
@@ -95,13 +93,28 @@ public class SoulWarsCamera {
 	
 	
 	
-	public void renderTerrain(SoulWarsTile[][] terrain, Graphics g) {
-		for (int xTile = 0; xTile < 16; xTile++) {
-			for (int yTile = 0; yTile < 16; yTile++) {
-				SoulWarsTile tile = terrain[xTile + xOffSet][yTile + yOffSet];
-				g.translate(-xOffSet*64,-yOffSet*64);
-				tile.render(g);
-				g.translate(xOffSet*64, yOffSet*64);
+	public void renderTerrain(ArrayList<SoulWarsTile> terrain, Graphics g) {
+		for(SoulWarsTile tile : terrain) {
+			if((tile.getX()/tileWidth) >= this.xOffSet-1 && (tile.getY()/tileHeight) >= this.yOffSet-1 ) {
+				if(tile.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					tile.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				
+				}
+			}
+		}
+	}
+	
+	public void renderProjectile(ArrayList<Projectile> projectiles, Graphics g) {
+		for(Projectile projectile : projectiles) {
+			if((projectile.getX()/tileWidth) > this.xOffSet && (projectile.getY()/tileHeight) > this.yOffSet ) {
+				if(projectile.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					projectile.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				
+				}
 			}
 		}
 	}
@@ -123,13 +136,31 @@ public class SoulWarsCamera {
 		}
 	}
 	
+	public void renderPlayer(WizardCharacter player, Graphics g) {
+		if((player.getX()/tileWidth) > this.xOffSet && (player.getY()/tileHeight) > this.yOffSet ) {	
+			if(player.getX() < 1024 + (xOffSet*64)) {
+				g.translate(-xOffSet*64,-yOffSet*64);
+				player.render(g);
+				g.translate(xOffSet*64, yOffSet*64);
+			}
+		}
+	}
+	
 
 	//renders the current camera view on screen
 	public void renderView(int x, int y, Graphics g) {
-		SoulWarsTile[][] terrain = currentGame.getTerrain();
+		WizardCharacter player = currentGame.getPlayer();
+		ArrayList<SoulWarsTile> terrain = currentGame.getTileList();
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
-		renderTerrain(terrain, g);
-		renderUnits(units, g);
+		ArrayList<Projectile> projectiles = currentGame.getProjectiles();
+		if(terrain != null)
+			renderTerrain(terrain, g);
+		if(units != null)
+			renderUnits(units, g);
+		if(player != null)
+			renderPlayer(player,g);
+		if(projectiles != null)
+			renderProjectile(projectiles, g);
 		
 	}
 	

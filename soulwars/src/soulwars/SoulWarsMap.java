@@ -219,7 +219,7 @@ public class SoulWarsMap implements TileBasedMap{
 		projectiles = new ArrayList<Projectile>(mapWidth * mapHeight);
 		souls = new ArrayList<SoulWarsSoul>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
-		playerHQ = new SoulWarsHQ((2*tileWidth) + 16,(2*tileHeight) + 32, 0);
+		playerHQ = new SoulWarsHQ((2*tileWidth) + 16,(2*tileHeight) + 32, 0, 0);
 
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {

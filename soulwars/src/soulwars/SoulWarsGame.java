@@ -33,6 +33,8 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String SOUL_RSC_MAIN = "soulwars/resources/sSoul.png";
 	public static final String HQ_TOP_RSC = "soulwars/resources/medievalStructure_02.png";
 	public static final String HQ_BOTTOM_RSC = "soulwars/resources/medievalStructure_06.png";
+	public static final String HQ_PLAYER_RSC = "soulwars/resources/pyramidMayan.png";
+	public static final String HQ_TOWER_RSC = "soulWars/resources/towerSmallAlt.png";
 	
 	//App properties
 	public static final int WIDTH = 1280;
@@ -71,6 +73,9 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(SOUL_RSC_MAIN);
 		ResourceManager.loadImage(HQ_TOP_RSC);
 		ResourceManager.loadImage(HQ_BOTTOM_RSC);
+		ResourceManager.loadImage(HQ_PLAYER_RSC);
+		ResourceManager.loadImage(HQ_TOWER_RSC);
+		
 		
 		rndm = new Random();
 		Entity.antiAliasing = false;

@@ -65,6 +65,26 @@ public class SoulWarsCamera {
 		return yOffSet;
 	}
 	
+	public void renderHud(Graphics g, WizardCharacter player) {
+		Image uiBackground = ResourceManager.getImage(SoulWarsGame.UI_BACK_RSC);
+		float barWidth = 125;
+		float barHeight = 25;
+		uiBackground.draw(1024,0);
+		float healthBar = ((float) player.getHealth() / (float) player.getMaxHealth()) * barWidth;
+		float manaBar = ((float) player.getMana() / (float) player.getMaxMana()) * barWidth;
+		g.drawString("Health", 1050, 25);
+		g.fillRect(1050, 50, barWidth, barHeight);
+		g.setColor(Color.red);
+		g.fillRect(1050, 50, healthBar, barHeight);
+		g.setColor(Color.black);
+		g.drawString("Mana", 1050, 80);
+		g.fillRect(1050, 100, barWidth, barHeight);
+		g.setColor(Color.blue);
+		g.fillRect(1050, 100, manaBar, barHeight);
+		g.setColor(Color.black);
+		
+	}
+	
 	public void renderPath(Stack<Step> currentPath, Graphics g) {
 		boolean[][] pathMap = new boolean[mapWidth][mapHeight];
 		for (int i = 0; i < currentPath.size(); i++) {
@@ -192,6 +212,8 @@ public class SoulWarsCamera {
 			renderSouls(souls, g);
 		if(playerHQ != null) {
 			renderHQ(playerHQ, g);
+		
+		renderHud(g, player);
 		}
 		
 	}

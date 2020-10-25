@@ -14,6 +14,8 @@ import jig.Vector;
 public class WizardCharacter extends Entity{
 	
 	private Vector velocity;
+	private int maxHealth;
+	private int maxMana;
 	private int health;
 	private int mana;
 	private int soulCount;
@@ -30,6 +32,10 @@ public class WizardCharacter extends Entity{
 		moveSheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.CHAR_RSC_MAIN), 32, 32, 4, 0);
 		attackSheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.CHAR_RSC_ATK), 32, 32, 4, 0);
 		this.addImageWithBoundingBox(moveSheet.getSprite(0, 0));
+		this.maxHealth = 100;
+		this.maxMana = 100;
+		this.health = 50;
+		this.mana = 100;
 	}
 	
 	public Vector getVelocity() {
@@ -40,8 +46,20 @@ public class WizardCharacter extends Entity{
 		return soulCount;
 	}
 	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+	
 	public int getMana() {
 		return mana;
+	}
+	
+	public int getMaxMana() {
+		return maxMana;
 	}
 		
 	public int getMapPosX() {
@@ -66,20 +84,36 @@ public class WizardCharacter extends Entity{
 		health = health - dmg;
 	}
 	
-	public void castFireBall() {
-		
+	public boolean castFireBall() {
+		if(mana >= 10) {
+			mana -= 10;
+			return true;
+		}
+		return false;
 	}
 	
-	public void castHaste() {
-		
+	public boolean castHaste() {
+		if(mana >= 15) {
+			mana -= 15;
+			return true;
+		}
+		return false;		
 	}
 	
-	public void castHeal() {
-		
+	public boolean castHeal() {
+		if(mana >= 25) {
+			mana -= 25;
+			return true;
+		}
+		return false;
 	}
 	
-	public void castMageArmor() {
-		
+	public boolean castMageArmor() {
+		if(mana >= 50) {
+			mana -= 50;
+			return true;
+		}
+		return false;
 	}
 	
 	public void collectSoul(int soulCount) {

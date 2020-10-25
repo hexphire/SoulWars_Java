@@ -18,6 +18,7 @@ import jig.Vector;
 public class SoulWarsUnit extends Entity implements Mover {
 	
 	private Vector velocity;
+	private int maxHealth;
 	private int health;
 	private int soulCount;
 	private int attack;
@@ -34,6 +35,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 		if(type == 1) {
 			unitType = 1;
 			isRanged = false;
+			maxHealth = 5;
 			health = 5;
 			soulCount = 1;
 			currentPath = new Stack<Step>();
@@ -136,6 +138,10 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public int getHealth() {
 		
 		return health;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 	
 	

@@ -82,6 +82,18 @@ public class SoulWarsCamera {
 		
 	}
 	
+	public void renderHQ(ArrayList<SoulWarsHQ> headquatersList, Graphics g) {
+		for(SoulWarsHQ headquaters : headquatersList) {
+			if((headquaters.getX()/tileWidth) > this.xOffSet && (headquaters.getY()/tileHeight) > this.yOffSet ) {	
+				if(headquaters.getX() < 1024 + (xOffSet*64)) {
+					g.translate(-xOffSet*64,-yOffSet*64);
+					headquaters.render(g);
+					g.translate(xOffSet*64, yOffSet*64);
+				}
+			}
+		}
+	}
+	
 	public void renderSouls(ArrayList<SoulWarsSoul> soulList, Graphics g) {
 		for(SoulWarsSoul soul : soulList) {
 			if((soul.getX()/tileWidth) > this.xOffSet && (soul.getY()/tileHeight) > this.yOffSet ) {	
@@ -166,6 +178,8 @@ public class SoulWarsCamera {
 		ArrayList<SoulWarsUnit> units = currentGame.getUnits();
 		ArrayList<Projectile> projectiles = currentGame.getProjectiles();
 		ArrayList<SoulWarsSoul> souls = currentGame.getSoulList();
+		ArrayList<SoulWarsHQ> playerHQ = currentGame.getHQs();
+		
 		if(terrain != null)
 			renderTerrain(terrain, g);
 		if(units != null)
@@ -176,6 +190,9 @@ public class SoulWarsCamera {
 			renderProjectile(projectiles, g);
 		if(souls != null)
 			renderSouls(souls, g);
+		if(playerHQ != null) {
+			renderHQ(playerHQ, g);
+		}
 		
 	}
 	

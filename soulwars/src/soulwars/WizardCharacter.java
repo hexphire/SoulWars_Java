@@ -15,6 +15,7 @@ public class WizardCharacter extends Entity{
 	
 	private Vector velocity;
 	private int health;
+	private int mana;
 	private int soulCount;
 	private int attack;
 	private SpriteSheet moveSheet;
@@ -37,6 +38,10 @@ public class WizardCharacter extends Entity{
 	
 	public int getSoulCount() {
 		return soulCount;
+	}
+	
+	public int getMana() {
+		return mana;
 	}
 		
 	public int getMapPosX() {

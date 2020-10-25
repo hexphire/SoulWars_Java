@@ -28,6 +28,10 @@ public class SoulWarsMap implements TileBasedMap{
 	private ArrayList<SoulWarsSoul> souls;
 	private SoulWarsHQ playerHQ;
 	private SoulWarsHQ enemyHQ;
+	private SoulWarsHQ enemyHQTower1;
+	private SoulWarsHQ enemyHQTower2; 
+	private SoulWarsHQ enemyCampTower1;
+	private SoulWarsHQ enemyCampTower2;
 	
 	private WizardCharacter player;
 	private boolean[][] visited;
@@ -100,9 +104,20 @@ public class SoulWarsMap implements TileBasedMap{
 		return player;
 	}
 	
-	public SoulWarsHQ getPlayerHQ() {
-		return playerHQ;
+	public ArrayList<SoulWarsHQ> getHQs() {
+		ArrayList<SoulWarsHQ> HQList = new ArrayList<SoulWarsHQ>(6);
+		HQList.add(playerHQ);
+		HQList.add(enemyHQ);
+		HQList.add(enemyHQTower1);
+		HQList.add(enemyHQTower2);
+		HQList.add(enemyCampTower1);
+		HQList.add(enemyCampTower2);
+		
+		
+		return HQList;
 	}
+	
+	
 	
 	public SoulWarsHQ getEnemyHQ() {
 		return enemyHQ;
@@ -220,6 +235,11 @@ public class SoulWarsMap implements TileBasedMap{
 		souls = new ArrayList<SoulWarsSoul>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
 		playerHQ = new SoulWarsHQ((2*tileWidth) + 16,(2*tileHeight) + 32, 0, 0);
+		enemyHQ = new SoulWarsHQ((mapWidth-2)*tileWidth, (mapHeight -2 )*tileHeight, 1, 1);
+		enemyHQTower1 = new SoulWarsHQ((mapWidth - 9)*tileWidth, (mapHeight - 7)*tileHeight, 1, 2);
+		enemyHQTower2 = new SoulWarsHQ(((mapWidth- 6)*tileWidth)-20, (mapHeight - 9)*tileHeight, 1, 2);
+		enemyCampTower1 = new SoulWarsHQ(((mapWidth - 7)*tileWidth)-32, (mapHeight/2)*tileHeight, 1, 2);
+		enemyCampTower2 = new SoulWarsHQ((((mapWidth/2) - 1)*tileWidth)-32, (mapHeight - 5)*tileHeight, 1, 2);
 
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {

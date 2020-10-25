@@ -141,7 +141,7 @@ public class PlayingState extends BasicGameState {
 		//unit test controls
 		if(input.isKeyDown(Input.KEY_LSHIFT)){
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				Vector mouseVec = new Vector(input.getMouseX(),input.getMouseY());
+				Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
 				Vector playerPos = player.getPosition();
 				double shotAngle = playerPos.angleTo(mouseVec);
 				Projectile fireball = new Projectile(playerPos.getX() ,playerPos.getY(), Vector.getVector(shotAngle, 2f), 1);
@@ -182,20 +182,20 @@ public class PlayingState extends BasicGameState {
 		
 		//Camera controls
 		if (input.isKeyDown(Input.KEY_UP)){
-			gameView.moveCameraY(-1, delta);
+			gameView.moveCameraY(-1, delta*2);
 			
 		}	
 		if (input.isKeyDown(Input.KEY_DOWN)){
-			gameView.moveCameraY(1, delta);
+			gameView.moveCameraY(1, delta*2);
 		}	
 		
 
 		if (input.isKeyDown(Input.KEY_LEFT)){
-			gameView.moveCameraX(-1, delta);
+			gameView.moveCameraX(-1, delta*2);
 			
 		}	
 		if (input.isKeyDown(Input.KEY_RIGHT)){
-			gameView.moveCameraX(1, delta);
+			gameView.moveCameraX(1, delta*2);
 		}
 		
 		

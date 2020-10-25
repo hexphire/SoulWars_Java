@@ -11,10 +11,10 @@
 - **[7]** Improve unit selection
 - **[8]**  Add Player Character.
 - **[9]**  Add souls.
+- **[10]** Add HQ.
+
 ## Open Issues ##
 
-- **[10]** Add HQ.
-- **[12]** Add HUD.
-- **[13]** Add HQ health, soul counter, unit healthbars.
-- **[16]** Test friendly unit follow/attack.
-- **[17]** Make it fun.
+- **[12]** Add HUD, Add HQ health, soul counter, unit healthbars.
+- **[13]** Test friendly unit follow/attack.
+- **[14]** Make it fun.

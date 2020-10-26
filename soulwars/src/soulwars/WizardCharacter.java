@@ -105,7 +105,7 @@ public class WizardCharacter extends Entity{
 	public boolean castFireball() {
 		if(mana >= 10) {
 			mana -= 10;
-			fireballCooldown = 250;
+			fireballCooldown = 500;
 			return true;
 		}
 		return false;
@@ -121,7 +121,7 @@ public class WizardCharacter extends Entity{
 	public boolean castHaste() {
 		if(mana >= 15) {
 			mana -= 15;
-			hasteCooldown = 60000;
+			hasteCooldown = 6000;
 			return true;
 		}
 		return false;		
@@ -137,7 +137,7 @@ public class WizardCharacter extends Entity{
 	public boolean castHeal() {
 		if(mana >= 25 && soulCount > 5) {
 			mana -= 25;
-			healCooldown = 50000;
+			healCooldown = 5000;
 			return true;
 		}
 		return false;
@@ -154,7 +154,7 @@ public class WizardCharacter extends Entity{
 		if(mana >= 50 && soulCount >= 1) {
 			soulCount -= 1;
 			mana -= 50;
-			summonCooldown = 30000;
+			summonCooldown = 10000;
 			return true;
 		}
 		return false;
@@ -172,11 +172,16 @@ public class WizardCharacter extends Entity{
 	}
 	
 	public void update(final int delta) {
-		fireballCooldown -= delta;
-		healCooldown -= delta;
-		hasteCooldown -= delta;
-		summonCooldown -= delta;
-		manaRegenTick -= delta;
+		if(fireballCooldown > 0)
+			fireballCooldown -= delta;
+		if(healCooldown > 0)
+			healCooldown -= delta;
+		if(hasteCooldown > 0)
+			hasteCooldown -= delta;
+		if(summonCooldown > 0)
+			summonCooldown -= delta;
+		if (manaRegenTick > 0)
+			manaRegenTick -= delta;
 		if(manaRegenTick <= 0) {
 			manaRegenTick = 250;
 			if(mana < maxMana) {

@@ -25,6 +25,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private int team;
 	private boolean isRanged;
 	private int unitType;
+	private int attackCooldown;
 	private Stack<Step> currentPath;
 	Image unitSprite;
 	
@@ -40,6 +41,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 			maxHealth = 5;
 			health = 5;
 			soulCount = 1;
+			attack = 1;
 			currentPath = new Stack<Step>();
 			if(team == 0) {
 				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_BLUW);
@@ -54,6 +56,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 			maxHealth = 2;
 			health = 2;
 			soulCount = 1;
+			attack = 0;
 			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_WDMN);
 		}
 		addImageWithBoundingBox(unitSprite);
@@ -86,6 +89,13 @@ public class SoulWarsUnit extends Entity implements Mover {
 		return mapPos;
 	}
 	
+	public boolean attackCooldownCheck() {
+		if(attackCooldown <= 0) {
+			attackCooldown = 250;
+			return true;
+		}
+		return false;
+	}
 
 	public void setVelocity(int dx, int dy) {
 		velocity = new Vector(dx,dy);		
@@ -139,6 +149,9 @@ public class SoulWarsUnit extends Entity implements Mover {
 		if(currentPath.empty() != true) {
 			velocity = followPath();
 			translate(velocity.scale(delta));
+		}
+		if(attackCooldown > 0) {
+			attackCooldown -= delta;
 		}
 			
 	}

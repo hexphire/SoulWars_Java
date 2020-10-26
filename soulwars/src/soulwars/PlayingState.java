@@ -158,7 +158,7 @@ public class PlayingState extends BasicGameState {
 						Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
 						Vector playerPos = player.getPosition();
 						double shotAngle = playerPos.angleTo(mouseVec);
-						Projectile fireball = new Projectile(playerPos.getX() ,playerPos.getY(), Vector.getVector(shotAngle, 2f), 1);
+						Projectile fireball = new Projectile(playerPos.getX() + 2 ,playerPos.getY() + 2, Vector.getVector(shotAngle, 2f), 1);
 						fireball.rotate(180);
 						fireball.rotate(shotAngle);
 						swg.gameMap.addProjectile(fireball);

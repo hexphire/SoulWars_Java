@@ -26,7 +26,7 @@ public class Projectile extends Entity {
 			
 		}else if(this.type == 1) {
 			sheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.SPELL_RSC_FRBL), 60, 60, 4, 0);
-			this.addImageWithBoundingBox(sheet.getSprite(3, 0));
+			this.addImageWithBoundingBox(sheet.getSprite(3, 0).getScaledCopy(.4f));
 		}
 	}
 	

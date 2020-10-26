@@ -265,12 +265,23 @@ public class SoulWarsMap implements TileBasedMap{
 			}
 		}
 		
-		units.add(new SoulWarsUnit(4*tileWidth,4*tileHeight, 1, 0, 0));
-		units.add(new SoulWarsUnit((4*tileWidth)-16,(3*tileHeight)+16, 1, 0, 0));
-		units.add(new SoulWarsUnit((3*tileWidth)+16,(4*tileHeight)+16, 1, 0, 0));
+		//beginning friendlies
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 2*tileHeight, 1, 0, 0));
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 3*tileHeight, 1, 0, 0));
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 4*tileHeight, 1, 0, 0));		
 		
-		
-		
+		//EastTower
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 1*tileWidth,enemyEastTower.getY() + 1*tileHeight, 1, 1, 1));
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 2*tileWidth,enemyEastTower.getY() + 2*tileHeight, 1, 1, 1));
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 3*tileWidth,enemyEastTower.getY() + 3*tileHeight, 1, 1, 1));
+		//SouthTower
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 1*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 2*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 3*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		//Headquarters
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 1*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 2*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 3*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
 	}
 	
 	public void printMapArray() {

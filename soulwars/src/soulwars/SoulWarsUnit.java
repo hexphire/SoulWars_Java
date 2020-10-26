@@ -28,6 +28,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private int unitType;
 	private int attackCooldown;
 	private Stack<Step> currentPath;
+	private Entity currentTarget;
 	Image unitSprite;
 	
 	
@@ -176,6 +177,10 @@ public class SoulWarsUnit extends Entity implements Mover {
 		return health;
 	}
 	
+	public void heal(int amount) {
+		this.health += amount;
+	}
+	
 	public int getMaxHealth() {
 		return maxHealth;
 	}
@@ -183,6 +188,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public int getTeam() {
 		
 		return this.team;
+	}
+
+	public Entity getCurrentTarget() {
+		
+		return currentTarget;
 	}
 	
 	

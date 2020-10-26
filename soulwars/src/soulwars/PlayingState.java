@@ -354,12 +354,20 @@ public class PlayingState extends BasicGameState {
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
 				if(unit.getTeam() == 0) {
+					if(unit.getPosition().epsilonEquals(swg.gameMap.getPlayerHQ().getPosition(), 164)) {
+						if(unit.getHealth() < unit.getMaxHealth()) {
+							if(swg.gameMap.getPlayerHQ().healCooldownCheck()) {
+								unit.heal(1);
+							}
+						}
+					}
 					if(unitsFollow) {
-						if(!unit.getPosition().epsilonEquals(player.getPosition(), 128)) {
+						if(!unit.getPosition().epsilonEquals(player.getPosition(), 64)) {
 							unit.clearPath();
 							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), player.getMapPosX(), player.getMapPosY()));
 						}else {
 							unit.clearPath();
+							
 						}
 					}
 					if(unitsDismiss) {
@@ -374,14 +382,22 @@ public class PlayingState extends BasicGameState {
 				}
 				
 				if(unit.getTeam() == 1) {
-					if((float)unit.getHealth() < (float) unit.getMaxHealth() * .1f ) {
-						if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 128)) {
+					if(unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 164)) {
+						if(unit.getHealth() < unit.getMaxHealth()) {
+							if(swg.gameMap.getEnemyHQ().healCooldownCheck()) {
+								unit.heal(1);
+							}
+						}
+					}
+					
+					if((float)unit.getHealth() < (float) 2 ) {
+						if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 164)) {
 							unit.clearPath();
 							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyHQ().getMapPosX(), swg.gameMap.getEnemyHQ().getMapPosY()));
 						}else {
 							unit.clearPath();
 						}					
-					}else {
+					}else if (unit.getHealth() == unit.getMaxHealth() && unit.getCurrentTarget() == null){
 						if(unit.getGroup() == 0) {
 							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 190)) {
 								unit.clearPath();
@@ -453,6 +469,10 @@ public class PlayingState extends BasicGameState {
 			projectile.update(delta);
 		}
 		projectiles.removeAll(deadProject);
+		swg.gameMap.getPlayerHQ().update(delta);
+		swg.gameMap.getEnemyHQ().update(delta);
+		swg.gameMap.getEnemyEastTower().update(delta);
+		swg.gameMap.getEnemySouthTower().update(delta);
 		player.update(delta);
 		prevPlayerPostion = player.getPosition();
 		System.out.println(delta);

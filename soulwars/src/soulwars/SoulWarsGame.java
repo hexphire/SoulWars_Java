@@ -106,6 +106,8 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(UI_3KEY_RSC);
 		ResourceManager.loadImage(UI_4KEY_RSC);
 		ResourceManager.loadImage(UNIT_RSC_WDMN);
+		ResourceManager.loadImage(TITLE_RSC);
+		ResourceManager.loadImage(GAMEOVER_RSC);
 		
 		
 		rndm = new Random();

@@ -23,6 +23,9 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
+		SoulWarsGame swg = (SoulWarsGame)game;
+		swg.resetMap();
+		swg.spawnPlayer((6*64)+32, (6*64)+32);
 	}
 
 	@Override
@@ -47,9 +50,7 @@ public class MainMenuState extends BasicGameState {
 
 	@Override
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-		SoulWarsGame swg = (SoulWarsGame)game;
-		swg.resetMap();
-		swg.loadMap();
+		
 	}
 	
 	@Override

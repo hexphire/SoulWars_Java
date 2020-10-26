@@ -55,7 +55,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int HEIGHT = 1024;
 	public static final int FPS = 60;
 	public static final double VERSION = .05;
-	public final boolean Debug = false;
+	public boolean Debug = false;
 	
 	
 	
@@ -168,7 +168,7 @@ public class SoulWarsGame extends StateBasedGame {
 	}
 	
 	public void resetMap() {
-		map = null;
+		gameMap.loadNewMap(map);
 	}
 	
 	

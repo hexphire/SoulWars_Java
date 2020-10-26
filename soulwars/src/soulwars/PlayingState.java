@@ -383,6 +383,12 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		if(input.isKeyPressed(Input.KEY_DELETE)) {
+			if(swg.Debug == true) {
+				swg.gameMap.getPlayer().takeDamage(player.getMaxHealth());
+			}
+		}
+		
 		if(swg.gameMap.getEnemyHQ() != null) {
 			if(player.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 190)) {
 				if(swg.gameMap.getEnemyHQ().attackCooldownCheck()) {

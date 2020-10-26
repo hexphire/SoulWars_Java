@@ -27,6 +27,8 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private boolean isRanged;
 	private int unitType;
 	private int attackCooldown;
+	private float hasteMult;
+	private int hasteDuration;
 	private Stack<Step> currentPath;
 	private Entity currentTarget;
 	Image unitSprite;
@@ -39,6 +41,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 		this.unitType = type;
 		this.team = team;
 		this.group = group;
+		this.hasteMult = 1;
 		if(unitType == 1) {
 			isRanged = false;
 			maxHealth = 5;
@@ -125,6 +128,10 @@ public class SoulWarsUnit extends Entity implements Mover {
 			}
 		}
 	}
+	public void underHaste() {
+		hasteMult = 2.5f;
+		hasteDuration = 1800;
+	}
 	
 	public Stack<Step> getPath() {
 		return this.currentPath;
@@ -159,10 +166,15 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public void update(final int delta) {
 		if(currentPath.empty() != true) {
 			velocity = followPath();
-			translate(velocity.scale(delta));
+			translate(velocity.scale(delta).scale(hasteMult));
 		}
 		if(attackCooldown > 0) {
 			attackCooldown -= delta;
+		}
+		if(hasteDuration > 0) {
+			hasteDuration -= delta;
+		}else {
+			hasteMult = 1;
 		}
 			
 	}

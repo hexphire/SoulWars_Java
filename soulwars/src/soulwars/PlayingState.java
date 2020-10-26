@@ -304,7 +304,11 @@ public class PlayingState extends BasicGameState {
 			if(currentSpellHaste) {
 				if(player.hasteCooldownCheck()) {
 					if(player.castHaste()) {
-						
+						for(SoulWarsUnit unit : units) {
+							if(unit.getTeam() == 0) {
+								unit.underHaste();
+							}
+						}
 					}
 				}
 			}
@@ -607,6 +611,12 @@ public class PlayingState extends BasicGameState {
 		player.update(delta);
 		prevPlayerPostion = player.getPosition();
 		System.out.println(delta);
+		if(player.getHealth() <= 0) {
+			
+		}
+		if(swg.gameMap.getEnemyHQ().getHealth() <= 0) {
+			
+		}
 	}
 
 	

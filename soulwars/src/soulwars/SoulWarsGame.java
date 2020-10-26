@@ -21,6 +21,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int SPLASHSCREENSTATE = 0;
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYINGSTATE = 2;
+	public static final int GAMEOVERSTATE = 3;
 	
 	//Tile Identifiers
 	public static final String TILE_RSC_59 = "soulwars/resources/medievalTile_15.png";
@@ -31,6 +32,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UNIT_RSC_WDMN = "soulwars/resources/medievalUnit_18.png";
 	public static final String CHAR_RSC_ATK = "soulwars/resources/necroattackSheet.png";
 	public static final String SPELL_RSC_FRBL = "soulwars/resources/fireballsheet.png";
+	public static final String TWR_ARW_RSC = "soulwars/resources/TowerArrow.png";
 	public static final String SOUL_RSC_MAIN = "soulwars/resources/sSoul.png";
 	public static final String HQ_TOP_RSC = "soulwars/resources/medievalStructure_02.png";
 	public static final String HQ_BOTTOM_RSC = "soulwars/resources/medievalStructure_06.png";
@@ -46,6 +48,8 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UI_2KEY_RSC = "soulwars/resources/2_Key_Light.png";
 	public static final String UI_3KEY_RSC = "soulwars/resources/3_Key_Light.png";
 	public static final String UI_4KEY_RSC = "soulwars/resources/4_Key_Light.png";
+	public static final String TITLE_RSC = "soulwars/resources/Title.png";
+	public static final String GAMEOVER_RSC = "soulwars/resources/GameOver.png";
 	
 	
 	//App properties
@@ -53,7 +57,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int HEIGHT = 1024;
 	public static final int FPS = 60;
 	public static final double VERSION = .05;
-	public final boolean Debug = false;
+	public boolean Debug = false;
 	
 	
 	
@@ -76,6 +80,7 @@ public class SoulWarsGame extends StateBasedGame {
 		addState(new StartSplashState());
 		addState(new MainMenuState());
 		addState(new PlayingState());
+		addState(new GameOverState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		ResourceManager.loadImage(TILE_RSC_59);
 		ResourceManager.loadImage(TILE_RSC_101);
@@ -84,6 +89,7 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(CHAR_RSC_MAIN);
 		ResourceManager.loadImage(CHAR_RSC_ATK);
 		ResourceManager.loadImage(SPELL_RSC_FRBL);
+		ResourceManager.loadImage(TWR_ARW_RSC);
 		ResourceManager.loadImage(SOUL_RSC_MAIN);
 		ResourceManager.loadImage(HQ_TOP_RSC);
 		ResourceManager.loadImage(HQ_BOTTOM_RSC);
@@ -161,6 +167,10 @@ public class SoulWarsGame extends StateBasedGame {
 		} catch(SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void resetMap() {
+		gameMap.loadNewMap(map);
 	}
 	
 	

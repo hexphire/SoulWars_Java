@@ -43,12 +43,14 @@ public class WizardCharacter extends Entity{
 		this.maxMana = 100;
 		this.health = 100;
 		this.mana = 100;
-		this.manaRegenMult = .01f;
+		this.soulCount = 10;
+		this.manaRegenMult = .01f + (soulCount * .0025f);
 		this.fireballCooldown = 0;
 		this.healCooldown = 0;
 		this.hasteCooldown = 0;
 		this.summonCooldown = 0;
 		this.manaRegenTick = 0;
+		
 	}
 	
 	public Vector getVelocity() {
@@ -121,7 +123,7 @@ public class WizardCharacter extends Entity{
 	public boolean castHaste() {
 		if(mana >= 15) {
 			mana -= 15;
-			hasteCooldown = 6000;
+			hasteCooldown = 3000;
 			return true;
 		}
 		return false;		
@@ -137,7 +139,7 @@ public class WizardCharacter extends Entity{
 	public boolean castHeal() {
 		if(mana >= 25 && soulCount > 5) {
 			mana -= 25;
-			healCooldown = 5000;
+			healCooldown = 2000;
 			return true;
 		}
 		return false;
@@ -154,7 +156,7 @@ public class WizardCharacter extends Entity{
 		if(mana >= 50 && soulCount >= 1) {
 			soulCount -= 1;
 			mana -= 50;
-			summonCooldown = 10000;
+			summonCooldown = 3500;
 			return true;
 		}
 		return false;
@@ -172,6 +174,7 @@ public class WizardCharacter extends Entity{
 	}
 	
 	public void update(final int delta) {
+		manaRegenMult = .01f + (soulCount * .0025f);
 		if(fireballCooldown > 0)
 			fireballCooldown -= delta;
 		if(healCooldown > 0)
@@ -185,7 +188,7 @@ public class WizardCharacter extends Entity{
 		if(manaRegenTick <= 0) {
 			manaRegenTick = 250;
 			if(mana < maxMana) {
-				mana += maxMana * manaRegenMult;
+				mana += maxMana * (manaRegenMult);
 				if(mana > maxMana) {
 					mana = maxMana;
 				}

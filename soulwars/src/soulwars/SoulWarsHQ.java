@@ -15,6 +15,7 @@ public class SoulWarsHQ extends Entity {
 	private int soulCount;
 	private int type;
 	private int healCooldown;
+	private int attackCooldown;
 	
 	
 	public SoulWarsHQ(float x, float y, int team, int type) {
@@ -91,6 +92,14 @@ public class SoulWarsHQ extends Entity {
 		return armor;
 	}
 	
+	public boolean attackCooldownCheck() {
+		if(attackCooldown <= 0) {
+			attackCooldown = 1500;
+			return true;
+		}
+		return false;
+	}
+	
 	public void damageArmor() {
 		if(armor > 0)
 			armor -= 10;		
@@ -126,6 +135,9 @@ public class SoulWarsHQ extends Entity {
 			healCooldown -= delta;
 		}else if (healCooldown < 0) {
 			resetHealCooldown();
+		}
+		if(attackCooldown > 0) {
+			attackCooldown -= delta;
 		}
 	}
 

@@ -24,6 +24,7 @@ public class SoulWarsCamera {
 	
 	
 	SoulWarsMap currentGame;
+	public boolean Debug;
 	
 	
 	public SoulWarsCamera(SoulWarsMap map) {
@@ -292,7 +293,7 @@ public class SoulWarsCamera {
 				}
 			}
 			
-			if(unit.getPath() != null) {
+			if(unit.getPath() != null && Debug) {
 				renderPath(unit.getPath(), g);
 			}
 			g.flush();
@@ -319,22 +320,21 @@ public class SoulWarsCamera {
 		ArrayList<SoulWarsSoul> souls = currentGame.getSoulList();
 		ArrayList<SoulWarsHQ> playerHQ = currentGame.getHQs();
 		
-		if(terrain != null)
-			renderTerrain(terrain, g);
-		if(units != null)
-			renderUnits(units, g);
-		if(player != null)
-			renderPlayer(player,g);
-		if(projectiles != null)
-			renderProjectile(projectiles, g);
-		if(souls != null)
-			renderSouls(souls, g);
-		if(playerHQ != null) {
-			renderHQ(playerHQ, g);
-		
-		renderHud(g, player);
-		}
-		
+			if(terrain != null)
+				renderTerrain(terrain, g);
+			if(units != null)
+				renderUnits(units, g);
+			if(player != null)
+				renderPlayer(player,g);
+			if(projectiles != null)
+				renderProjectile(projectiles, g);
+			if(souls != null)
+				renderSouls(souls, g);
+			if(playerHQ != null) 
+				renderHQ(playerHQ, g);
+			if(player != null) 
+				renderHud(g, player);
+			
 	}
 	public void resetCamera() {
 		// TODO Auto-generated method stub

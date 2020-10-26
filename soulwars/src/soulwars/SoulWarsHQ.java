@@ -6,8 +6,11 @@ import jig.Vector;
 
 public class SoulWarsHQ extends Entity {
 	private int health;
+	private int maxHealth;
 	private int energy;
+	private int maxEnergy;
 	private int armor;	
+	private int maxArmor;
 	private int team;
 	private int soulCount;
 	private int type;
@@ -20,17 +23,27 @@ public class SoulWarsHQ extends Entity {
 		
 		if(type == 0) {
 			this.addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.HQ_PLAYER_RSC).getScaledCopy(.5f));
+			this.maxHealth = 100;
+			this.health = 100;
+			this.maxArmor = 100;
 			this.armor = 100;
 		}
 		
 		if(type == 1) {
 			this.addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.HQ_BOTTOM_RSC));
 			this.addImage(ResourceManager.getImage(SoulWarsGame.HQ_TOP_RSC), new Vector(0, -64));
+			this.maxHealth = 100;
+			this.health = 100;
+			this.maxArmor = 100;
 			this.armor = 100;
 		}
 		
 		if(type == 2) {
 			this.addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.HQ_TOWER_RSC));
+			this.maxHealth = 75;
+			this.health = 75;
+			this.maxArmor = 50;
+			this.armor = 50;
 		}
 		
 		
@@ -40,6 +53,17 @@ public class SoulWarsHQ extends Entity {
 		this.soulCount += soul;
 	}
 	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getMaxArmor() {
+		return maxArmor;
+	}
 	public int getArmor() {
 		return armor;
 	}
@@ -60,8 +84,6 @@ public class SoulWarsHQ extends Entity {
 		return team;
 	}
 	
-	public int getHealth() {
-		return health;
-	}
+	
 
 }

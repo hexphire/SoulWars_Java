@@ -18,9 +18,11 @@ import jig.Vector;
 public class SoulWarsUnit extends Entity implements Mover {
 	
 	private Vector velocity;
+	private int maxHealth;
 	private int health;
 	private int soulCount;
 	private int attack;
+	private int team;
 	private boolean isRanged;
 	private int unitType;
 	private Stack<Step> currentPath;
@@ -29,16 +31,21 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	
 	
-	public SoulWarsUnit(final float x, final float y, int type) {
+	public SoulWarsUnit(final float x, final float y, int type, int team) {
 		super(x, y);
-		if(type == 1) {
-			unitType = 1;
+		this.unitType = type;
+		this.team = team;
+		if(unitType == 1) {
 			isRanged = false;
+			maxHealth = 5;
 			health = 5;
 			soulCount = 1;
 			currentPath = new Stack<Step>();
-			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
-			unitSprite.setFilter(Image.FILTER_LINEAR);
+			if(team == 0) {
+				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_BLUW);
+			}else if(team == 1) {
+				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
+			}
 			addImageWithBoundingBox(unitSprite);
 			setVelocity(0,0);
 			
@@ -136,6 +143,10 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public int getHealth() {
 		
 		return health;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 	
 	

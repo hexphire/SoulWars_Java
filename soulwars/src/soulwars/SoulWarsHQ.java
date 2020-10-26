@@ -91,6 +91,20 @@ public class SoulWarsHQ extends Entity {
 		return armor;
 	}
 	
+	public void damageArmor() {
+		if(armor > 0)
+			armor -= 10;		
+	}
+	
+	public void takeDamage(int damage) {
+		if(armor <= 0) {
+			if(health > 0) {
+				health -= damage;
+			}
+		}
+			
+	}
+	
 	public int getEnergy() {
 		return energy;
 	}
@@ -114,6 +128,10 @@ public class SoulWarsHQ extends Entity {
 			resetHealCooldown();
 		}
 	}
+
+	
+
+	
 	
 	
 

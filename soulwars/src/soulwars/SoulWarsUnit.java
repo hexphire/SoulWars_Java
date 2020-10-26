@@ -198,6 +198,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public void setTarget(Entity entity) {
 		currentTarget = entity;		
 	}
+
+	public void clearTarget() {
+		currentTarget = null;
+		
+	}
 	
 	
 	

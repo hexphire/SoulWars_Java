@@ -456,12 +456,22 @@ public class PlayingState extends BasicGameState {
 				}
 				
 				if(unit.getTeam() == 1) {
+					
 					if(unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 164)) {
 						if(unit.getHealth() < unit.getMaxHealth()) {
 							if(swg.gameMap.getEnemyHQ().healCooldownCheck()) {
 								unit.heal(1);
 							}
 						}
+					}
+					
+					if(unit.getPosition().epsilonEquals(player.getPosition(), 190)) {
+						unit.setTarget(player);
+						unit.clearPath();
+						unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), player.getMapPosX(), player.getMapPosY()));
+					}else {
+						unit.clearTarget();
+						
 					}
 					
 					if((float)unit.getHealth() < (float) 2 ) {
@@ -503,14 +513,37 @@ public class PlayingState extends BasicGameState {
 					}
 				}
 				for(Projectile projectile : projectiles) {
+					if(projectile.collides(swg.gameMap.getEnemyHQ()) != null) {
+						if(swg.gameMap.getEnemyHQ().getArmor() <= 0) {
+							deadProject.add(projectile);
+							swg.gameMap.getEnemyHQ().takeDamage(5);
+						}
+						
+					}
+					if(projectile.collides(swg.gameMap.getEnemyEastTower()) != null) {
+						if(swg.gameMap.getEnemyEastTower().getArmor() <= 0) {
+							deadProject.add(projectile);
+							swg.gameMap.getEnemyEastTower().takeDamage(5);
+						}
+						
+					}
+					if(projectile.collides(swg.gameMap.getEnemySouthTower()) != null) {
+						if(swg.gameMap.getEnemySouthTower().getArmor() <= 0) {
+							deadProject.add(projectile);
+							swg.gameMap.getEnemySouthTower().takeDamage(5);
+						}
+						
+					}
 					if(unit.collides(projectile) != null) {
 						if(projectile.getType() == 1) {
-							unit.takeDamage(2);
-							unit.translate(unit.collides(projectile).getMinPenetration().scale(delta));
-							deadProject.add(projectile);
-							if(unit.getHealth() <= 0) {
-								deadUnit.add(unit);
-								swg.gameMap.addSoul(new SoulWarsSoul(unit.getX(), unit.getY(), unit.getSoulCount(), false));
+							if(unit.getTeam() == 1) {
+								unit.takeDamage(2);
+								unit.translate(unit.collides(projectile).getMinPenetration().scale(delta));
+								deadProject.add(projectile);
+								if(unit.getHealth() <= 0) {
+									deadUnit.add(unit);
+									swg.gameMap.addSoul(new SoulWarsSoul(unit.getX(), unit.getY(), unit.getSoulCount(), false));
+								}
 							}
 						}
 					}
@@ -518,15 +551,36 @@ public class PlayingState extends BasicGameState {
 				for(SoulWarsUnit collideCheck : units) {
 					if(unit.getVelocity().getX() != 0 & unit.getVelocity().getY() != 0) {
 						if(unit.getHash() != collideCheck.getHash()) {
-							if(unit.collides(collideCheck) != null) {
+							if(unit.collides(collideCheck) != null && collideCheck.getTeam() == unit.getTeam()) {
 								unit.translate(unit.collides(collideCheck).getMinPenetration());
+							}else if(unit.collides(collideCheck) != null) {
+								unit.attack(collideCheck);
+								collideCheck.translate(collideCheck.collides(unit).getMinPenetration().scale(2));
+								
 							}
 						}
 					}
 				}
-				if(unit.collides(player) != null) {
+				if(unit.collides(swg.gameMap.getEnemyHQ()) != null) {
+					deadUnit.add(unit);
+					swg.gameMap.getEnemyHQ().damageArmor();
+				}
+				if(unit.collides(swg.gameMap.getEnemyEastTower()) != null) {
+					deadUnit.add(unit);
+					swg.gameMap.getEnemyEastTower().damageArmor();
+				}
+				if(unit.collides(swg.gameMap.getEnemySouthTower()) != null) {
+					deadUnit.add(unit);
+					swg.gameMap.getEnemySouthTower().damageArmor();
+				}
+				if(unit.collides(player) != null && unit.getTeam() == 0) {
 					unit.translate(unit.collides(player).getMinPenetration().scale(delta/4));
 				}
+				if(unit.collides(player) != null && unit.getTeam() == 1) {
+					player.takeDamage(2);
+					player.translate(player.collides(unit).getMinPenetration().scale(delta*4));
+				}
+				
 			unit.update(delta);
 			}
 
@@ -547,6 +601,9 @@ public class PlayingState extends BasicGameState {
 		swg.gameMap.getEnemyHQ().update(delta);
 		swg.gameMap.getEnemyEastTower().update(delta);
 		swg.gameMap.getEnemySouthTower().update(delta);
+		if(player.getPosition().epsilonEquals(swg.gameMap.getPlayerHQ().getPosition(), 190)) {
+			player.heal(1);
+		}
 		player.update(delta);
 		prevPlayerPostion = player.getPosition();
 		System.out.println(delta);

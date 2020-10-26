@@ -14,7 +14,7 @@
 - **[10]** Add HQ.
 - **[11]** Add HUD, Add HQ health, soul counter, unit healthbars.
 - **[12]** Test friendly unit follow/attack.
-
+- **[13]** Make it fun.
 ## Open Issues ##
 
-- **[13]** Make it fun.
+- **[15]** Polish/bugfixes.

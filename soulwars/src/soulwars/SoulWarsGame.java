@@ -48,6 +48,8 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UI_2KEY_RSC = "soulwars/resources/2_Key_Light.png";
 	public static final String UI_3KEY_RSC = "soulwars/resources/3_Key_Light.png";
 	public static final String UI_4KEY_RSC = "soulwars/resources/4_Key_Light.png";
+	public static final String TITLE_RSC = "soulwars/resources/Title.png";
+	public static final String GAMEOVER_RSC = "soulwars/resources/GameOver.png";
 	
 	
 	//App properties

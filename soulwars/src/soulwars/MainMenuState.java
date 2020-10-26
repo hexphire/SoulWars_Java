@@ -3,11 +3,14 @@ package soulwars;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import jig.ResourceManager;
 
 public class MainMenuState extends BasicGameState {
 
@@ -32,6 +35,9 @@ public class MainMenuState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
+		Image title;
+		title = ResourceManager.getImage(SoulWarsGame.TITLE_RSC);
+		title.draw(150,250);
 		g.setColor(Color.white);
 		g.drawString("press space to begin", swg.screenWidth/2 - 100, swg.screenHeight/2);
 		g.setColor(Color.black);

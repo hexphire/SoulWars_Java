@@ -65,6 +65,27 @@ public class SoulWarsCamera {
 		return yOffSet;
 	}
 	
+	public void renderSelectedSpell(Graphics g, int spell) {
+		if(spell == 0) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 770, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 1) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 820, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 2) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 870, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 3) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 920, 200, 40 );
+			g.setColor(Color.black);
+		}
+		
+	}
+	
 	public void renderHud(Graphics g, WizardCharacter player) {
 		Image uiBackground = ResourceManager.getImage(SoulWarsGame.UI_BACK_RSC);
 		float barWidth = 125;
@@ -89,23 +110,25 @@ public class SoulWarsCamera {
 		
 		
 		g.drawString("Spells: Mana & Soul cost", 1050, 200);
-		if(player.getMana() < 10) {
+		if(player.getMana() < 10 || !player.fireballCooldownCheck()) {
 			g.setColor(Color.white);
 		}
 		g.drawString("Fireball: 10 & 0", 1050, 220);
 		g.setColor(Color.black);
-		if(player.getMana() < 15) {
+		if(player.getMana() < 15 || !player.hasteCooldownCheck()) {
 			g.setColor(Color.white);
 		}
 		g.drawString("Haste: 15 & 0", 1050, 240);
-		g.setColor(Color.black);
-		if(player.getMana() < 25 || player.getSoulCount() < 5) {
-			g.setColor(Color.white);
+		g.setColor(Color.white);
+		if(player.getMana() >= 25 && player.getSoulCount() >= 5) {
+			if(player.hasteCooldownCheck())
+				g.setColor(Color.black);
 		}
 		g.drawString("Heal: 25 & at least 5", 1050, 260);
-		g.setColor(Color.black);
-		if(player.getMana() < 50 || player.getSoulCount() < 1) {
-			g.setColor(Color.white);
+		g.setColor(Color.white);
+		if(player.getMana() > 50 && player.getSoulCount() > 1) {
+			if(player.summonCooldownCheck())
+				g.setColor(Color.black);
 		}
 		g.drawString("Summon Unit: 50 & 1", 1050, 280);
 		g.setColor(Color.black);

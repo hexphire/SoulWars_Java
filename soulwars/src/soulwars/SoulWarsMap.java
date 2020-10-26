@@ -8,6 +8,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+import jig.Entity;
 import jig.ResourceManager;
 
 
@@ -30,8 +31,8 @@ public class SoulWarsMap implements TileBasedMap{
 	private SoulWarsHQ enemyHQ;
 	private SoulWarsHQ enemyHQTower1;
 	private SoulWarsHQ enemyHQTower2; 
-	private SoulWarsHQ enemyCampTower1;
-	private SoulWarsHQ enemyCampTower2;
+	private SoulWarsHQ enemyEastTower;
+	private SoulWarsHQ enemySouthTower;
 	
 	private WizardCharacter player;
 	private boolean[][] visited;
@@ -110,14 +111,25 @@ public class SoulWarsMap implements TileBasedMap{
 		HQList.add(enemyHQ);
 		HQList.add(enemyHQTower1);
 		HQList.add(enemyHQTower2);
-		HQList.add(enemyCampTower1);
-		HQList.add(enemyCampTower2);
+		HQList.add(enemyEastTower);
+		HQList.add(enemySouthTower);
 		
 		
 		return HQList;
 	}
 	
-	
+	public SoulWarsHQ getPlayerHQ() {
+		// TODO Auto-generated method stub
+		return playerHQ;
+	}
+	public SoulWarsHQ getEnemyEastTower() {
+		// TODO Auto-generated method stub
+		return enemyEastTower;
+	}
+	public SoulWarsHQ getEnemySouthTower() {
+		// TODO Auto-generated method stub
+		return enemySouthTower;
+	}	
 	
 	public SoulWarsHQ getEnemyHQ() {
 		return enemyHQ;
@@ -234,12 +246,12 @@ public class SoulWarsMap implements TileBasedMap{
 		projectiles = new ArrayList<Projectile>(mapWidth * mapHeight);
 		souls = new ArrayList<SoulWarsSoul>(mapWidth * mapHeight);
 		visited = new boolean[mapWidth][mapHeight];
-		playerHQ = new SoulWarsHQ((2*tileWidth) + 16,(2*tileHeight) + 32, 0, 0);
+		playerHQ = new SoulWarsHQ((2*tileWidth) + 32,(2*tileHeight) + 32, 0, 0);
 		enemyHQ = new SoulWarsHQ((mapWidth-2)*tileWidth, (mapHeight -2 )*tileHeight, 1, 1);
 		enemyHQTower1 = new SoulWarsHQ((mapWidth - 9)*tileWidth, (mapHeight - 7)*tileHeight, 1, 2);
 		enemyHQTower2 = new SoulWarsHQ(((mapWidth- 6)*tileWidth)-20, (mapHeight - 9)*tileHeight, 1, 2);
-		enemyCampTower1 = new SoulWarsHQ(((mapWidth - 7)*tileWidth)-32, (mapHeight/2)*tileHeight, 1, 2);
-		enemyCampTower2 = new SoulWarsHQ((((mapWidth/2) - 1)*tileWidth)-32, (mapHeight - 5)*tileHeight, 1, 2);
+		enemyEastTower = new SoulWarsHQ(((mapWidth - 4)*tileWidth)-32, ((mapHeight/2)-1)*tileHeight, 1, 2);
+		enemySouthTower = new SoulWarsHQ((((mapWidth/2) - 1)*tileWidth)-32, (mapHeight - 5)*tileHeight, 1, 2);
 
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
@@ -253,7 +265,23 @@ public class SoulWarsMap implements TileBasedMap{
 			}
 		}
 		
+		//beginning friendlies
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 2*tileHeight, 1, 0, 0));
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 3*tileHeight, 1, 0, 0));
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 4*tileHeight, 1, 0, 0));		
 		
+		//EastTower
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 1*tileWidth,enemyEastTower.getY() + 1*tileHeight, 1, 1, 1));
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 2*tileWidth,enemyEastTower.getY() + 2*tileHeight, 1, 1, 1));
+		units.add(new SoulWarsUnit(enemyEastTower.getX() - 3*tileWidth,enemyEastTower.getY() + 3*tileHeight, 1, 1, 1));
+		//SouthTower
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 1*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 2*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		units.add(new SoulWarsUnit(enemySouthTower.getX() + 3*tileWidth,enemySouthTower.getY() - 4*tileHeight, 1, 1, 2));
+		//Headquarters
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 1*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 2*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
+		units.add(new SoulWarsUnit(enemyHQ.getX() - 3*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
 	}
 	
 	public void printMapArray() {
@@ -261,5 +289,7 @@ public class SoulWarsMap implements TileBasedMap{
 		System.out.println(mapHeight);
 		System.out.println(Arrays.deepToString(terrainTiles).replace("],", "]\n"));
 	}
+
+	
 
 }

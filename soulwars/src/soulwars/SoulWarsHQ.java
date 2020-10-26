@@ -14,12 +14,14 @@ public class SoulWarsHQ extends Entity {
 	private int team;
 	private int soulCount;
 	private int type;
+	private int healCooldown;
 	
 	
 	public SoulWarsHQ(float x, float y, int team, int type) {
 		super(x, y);
 		this.type = type;
 		this.team = team;
+		this.healCooldown = 1500;
 		
 		if(type == 0) {
 			this.addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.HQ_PLAYER_RSC).getScaledCopy(.5f));
@@ -49,8 +51,29 @@ public class SoulWarsHQ extends Entity {
 		
 	}
 	
+	public int getMapPosX() {
+		int mapPos = (int)(this.getX()/64);
+		return mapPos;
+	}
+	
+	public int getMapPosY() {
+		int mapPos = (int)(this.getY()/64);
+		return mapPos;
+	}
+	
 	public void addSoul(int soul) {
 		this.soulCount += soul;
+	}
+	
+	public boolean healCooldownCheck() {
+		if(healCooldown <= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void resetHealCooldown() {
+		healCooldown = 1500;
 	}
 	
 	public int getMaxHealth() {
@@ -68,6 +91,20 @@ public class SoulWarsHQ extends Entity {
 		return armor;
 	}
 	
+	public void damageArmor() {
+		if(armor > 0)
+			armor -= 10;		
+	}
+	
+	public void takeDamage(int damage) {
+		if(armor <= 0) {
+			if(health > 0) {
+				health -= damage;
+			}
+		}
+			
+	}
+	
 	public int getEnergy() {
 		return energy;
 	}
@@ -83,6 +120,18 @@ public class SoulWarsHQ extends Entity {
 	public int getTeam() {
 		return team;
 	}
+	
+	public void update(int delta) {
+		if(healCooldown > 0) {
+			healCooldown -= delta;
+		}else if (healCooldown < 0) {
+			resetHealCooldown();
+		}
+	}
+
+	
+
+	
 	
 	
 

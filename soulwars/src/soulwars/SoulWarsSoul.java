@@ -15,6 +15,7 @@ public class SoulWarsSoul extends Entity {
 		super(x,y);
 		soulSheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.SOUL_RSC_MAIN), 16, 16, 0 , 0);
 		this.addImageWithBoundingBox(soulSheet.getSprite(0, 0).getScaledCopy(1.5f));
+		this.soulCount = count;
 	}
 	
 	public int getCount() {

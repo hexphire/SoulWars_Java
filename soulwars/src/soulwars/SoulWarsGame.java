@@ -28,6 +28,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UNIT_RSC_REDW = "soulwars/resources/medievalUnit_09.png";
 	public static final String UNIT_RSC_BLUW = "soulwars/resources/medievalUnit_03.png";
 	public static final String CHAR_RSC_MAIN = "soulwars/resources/necromancerSheet.png";
+	public static final String UNIT_RSC_WDMN = "soulwars/resources/medievalUnit_18.png";
 	public static final String CHAR_RSC_ATK = "soulwars/resources/necroattackSheet.png";
 	public static final String SPELL_RSC_FRBL = "soulwars/resources/fireballsheet.png";
 	public static final String SOUL_RSC_MAIN = "soulwars/resources/sSoul.png";
@@ -37,7 +38,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String HQ_TOWER_RSC = "soulwars/resources/towerSmallAlt.png";
 	public static final String UI_BACK_RSC = "soulwars/resources/UI.png";
 	public static final String UI_WASD_RSC = "soulwars/resources/wasd.png";
-	public static final String UI_LMOUSE_RSC = "soulwars/resources/Mouse_Right_Key_Light.png";
+	public static final String UI_LMOUSE_RSC = "soulwars/resources/Mouse_Left_Key_Light.png";
 	public static final String UI_RMOUSE_RSC = "soulwars/resources/Mouse_Right_Key_Light.png";
 	public static final String UI_EKEY_RSC = "soulwars/resources/E_Key_Light.png";
 	public static final String UI_QKEY_RSC = "soulwars/resources/Q_Key_Light.png";
@@ -45,6 +46,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UI_2KEY_RSC = "soulwars/resources/2_Key_Light.png";
 	public static final String UI_3KEY_RSC = "soulwars/resources/3_Key_Light.png";
 	public static final String UI_4KEY_RSC = "soulwars/resources/4_Key_Light.png";
+	
 	
 	//App properties
 	public static final int WIDTH = 1280;
@@ -96,6 +98,7 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(UI_2KEY_RSC);
 		ResourceManager.loadImage(UI_3KEY_RSC);
 		ResourceManager.loadImage(UI_4KEY_RSC);
+		ResourceManager.loadImage(UNIT_RSC_WDMN);
 		
 		
 		rndm = new Random();

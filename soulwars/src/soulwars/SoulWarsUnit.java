@@ -46,10 +46,18 @@ public class SoulWarsUnit extends Entity implements Mover {
 			}else if(team == 1) {
 				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
 			}
-			addImageWithBoundingBox(unitSprite);
-			setVelocity(0,0);
+			
 			
 		}
+		if(unitType == 0) {
+			isRanged = false;
+			maxHealth = 2;
+			health = 2;
+			soulCount = 1;
+			unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_WDMN);
+		}
+		addImageWithBoundingBox(unitSprite);
+		setVelocity(0,0);
 	}
 	
 	public Vector getVelocity() {

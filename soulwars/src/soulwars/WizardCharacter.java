@@ -43,7 +43,7 @@ public class WizardCharacter extends Entity{
 		this.maxMana = 100;
 		this.health = 100;
 		this.mana = 100;
-		this.manaRegenMult = .01f;
+		this.manaRegenMult = .01f + (soulCount * .5f);
 		this.fireballCooldown = 0;
 		this.healCooldown = 0;
 		this.hasteCooldown = 0;
@@ -185,7 +185,7 @@ public class WizardCharacter extends Entity{
 		if(manaRegenTick <= 0) {
 			manaRegenTick = 250;
 			if(mana < maxMana) {
-				mana += maxMana * manaRegenMult;
+				mana += maxMana * (manaRegenMult);
 				if(mana > maxMana) {
 					mana = maxMana;
 				}

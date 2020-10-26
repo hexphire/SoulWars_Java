@@ -32,6 +32,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UNIT_RSC_WDMN = "soulwars/resources/medievalUnit_18.png";
 	public static final String CHAR_RSC_ATK = "soulwars/resources/necroattackSheet.png";
 	public static final String SPELL_RSC_FRBL = "soulwars/resources/fireballsheet.png";
+	public static final String TWR_ARW_RSC = "soulwars/resources/TowerArrow.png";
 	public static final String SOUL_RSC_MAIN = "soulwars/resources/sSoul.png";
 	public static final String HQ_TOP_RSC = "soulwars/resources/medievalStructure_02.png";
 	public static final String HQ_BOTTOM_RSC = "soulwars/resources/medievalStructure_06.png";
@@ -86,6 +87,7 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(CHAR_RSC_MAIN);
 		ResourceManager.loadImage(CHAR_RSC_ATK);
 		ResourceManager.loadImage(SPELL_RSC_FRBL);
+		ResourceManager.loadImage(TWR_ARW_RSC);
 		ResourceManager.loadImage(SOUL_RSC_MAIN);
 		ResourceManager.loadImage(HQ_TOP_RSC);
 		ResourceManager.loadImage(HQ_BOTTOM_RSC);

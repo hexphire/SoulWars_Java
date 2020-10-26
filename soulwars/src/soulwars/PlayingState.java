@@ -174,14 +174,7 @@ public class PlayingState extends BasicGameState {
 		
 		
 	
-		//Path testing
 		
-		//unit test controls
-		if(input.isKeyDown(Input.KEY_LSHIFT)){
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				
-			}
-		}
 			
 		if(player != null){
 			if (input.isKeyDown(Input.KEY_W)) {
@@ -318,7 +311,7 @@ public class PlayingState extends BasicGameState {
 					if(player.castHeal()){
 						for(SoulWarsUnit unit : units) {
 							if(unit.getTeam() == 0) {
-								unit.heal(unit.getMaxHealth()/2);
+								unit.heal(unit.getMaxHealth());
 							}
 						}
 					}
@@ -413,7 +406,69 @@ public class PlayingState extends BasicGameState {
 		}
 		
 		
-		
+		if(player.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 190)) {
+			if(swg.gameMap.getEnemyHQ().attackCooldownCheck()) {
+				Vector thisVec = swg.gameMap.getEnemyHQ().getPosition();
+				Vector playerPos = player.getPosition();
+				double shotAngle = thisVec.angleTo(playerPos);
+				Projectile arrow = new Projectile(swg.gameMap.getEnemyHQ().getX(), swg.gameMap.getEnemyHQ().getY(), Vector.getVector(shotAngle, 2f), 0);
+				arrow.rotate(-90);
+				arrow.rotate(shotAngle);
+				swg.gameMap.addProjectile(arrow);
+			}
+		}
+		if(swg.gameMap.getEnemyHQTower1() != null) {
+			if(player.getPosition().epsilonEquals(swg.gameMap.getEnemyHQTower1().getPosition(), 190)) {
+				if(swg.gameMap.getEnemyHQTower1().attackCooldownCheck()) {
+					Vector thisVec = swg.gameMap.getEnemyHQTower1().getPosition();
+					Vector playerPos = player.getPosition();
+					double shotAngle = thisVec.angleTo(playerPos);
+					Projectile arrow = new Projectile(swg.gameMap.getEnemyHQTower1().getX(), swg.gameMap.getEnemyHQTower1().getY(), Vector.getVector(shotAngle, 2f), 0);
+					arrow.rotate(-90);
+					arrow.rotate(shotAngle);
+					swg.gameMap.addProjectile(arrow);
+				}
+			}
+		}
+		if(swg.gameMap.getEnemyHQTower2() != null) {
+			if(player.getPosition().epsilonEquals(swg.gameMap.getEnemyHQTower2().getPosition(), 190)) {
+				if(swg.gameMap.getEnemyHQTower2().attackCooldownCheck()) {
+					Vector thisVec = swg.gameMap.getEnemyHQTower2().getPosition();
+					Vector playerPos = player.getPosition();
+					double shotAngle = thisVec.angleTo(playerPos);
+					Projectile arrow = new Projectile(swg.gameMap.getEnemyHQTower2().getX(), swg.gameMap.getEnemyHQTower2().getY(), Vector.getVector(shotAngle, 2f), 0);
+					arrow.rotate(-90);
+					arrow.rotate(shotAngle);
+					swg.gameMap.addProjectile(arrow);
+				}
+			}
+		}
+		if(swg.gameMap.getEnemyEastTower() != null) {
+			if(player.getPosition().epsilonEquals(swg.gameMap.getEnemyEastTower().getPosition(), 190)) {
+				if(swg.gameMap.getEnemyEastTower().attackCooldownCheck()) {
+					Vector thisVec = swg.gameMap.getEnemyEastTower().getPosition();
+					Vector playerPos = player.getPosition();
+					double shotAngle = thisVec.angleTo(playerPos);
+					Projectile arrow = new Projectile(swg.gameMap.getEnemyEastTower().getX(), swg.gameMap.getEnemyEastTower().getY(), Vector.getVector(shotAngle, 2f), 0);
+					arrow.rotate(-90);
+					arrow.rotate(shotAngle);
+					swg.gameMap.addProjectile(arrow);
+				}
+			}
+		}
+		if(swg.gameMap.getEnemySouthTower() != null) {
+			if(player.getPosition().epsilonEquals(swg.gameMap.getEnemySouthTower().getPosition(), 190)) {
+				if(swg.gameMap.getEnemySouthTower().attackCooldownCheck()) {
+					Vector thisVec = swg.gameMap.getEnemySouthTower().getPosition();
+					Vector playerPos = player.getPosition();
+					double shotAngle = thisVec.angleTo(playerPos);
+					Projectile arrow = new Projectile(swg.gameMap.getEnemySouthTower().getX(), swg.gameMap.getEnemySouthTower().getY(), Vector.getVector(shotAngle, 2f), 0);
+					arrow.rotate(-90);
+					arrow.rotate(shotAngle);
+					swg.gameMap.addProjectile(arrow);
+				}
+			}
+		}
 		
 		if(soulList != null) {
 			for(SoulWarsSoul soul : soulList) {
@@ -495,16 +550,21 @@ public class PlayingState extends BasicGameState {
 								unit.clearPath();
 							}	
 						}else if(unit.getGroup() == 1) {
-							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyEastTower().getPosition(), 128)) {
-								unit.clearPath();
-								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyEastTower().getMapPosX(), swg.gameMap.getEnemyEastTower().getMapPosY()));
+							if(swg.gameMap.getEnemyEastTower() != null) {
+								if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyEastTower().getPosition(), 128)) {
+									unit.clearPath();
+									unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyEastTower().getMapPosX(), swg.gameMap.getEnemyEastTower().getMapPosY()));
+								}
 							}else {
-								unit.clearPath();
-							}	
+									unit.clearPath();
+								}
+							
 						}else if(unit.getGroup() == 2) {
-							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemySouthTower().getPosition(), 128)) {
-								unit.clearPath();
-								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemySouthTower().getMapPosX(), swg.gameMap.getEnemySouthTower().getMapPosY()));
+							if(swg.gameMap.getEnemySouthTower() != null) {
+								if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemySouthTower().getPosition(), 128)) {
+									unit.clearPath();
+									unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemySouthTower().getMapPosX(), swg.gameMap.getEnemySouthTower().getMapPosY()));
+								}
 							}else {
 								unit.clearPath();
 							}	
@@ -518,26 +578,66 @@ public class PlayingState extends BasicGameState {
 					}
 				}
 				for(Projectile projectile : projectiles) {
-					if(projectile.collides(swg.gameMap.getEnemyHQ()) != null) {
-						if(swg.gameMap.getEnemyHQ().getArmor() <= 0) {
-							deadProject.add(projectile);
-							swg.gameMap.getEnemyHQ().takeDamage(5);
+					if(swg.gameMap.getEnemyHQ() != null) {
+						if(projectile.collides(swg.gameMap.getEnemyHQ()) != null && projectile.getType() != 0) {
+							if(swg.gameMap.getEnemyHQ().getArmor() <= 0) {
+								deadProject.add(projectile);
+								swg.gameMap.getEnemyHQ().takeDamage(5);
+							}
+							if(swg.gameMap.getEnemyHQ().getHealth() <= 0) {
+								swg.gameMap.clearEnemyHQ();
+							}
 						}
-						
 					}
-					if(projectile.collides(swg.gameMap.getEnemyEastTower()) != null) {
-						if(swg.gameMap.getEnemyEastTower().getArmor() <= 0) {
-							deadProject.add(projectile);
-							swg.gameMap.getEnemyEastTower().takeDamage(5);
+					if(swg.gameMap.getEnemyEastTower() != null) {
+						if(projectile.collides(swg.gameMap.getEnemyEastTower()) != null && projectile.getType() != 0) {
+							if(swg.gameMap.getEnemyEastTower().getArmor() <= 0) {
+								deadProject.add(projectile);
+								swg.gameMap.getEnemyEastTower().takeDamage(5);
+							}
+							if(swg.gameMap.getEnemyEastTower().getHealth() <= 0) {
+								swg.gameMap.clearEnemyEastTower();
+							}
 						}
-						
 					}
-					if(projectile.collides(swg.gameMap.getEnemySouthTower()) != null) {
-						if(swg.gameMap.getEnemySouthTower().getArmor() <= 0) {
-							deadProject.add(projectile);
-							swg.gameMap.getEnemySouthTower().takeDamage(5);
+					if(swg.gameMap.getEnemySouthTower() != null) {
+						if(projectile.collides(swg.gameMap.getEnemySouthTower()) != null && projectile.getType() != 0) {
+							if(swg.gameMap.getEnemySouthTower().getArmor() <= 0) {
+								deadProject.add(projectile);
+								swg.gameMap.getEnemySouthTower().takeDamage(5);
+							}	
+							if(swg.gameMap.getEnemySouthTower().getHealth() <= 0) {
+								swg.gameMap.clearEnemySouthTower();
+							}
 						}
-						
+					}
+					if(swg.gameMap.getEnemyHQTower1() != null) {
+						if(projectile.collides(swg.gameMap.getEnemyHQTower1()) != null && projectile.getType() != 0) {
+							if(swg.gameMap.getEnemyHQTower1().getArmor() <= 0) {
+								deadProject.add(projectile);
+								swg.gameMap.getEnemyHQTower1().takeDamage(5);
+							}
+							if(swg.gameMap.getEnemyHQTower1().getHealth() <= 0) {
+								swg.gameMap.clearEnemyHQTower1();
+							}
+						}
+					}
+					if(swg.gameMap.getEnemyHQTower2() != null) {
+						if(projectile.collides(swg.gameMap.getEnemyHQTower2()) != null && projectile.getType() != 0) {
+							if(swg.gameMap.getEnemyHQTower2().getArmor() <= 0) {
+								deadProject.add(projectile);
+								swg.gameMap.getEnemyHQTower2().takeDamage(5);
+							}
+							if(swg.gameMap.getEnemyHQTower2().getHealth() <= 0) {
+								swg.gameMap.clearEnemyHQTower2();
+							}
+						}
+					}
+					
+					
+					if(projectile.collides(player) != null && projectile.getType() == 0) {
+						player.takeDamage(5);
+						deadProject.add(projectile);
 					}
 					if(unit.collides(projectile) != null) {
 						if(projectile.getType() == 1) {
@@ -550,9 +650,21 @@ public class PlayingState extends BasicGameState {
 									swg.gameMap.addSoul(new SoulWarsSoul(unit.getX(), unit.getY(), unit.getSoulCount(), false));
 								}
 							}
+						}else if(projectile.getType() == 0) {
+							if(unit.getTeam() == 0) {
+								unit.takeDamage(2);
+								unit.translate(unit.collides(projectile).getMinPenetration().scale(delta));
+								deadProject.add(projectile);
+								if(unit.getHealth() <= 0) {
+									deadUnit.add(unit);
+									swg.gameMap.addSoul(new SoulWarsSoul(unit.getX(), unit.getY(), unit.getSoulCount(), false));
+								}
+							}
 						}
 					}
 				}
+				projectiles.removeAll(deadProject);
+				deadProject.clear();
 				for(SoulWarsUnit collideCheck : units) {
 					if(unit.getVelocity().getX() != 0 & unit.getVelocity().getY() != 0) {
 						if(unit.getHash() != collideCheck.getHash()) {
@@ -563,23 +675,42 @@ public class PlayingState extends BasicGameState {
 								collideCheck.translate(collideCheck.collides(unit).getMinPenetration().scale(2));
 								if(collideCheck.getHealth() <= 0) {
 									deadUnit.add(collideCheck);
+									swg.gameMap.addSoul(new SoulWarsSoul(collideCheck.getX(), collideCheck.getY(), collideCheck.getSoulCount(), false));
 								}
 								
 							}
 						}
 					}
 				}
-				if(unit.collides(swg.gameMap.getEnemyHQ()) != null && unit.getTeam() == 0) {
-					deadUnit.add(unit);
-					swg.gameMap.getEnemyHQ().damageArmor();
+				if(swg.gameMap.getEnemyHQ() != null) {
+					if(unit.collides(swg.gameMap.getEnemyHQ()) != null && unit.getTeam() == 0) {
+						deadUnit.add(unit);
+						swg.gameMap.getEnemyHQ().damageArmor();
+					}
 				}
-				if(unit.collides(swg.gameMap.getEnemyEastTower()) != null && unit.getTeam() == 0) {
-					deadUnit.add(unit);
-					swg.gameMap.getEnemyEastTower().damageArmor();
+				if(swg.gameMap.getEnemyHQTower1() != null) {
+					if(unit.collides(swg.gameMap.getEnemyHQTower1()) != null && unit.getTeam() == 0) {
+						deadUnit.add(unit);
+						swg.gameMap.getEnemyHQTower1().damageArmor();
+					}
 				}
-				if(unit.collides(swg.gameMap.getEnemySouthTower()) != null && unit.getTeam() == 0) {
-					deadUnit.add(unit);
-					swg.gameMap.getEnemySouthTower().damageArmor();
+				if(swg.gameMap.getEnemyHQTower2() != null) {
+					if(unit.collides(swg.gameMap.getEnemyHQTower2()) != null && unit.getTeam() == 0) {
+						deadUnit.add(unit);
+						swg.gameMap.getEnemyHQTower2().damageArmor();
+					}
+				}
+				if(swg.gameMap.getEnemyEastTower() != null) {
+					if(unit.collides(swg.gameMap.getEnemyEastTower()) != null && unit.getTeam() == 0) {
+						deadUnit.add(unit);
+						swg.gameMap.getEnemyEastTower().damageArmor();
+					}
+				}
+				if(swg.gameMap.getEnemySouthTower() != null) {
+					if(unit.collides(swg.gameMap.getEnemySouthTower()) != null && unit.getTeam() == 0) {
+						deadUnit.add(unit);
+						swg.gameMap.getEnemySouthTower().damageArmor();
+					}
 				}
 				if(unit.collides(player) != null && unit.getTeam() == 0) {
 					unit.translate(unit.collides(player).getMinPenetration().scale(delta/4));
@@ -618,9 +749,22 @@ public class PlayingState extends BasicGameState {
 		}
 		projectiles.removeAll(deadProject);
 		swg.gameMap.getPlayerHQ().update(delta);
-		swg.gameMap.getEnemyHQ().update(delta);
-		swg.gameMap.getEnemyEastTower().update(delta);
-		swg.gameMap.getEnemySouthTower().update(delta);
+		
+		if(swg.gameMap.getEnemyHQ() != null)
+			swg.gameMap.getEnemyHQ().update(delta);
+		
+		if(swg.gameMap.getEnemyEastTower() != null)
+			swg.gameMap.getEnemyEastTower().update(delta);
+		
+		if(swg.gameMap.getEnemySouthTower() != null)
+			swg.gameMap.getEnemySouthTower().update(delta);
+		
+		if(swg.gameMap.getEnemyHQTower1() != null) 
+			swg.gameMap.getEnemyHQTower1().update(delta);
+		
+		if(swg.gameMap.getEnemyHQTower2() != null)
+			swg.gameMap.getEnemyHQTower2().update(delta);			
+		
 		if(player.getPosition().epsilonEquals(swg.gameMap.getPlayerHQ().getPosition(), 190)) {
 			player.heal(1);
 		}

@@ -191,32 +191,34 @@ public class SoulWarsCamera {
 	
 	public void renderHQ(ArrayList<SoulWarsHQ> headquatersList, Graphics g) {
 		for(SoulWarsHQ headquarters : headquatersList) {
-			if((headquarters.getX()/tileWidth) > this.xOffSet && (headquarters.getY()/tileHeight) > this.yOffSet ) {	
-				if(headquarters.getX() < 1024 + (xOffSet*64)) {
-					int healthY, armorY;
-					float barWidth = 75;
-					float barHeight = 10;
-					if(headquarters.getType() == 1) {
-						healthY = 90;
-						armorY = 80;
-					}else {
-						healthY = 65;
-						armorY = 55;
-					}
+			if(headquarters != null) {
+				if((headquarters.getX()/tileWidth) > this.xOffSet && (headquarters.getY()/tileHeight) > this.yOffSet ) {	
+					if(headquarters.getX() < 1024 + (xOffSet*64)) {
+						int healthY, armorY;
+						float barWidth = 75;
+						float barHeight = 10;
+						if(headquarters.getType() == 1) {
+							healthY = 90;
+							armorY = 80;
+						}else {
+							healthY = 65;
+							armorY = 55;
+						}
 					
-					float healthBar = ((float) headquarters.getHealth() / (float) headquarters.getMaxHealth()) * barWidth;
-					float armorBar = ((float) headquarters.getArmor() / (float) headquarters.getMaxArmor()) * barWidth;
-					g.translate(-xOffSet*64,-yOffSet*64);
-					g.fillRect(headquarters.getX()-20, headquarters.getY()-healthY, barWidth, barHeight);
-					g.setColor(Color.red);
-					g.fillRect(headquarters.getX()-20, headquarters.getY()-healthY, healthBar, barHeight);
-					g.setColor(Color.black);
-					g.fillRect(headquarters.getX()-20, headquarters.getY()-armorY, barWidth, barHeight);
-					g.setColor(Color.gray);
-					g.fillRect(headquarters.getX()-20, headquarters.getY()-armorY, armorBar, barHeight);
-					g.setColor(Color.black);
-					headquarters.render(g);
-					g.translate(xOffSet*64, yOffSet*64);
+						float healthBar = ((float) headquarters.getHealth() / (float) headquarters.getMaxHealth()) * barWidth;
+						float armorBar = ((float) headquarters.getArmor() / (float) headquarters.getMaxArmor()) * barWidth;
+						g.translate(-xOffSet*64,-yOffSet*64);
+						g.fillRect(headquarters.getX()-20, headquarters.getY()-healthY, barWidth, barHeight);
+						g.setColor(Color.red);
+						g.fillRect(headquarters.getX()-20, headquarters.getY()-healthY, healthBar, barHeight);
+						g.setColor(Color.black);
+						g.fillRect(headquarters.getX()-20, headquarters.getY()-armorY, barWidth, barHeight);
+						g.setColor(Color.gray);
+						g.fillRect(headquarters.getX()-20, headquarters.getY()-armorY, armorBar, barHeight);
+						g.setColor(Color.black);
+						headquarters.render(g);
+						g.translate(xOffSet*64, yOffSet*64);
+					}
 				}
 			}
 		}

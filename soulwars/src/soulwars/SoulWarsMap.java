@@ -126,13 +126,37 @@ public class SoulWarsMap implements TileBasedMap{
 		// TODO Auto-generated method stub
 		return enemyEastTower;
 	}
+	
+	public void clearEnemyEastTower() {
+		enemyEastTower = null;		
+	}
+	
 	public SoulWarsHQ getEnemySouthTower() {
 		// TODO Auto-generated method stub
 		return enemySouthTower;
 	}	
 	
+	public void clearEnemySouthTower() {
+		enemySouthTower = null;		
+	}
+	
 	public SoulWarsHQ getEnemyHQ() {
 		return enemyHQ;
+	}
+	public void clearEnemyHQ() {
+		enemyHQ = null;		
+	}
+	public SoulWarsHQ getEnemyHQTower1() {
+		return enemyHQTower1;
+	}
+	public void clearEnemyHQTower1() {
+		enemyHQTower1 = null;		
+	}
+	public SoulWarsHQ getEnemyHQTower2() {
+		return enemyHQTower2;
+	}
+	public void clearEnemyHQTower2() {
+		enemyHQTower2 = null;		
 	}
 	
 	public void setPlayer(WizardCharacter player) {
@@ -310,6 +334,8 @@ public class SoulWarsMap implements TileBasedMap{
 		System.out.println(mapHeight);
 		System.out.println(Arrays.deepToString(terrainTiles).replace("],", "]\n"));
 	}
+
+	
 
 	
 

@@ -200,6 +200,9 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	public void heal(int amount) {
 		this.health += amount;
+		if(this.health > this.maxHealth) {
+			this.health = this.maxHealth;
+		}
 	}
 	
 	public int getMaxHealth() {

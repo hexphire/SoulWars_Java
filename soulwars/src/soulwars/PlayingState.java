@@ -277,9 +277,9 @@ public class PlayingState extends BasicGameState {
 		
 		if (input.isKeyPressed(Input.KEY_LCONTROL)) {
 				
-				mouseTileX = (input.getMouseX());
-				mouseTileY = (input.getMouseY());
-				swg.spawnUnit(mouseTileX, mouseTileY, (int)gameView.getCameraX(), (int)gameView.getCameraY());
+				mouseTileX = (input.getMouseX() + gameView.getCameraX()*swg.gameMap.getTileWidth());
+				mouseTileY = (input.getMouseY() + gameView.getCameraY()*swg.gameMap.getTileHeight());
+				swg.spawnUnit(mouseTileX, mouseTileY, 1, 0, 0);
 				
 			
 		}
@@ -362,7 +362,50 @@ public class PlayingState extends BasicGameState {
 							unit.clearPath();
 						}
 					}
+					if(unitsDismiss) {
+						if(!unit.getPosition().epsilonEquals(swg.gameMap.getPlayerHQ().getPosition(), 128)) {
+							unit.clearPath();
+							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getPlayerHQ().getMapPosX(), swg.gameMap.getPlayerHQ().getMapPosY()));
+						}else {
+							unit.clearPath();
+						}
+					}
 					
+				}
+				
+				if(unit.getTeam() == 1) {
+					if((float)unit.getHealth() < (float) unit.getMaxHealth() * .1f ) {
+						if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 128)) {
+							unit.clearPath();
+							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyHQ().getMapPosX(), swg.gameMap.getEnemyHQ().getMapPosY()));
+						}else {
+							unit.clearPath();
+						}					
+					}else {
+						if(unit.getGroup() == 0) {
+							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 190)) {
+								unit.clearPath();
+								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyHQ().getMapPosX(), swg.gameMap.getEnemyHQ().getMapPosY()));
+							}else {
+								unit.clearPath();
+							}	
+						}else if(unit.getGroup() == 1) {
+							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyEastTower().getPosition(), 128)) {
+								unit.clearPath();
+								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyEastTower().getMapPosX(), swg.gameMap.getEnemyEastTower().getMapPosY()));
+							}else {
+								unit.clearPath();
+							}	
+						}else if(unit.getGroup() == 2) {
+							if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemySouthTower().getPosition(), 128)) {
+								unit.clearPath();
+								unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemySouthTower().getMapPosX(), swg.gameMap.getEnemySouthTower().getMapPosY()));
+							}else {
+								unit.clearPath();
+							}	
+						}
+						
+					}
 				}
 				for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
 					if(unit.collides(tile) != null) {

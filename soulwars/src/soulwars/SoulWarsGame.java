@@ -122,8 +122,8 @@ public class SoulWarsGame extends StateBasedGame {
 		screenHeight = height;
 	}
 	
-	public void spawnUnit(float x, float y, int cameraX, int cameraY) {
-		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1, 0);
+	public void spawnUnit(float x, float y, int type, int team, int group) {
+		SoulWarsUnit newUnit = new SoulWarsUnit(x, y, 1, team, group);
 		gameMap.placeUnit(newUnit);
 	}
 	

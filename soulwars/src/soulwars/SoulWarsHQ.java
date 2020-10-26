@@ -49,6 +49,16 @@ public class SoulWarsHQ extends Entity {
 		
 	}
 	
+	public int getMapPosX() {
+		int mapPos = (int)(this.getX()/64);
+		return mapPos;
+	}
+	
+	public int getMapPosY() {
+		int mapPos = (int)(this.getY()/64);
+		return mapPos;
+	}
+	
 	public void addSoul(int soul) {
 		this.soulCount += soul;
 	}

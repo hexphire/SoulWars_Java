@@ -23,6 +23,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 	private int soulCount;
 	private int attack;
 	private int team;
+	private int group;
 	private boolean isRanged;
 	private int unitType;
 	private int attackCooldown;
@@ -32,10 +33,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	
 	
-	public SoulWarsUnit(final float x, final float y, int type, int team) {
+	public SoulWarsUnit(final float x, final float y, int type, int team, int group) {
 		super(x, y);
 		this.unitType = type;
 		this.team = team;
+		this.group = group;
 		if(unitType == 1) {
 			isRanged = false;
 			maxHealth = 5;
@@ -73,6 +75,14 @@ public class SoulWarsUnit extends Entity implements Mover {
 	
 	public int getType() {
 		return unitType;
+	}
+	
+	public int getGroup() {
+		return group;
+	}
+	
+	public void setGroup(int newGroup) {
+		this.group = newGroup;
 	}
 	
 	public boolean ranged() {

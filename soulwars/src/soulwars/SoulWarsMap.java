@@ -8,6 +8,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+import jig.Entity;
 import jig.ResourceManager;
 
 
@@ -30,8 +31,8 @@ public class SoulWarsMap implements TileBasedMap{
 	private SoulWarsHQ enemyHQ;
 	private SoulWarsHQ enemyHQTower1;
 	private SoulWarsHQ enemyHQTower2; 
-	private SoulWarsHQ enemyCampTower1;
-	private SoulWarsHQ enemyCampTower2;
+	private SoulWarsHQ enemyEastTower;
+	private SoulWarsHQ enemySouthTower;
 	
 	private WizardCharacter player;
 	private boolean[][] visited;
@@ -110,14 +111,25 @@ public class SoulWarsMap implements TileBasedMap{
 		HQList.add(enemyHQ);
 		HQList.add(enemyHQTower1);
 		HQList.add(enemyHQTower2);
-		HQList.add(enemyCampTower1);
-		HQList.add(enemyCampTower2);
+		HQList.add(enemyEastTower);
+		HQList.add(enemySouthTower);
 		
 		
 		return HQList;
 	}
 	
-	
+	public SoulWarsHQ getPlayerHQ() {
+		// TODO Auto-generated method stub
+		return playerHQ;
+	}
+	public SoulWarsHQ getEnemyEastTower() {
+		// TODO Auto-generated method stub
+		return enemyEastTower;
+	}
+	public SoulWarsHQ getEnemySouthTower() {
+		// TODO Auto-generated method stub
+		return enemySouthTower;
+	}	
 	
 	public SoulWarsHQ getEnemyHQ() {
 		return enemyHQ;
@@ -238,8 +250,8 @@ public class SoulWarsMap implements TileBasedMap{
 		enemyHQ = new SoulWarsHQ((mapWidth-2)*tileWidth, (mapHeight -2 )*tileHeight, 1, 1);
 		enemyHQTower1 = new SoulWarsHQ((mapWidth - 9)*tileWidth, (mapHeight - 7)*tileHeight, 1, 2);
 		enemyHQTower2 = new SoulWarsHQ(((mapWidth- 6)*tileWidth)-20, (mapHeight - 9)*tileHeight, 1, 2);
-		enemyCampTower1 = new SoulWarsHQ(((mapWidth - 7)*tileWidth)-32, (mapHeight/2)*tileHeight, 1, 2);
-		enemyCampTower2 = new SoulWarsHQ((((mapWidth/2) - 1)*tileWidth)-32, (mapHeight - 5)*tileHeight, 1, 2);
+		enemyEastTower = new SoulWarsHQ(((mapWidth - 4)*tileWidth)-32, ((mapHeight/2)-1)*tileHeight, 1, 2);
+		enemySouthTower = new SoulWarsHQ((((mapWidth/2) - 1)*tileWidth)-32, (mapHeight - 5)*tileHeight, 1, 2);
 
 		
 		for (int xTile = 0; xTile < mapWidth; xTile++) {
@@ -253,9 +265,9 @@ public class SoulWarsMap implements TileBasedMap{
 			}
 		}
 		
-		units.add(new SoulWarsUnit(4*tileWidth,4*tileHeight, 1, 0));
-		units.add(new SoulWarsUnit((4*tileWidth)-16,(3*tileHeight)+16, 1, 0));
-		units.add(new SoulWarsUnit((3*tileWidth)+16,(4*tileHeight)+16, 1, 0));
+		units.add(new SoulWarsUnit(4*tileWidth,4*tileHeight, 1, 0, 0));
+		units.add(new SoulWarsUnit((4*tileWidth)-16,(3*tileHeight)+16, 1, 0, 0));
+		units.add(new SoulWarsUnit((3*tileWidth)+16,(4*tileHeight)+16, 1, 0, 0));
 		
 		
 		
@@ -266,5 +278,7 @@ public class SoulWarsMap implements TileBasedMap{
 		System.out.println(mapHeight);
 		System.out.println(Arrays.deepToString(terrainTiles).replace("],", "]\n"));
 	}
+
+	
 
 }

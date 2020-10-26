@@ -65,6 +65,27 @@ public class SoulWarsCamera {
 		return yOffSet;
 	}
 	
+	public void renderSelectedSpell(Graphics g, int spell) {
+		if(spell == 0) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 770, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 1) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 820, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 2) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 870, 200, 40 );
+			g.setColor(Color.black);
+		}else if(spell == 3) {
+			g.setColor(Color.yellow);
+			g.drawRect(1045, 920, 200, 40 );
+			g.setColor(Color.black);
+		}
+		
+	}
+	
 	public void renderHud(Graphics g, WizardCharacter player) {
 		Image uiBackground = ResourceManager.getImage(SoulWarsGame.UI_BACK_RSC);
 		float barWidth = 125;

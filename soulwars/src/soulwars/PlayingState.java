@@ -17,6 +17,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.Path;
 
 import jig.Collision;
+import jig.Entity;
 import jig.Vector;
 
 public class PlayingState extends BasicGameState {
@@ -33,6 +34,10 @@ public class PlayingState extends BasicGameState {
 	private boolean unitsFollow;
 	private boolean unitsDismiss;
 	private boolean unitsAttack;
+	private boolean currentSpellFireBall;
+	private boolean currentSpellHaste;
+	private boolean currentSpellHeal;
+	private boolean currentSpellSummon;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -53,6 +58,10 @@ public class PlayingState extends BasicGameState {
 		unitsFollow = true;
 		unitsDismiss = false;
 		unitsAttack = false;
+		currentSpellFireBall = true;
+		currentSpellHaste = false;
+		currentSpellHeal = false;
+		currentSpellSummon = false;
 		
 	}
 	
@@ -73,9 +82,19 @@ public class PlayingState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		
+		int spell = -1;
+		if(currentSpellFireBall) {
+			spell = 0;
+		}else if(currentSpellHaste) {
+			spell = 1;
+		}else if(currentSpellHeal) {
+			spell = 2;
+		}else if(currentSpellSummon) {
+			spell = 3;
+		}
 		//render map using camera
 		gameView.renderView(0, 0, g);
+		gameView.renderSelectedSpell(g, spell);
 		
 		//lets test getting map info from our tiledMap
 		//g.drawString("map size: "+swg.map.getWidth()+"x "+swg.map.getHeight()+"y", 30, 30);
@@ -95,37 +114,43 @@ public class PlayingState extends BasicGameState {
 	//need to overwrite the mouselistener methods of this state, to handle drag select.
 	@Override
 	public void mousePressed(int button, int x, int y) {
-		if(button == 0) {
-			selectedList.clear();
-			sMouseX = x;
-			sMouseY = y;
-			dragged = true;
+		if(swg.Debug) {
+			if(button == 0) {
+				selectedList.clear();
+				sMouseX = x;
+				sMouseY = y;
+				dragged = true;
+			}
 		}
 	}
 	@Override
 	public void mouseReleased(int button, int x, int y) {
-		if(button == 0) {
-			System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
-			System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
-			dragged = false;
-			if(selector != null)
-				updateSelectedList();
+		if(swg.Debug) {
+			if(button == 0) {
+				System.out.println("x: " + sMouseX/64 + "y: " + sMouseY/64);
+				System.out.println("x: " + fMouseX/64 + "y: " + fMouseY/64);
+				dragged = false;
+				if(selector != null)
+					updateSelectedList();
+			}
 		}
 	}
 	//need to handle the position of the origin and opposite corner, Rectangles with negative area render, but don't actually exist #JustJavathings.
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		fMouseX = newx;
-		fMouseY = newy;
-		if(dragged) {
-			if(sMouseX > fMouseX && sMouseY > fMouseY) {
-				selector = new Rectangle(fMouseX, fMouseY, (sMouseX - fMouseX), (sMouseY - fMouseY));
-			}else if(sMouseX > fMouseX && sMouseY < fMouseY) {
-				selector = new Rectangle(fMouseX, sMouseY, (sMouseX - fMouseX), (fMouseY - sMouseY));
-			}else if(sMouseX < fMouseX && sMouseY < fMouseY){
-				selector = new Rectangle(sMouseX, sMouseY, (fMouseX - sMouseX), (fMouseY - sMouseY));
-			}else {
-				selector = new Rectangle(sMouseX, fMouseY, (fMouseX - sMouseX), (sMouseY - fMouseY));
+		if(swg.Debug) {
+			fMouseX = newx;
+			fMouseY = newy;
+			if(dragged) {
+				if(sMouseX > fMouseX && sMouseY > fMouseY) {
+					selector = new Rectangle(fMouseX, fMouseY, (sMouseX - fMouseX), (sMouseY - fMouseY));
+				}else if(sMouseX > fMouseX && sMouseY < fMouseY) {
+					selector = new Rectangle(fMouseX, sMouseY, (sMouseX - fMouseX), (fMouseY - sMouseY));
+				}else if(sMouseX < fMouseX && sMouseY < fMouseY){
+					selector = new Rectangle(sMouseX, sMouseY, (fMouseX - sMouseX), (fMouseY - sMouseY));
+				}else {
+					selector = new Rectangle(sMouseX, fMouseY, (fMouseX - sMouseX), (sMouseY - fMouseY));
+				}
 			}
 		}
 	}
@@ -153,17 +178,7 @@ public class PlayingState extends BasicGameState {
 		//unit test controls
 		if(input.isKeyDown(Input.KEY_LSHIFT)){
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				if(player.fireballCooldownCheck()) {
-					if(player.castFireball()) {
-						Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
-						Vector playerPos = player.getPosition();
-						double shotAngle = playerPos.angleTo(mouseVec);
-						Projectile fireball = new Projectile(playerPos.getX() + 2 ,playerPos.getY() + 2, Vector.getVector(shotAngle, 2f), 1);
-						fireball.rotate(180);
-						fireball.rotate(shotAngle);
-						swg.gameMap.addProjectile(fireball);
-					}
-				}
+				
 			}
 		}
 		
@@ -196,6 +211,31 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		if(input.isKeyPressed(Input.KEY_1)) {
+			currentSpellFireBall = true;
+			currentSpellHaste = false;
+			currentSpellHeal = false;
+			currentSpellSummon = false;
+		}
+		if(input.isKeyPressed(Input.KEY_2)) {
+			currentSpellFireBall = false;
+			currentSpellHaste = true;
+			currentSpellHeal = false;
+			currentSpellSummon = false;
+		}
+		if(input.isKeyPressed(Input.KEY_3)) {
+			currentSpellFireBall = false;
+			currentSpellHaste = false;
+			currentSpellHeal = true;
+			currentSpellSummon = false;
+		}
+		if(input.isKeyPressed(Input.KEY_4)) {
+			currentSpellFireBall = false;
+			currentSpellHaste = false;
+			currentSpellHeal = false;
+			currentSpellSummon = true;
+		}
+		
 		//Camera controls
 		if (input.isKeyDown(Input.KEY_UP)){
 			gameView.moveCameraY(-1, delta*2);
@@ -225,49 +265,85 @@ public class PlayingState extends BasicGameState {
 				mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 				mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
 				for(SoulWarsUnit unit : units) {
-					
 					if(unit.getTeam() == 0) {
-						unitsFollow = false;
-						unitsDismiss = false;
-						unitsAttack = true;
-						swg.gameMap.clearVisited();
-						unit.clearPath();
-						unit.update(delta);
-						pathToTarget = swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
-						if(pathToTarget != null) {
-							for (int i = 0; i < pathToTarget.getLength(); i++) {
-								System.out.println(pathToTarget.getX(i) + "," + pathToTarget.getY(i));
+						if(unit.getCurrentTarget() == null) {
+							unitsFollow = false;
+							unitsDismiss = false;
+							unitsAttack = true;
+							swg.gameMap.clearVisited();
+							unit.clearPath();
+							unit.update(delta);
+							pathToTarget = swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
+							if(pathToTarget != null) {
+								for (int i = 0; i < pathToTarget.getLength(); i++) {
+									System.out.println(pathToTarget.getX(i) + "," + pathToTarget.getY(i));
+								}
 							}
+							unit.setPath(pathToTarget);
 						}
-						unit.setPath(pathToTarget);
-					}
+					}	
 				}
 			}
 		}
 		
 		
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			selectedList.clear();
-			mouseTileX = input.getMouseX();
-			mouseTileY = input.getMouseY();
-			
-			float width = 16;
-			float height = 16;
-			selector = new Rectangle(mouseTileX - 8, mouseTileY - 8, width, height);
-			for(SoulWarsUnit unit : swg.gameMap.getUnits()) {
-				if(selector.contains(unit.getX() - (64 * gameView.getCameraX()), unit.getY() - (64 * gameView.getCameraY()))) {
-						selectedList.add(unit);
-						break;
+			if(currentSpellFireBall) {
+				if(player.fireballCooldownCheck()) {
+					if(player.castFireball()) {
+						Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
+						Vector playerPos = player.getPosition();
+						double shotAngle = playerPos.angleTo(mouseVec);
+						Projectile fireball = new Projectile(playerPos.getX() + 2 ,playerPos.getY() + 2, Vector.getVector(shotAngle, 2f), 1);
+						fireball.rotate(180);
+						fireball.rotate(shotAngle);
+						swg.gameMap.addProjectile(fireball);
+					}
 				}
 			}
-				selector = null;
+			if(currentSpellHaste) {
+				if(player.hasteCooldownCheck()) {
+					if(player.castHaste()) {
+						
+					}
+				}
+			}
+			if(currentSpellHeal) {
+				if(player.healCooldownCheck()) {
+					if(player.castHeal()){
+						for(SoulWarsUnit unit : units) {
+							if(unit.getTeam() == 0) {
+								unit.heal(unit.getMaxHealth()/2);
+							}
+						}
+					}
+				}
+			}
+			if(currentSpellSummon) {
+				if(player.summonCooldownCheck()) {
+					if(player.summonUnit()) {
+						mouseTileX = (input.getMouseX() + gameView.getCameraX()*swg.gameMap.getTileWidth());
+						mouseTileY = (input.getMouseY() + gameView.getCameraY()*swg.gameMap.getTileHeight());
+						swg.spawnUnit(mouseTileX, mouseTileY, 1, 0, 0);												
+					}
+				}
+			}
 			
-		
+			if(swg.Debug) {
+				mouseTileX = input.getMouseX();
+				mouseTileY = input.getMouseY();
+
+				
+				
+				
 			
-			//System.out.println("x: " + mouseTileX + "y: " + mouseTileY);
-			//System.out.println("x: " + dMouseTileX + "y: " + dMouseTileY);
-			SoulWarsTile[][] terrain = swg.gameMap.getTerrain();
-			System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())].getType());
+				
+				//System.out.println("x: " + mouseTileX + "y: " + mouseTileY);
+				//System.out.println("x: " + dMouseTileX + "y: " + dMouseTileY);
+				SoulWarsTile[][] terrain = swg.gameMap.getTerrain();
+				System.out.println("Tile:" + terrain[(int)((mouseTileX/64) + gameView.getCameraX())][(int)((mouseTileY/64) + gameView.getCameraY())].getType());
+			}
+			
 			
 		}
 		
@@ -277,9 +353,7 @@ public class PlayingState extends BasicGameState {
 		
 		if (input.isKeyPressed(Input.KEY_LCONTROL)) {
 				
-				mouseTileX = (input.getMouseX() + gameView.getCameraX()*swg.gameMap.getTileWidth());
-				mouseTileY = (input.getMouseY() + gameView.getCameraY()*swg.gameMap.getTileHeight());
-				swg.spawnUnit(mouseTileX, mouseTileY, 1, 0, 0);
+				
 				
 			
 		}

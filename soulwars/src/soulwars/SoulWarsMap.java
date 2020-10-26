@@ -268,7 +268,19 @@ public class SoulWarsMap implements TileBasedMap{
 		//beginning friendlies
 		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 2*tileHeight, 1, 0, 0));
 		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 3*tileHeight, 1, 0, 0));
-		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 4*tileHeight, 1, 0, 0));		
+		units.add(new SoulWarsUnit(playerHQ.getX() + 2*tileWidth,playerHQ.getY() + 4*tileHeight, 1, 0, 0));
+		//random enemies
+		units.add(new SoulWarsUnit(30*tileWidth,6*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(30*tileWidth,7*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(30*tileWidth,8*tileHeight, 1, 1, 3));
+		
+		units.add(new SoulWarsUnit(6*tileWidth,31*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(7*tileWidth,31*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(8*tileWidth,31*tileHeight, 1, 1, 3));
+		
+		units.add(new SoulWarsUnit(30*tileWidth,31*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(29*tileWidth,32*tileHeight, 1, 1, 3));
+		units.add(new SoulWarsUnit(31*tileWidth,30*tileHeight, 1, 1, 3));
 		
 		//EastTower
 		units.add(new SoulWarsUnit(enemyEastTower.getX() - 1*tileWidth,enemyEastTower.getY() + 1*tileHeight, 1, 1, 1));
@@ -282,6 +294,15 @@ public class SoulWarsMap implements TileBasedMap{
 		units.add(new SoulWarsUnit(enemyHQ.getX() - 1*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
 		units.add(new SoulWarsUnit(enemyHQ.getX() - 2*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
 		units.add(new SoulWarsUnit(enemyHQ.getX() - 3*tileWidth,enemyHQ.getY() - 4*tileHeight, 1, 1, 0));
+		//Wildmen
+		
+		units.add(new SoulWarsUnit(19*tileWidth,22*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(20*tileWidth,19*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(22*tileWidth,21*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(25*tileWidth,43*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(24*tileWidth,45*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(39*tileWidth,21*tileHeight, 0, 1, 3));
+		units.add(new SoulWarsUnit(42*tileWidth,21*tileHeight, 0, 1, 3));
 	}
 	
 	public void printMapArray() {

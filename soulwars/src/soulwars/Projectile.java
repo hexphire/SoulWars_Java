@@ -16,9 +16,15 @@ public class Projectile extends Entity {
 	
 	public Projectile(float PosX, float PosY, Vector shot, int type) {
 		super(PosX,PosY);
-		velocity = shot;
+		
 		this.type = type;
 		setupProjectile();
+		if(this.type == 1) {
+			velocity = shot.scale(2);
+		}
+		if(this.type == 0) {
+			velocity = shot;
+		}
 	}
 	
 	private void setupProjectile() {

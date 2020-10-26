@@ -51,6 +51,7 @@ public class SoulWarsUnit extends Entity implements Mover {
 			currentPath = new Stack<Step>();
 			if(team == 0) {
 				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_BLUW);
+				hasteMult = 1.25f;
 			}else if(team == 1) {
 				unitSprite = ResourceManager.getImage(SoulWarsGame.UNIT_RSC_REDW);
 			}
@@ -142,7 +143,8 @@ public class SoulWarsUnit extends Entity implements Mover {
 	}
 	
 	public void clearPath() {
-		currentPath.removeAllElements();
+		if(currentPath != null)
+			currentPath.removeAllElements();
 	}
 	
 
@@ -164,9 +166,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 
 	
 	public void update(final int delta) {
-		if(currentPath.empty() != true) {
-			velocity = followPath();
-			translate(velocity.scale(delta).scale(hasteMult));
+		if(currentPath != null) {		
+			if(currentPath.empty() != true) {
+				velocity = followPath();
+				translate(velocity.scale(delta).scale(hasteMult));
+			}
 		}
 		if(attackCooldown > 0) {
 			attackCooldown -= delta;
@@ -174,7 +178,12 @@ public class SoulWarsUnit extends Entity implements Mover {
 		if(hasteDuration > 0) {
 			hasteDuration -= delta;
 		}else {
-			hasteMult = 1;
+			if(team == 0) {
+				hasteMult = 1.25f;
+			}else if(team == 1) {
+				hasteMult = 1;
+			}
+			
 		}
 			
 	}

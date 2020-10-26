@@ -74,6 +74,7 @@ public class PlayingState extends BasicGameState {
 		swg.spawnPlayer((6*64)+32, (6*64)+32);
 		//selected = swg.gameMap.getUnit(0,0);
 		player = swg.gameMap.getPlayer();
+		gameView.resetCamera();
 	}
 		
 		
@@ -181,7 +182,7 @@ public class PlayingState extends BasicGameState {
 				
 			}
 		}
-		
+			
 		if(player != null){
 			if (input.isKeyDown(Input.KEY_W)) {
 				player.translate(new Vector(0, -2f));
@@ -469,7 +470,7 @@ public class PlayingState extends BasicGameState {
 						}
 					}
 					
-					if(unit.getPosition().epsilonEquals(player.getPosition(), 190)) {
+					if(unit.getPosition().epsilonEquals(player.getPosition(), 190) && unit.getType() != 0) {
 						unit.setTarget(player);
 						unit.clearPath();
 						unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), player.getMapPosX(), player.getMapPosY()));
@@ -478,7 +479,7 @@ public class PlayingState extends BasicGameState {
 						
 					}
 					
-					if((float)unit.getHealth() < (float) 2 ) {
+					if((float)unit.getHealth() < (float) 2 && unit.getGroup() < 3) {
 						if(!unit.getPosition().epsilonEquals(swg.gameMap.getEnemyHQ().getPosition(), 164)) {
 							unit.clearPath();
 							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), swg.gameMap.getEnemyHQ().getMapPosX(), swg.gameMap.getEnemyHQ().getMapPosY()));
@@ -560,20 +561,23 @@ public class PlayingState extends BasicGameState {
 							}else if(unit.collides(collideCheck) != null) {
 								unit.attack(collideCheck);
 								collideCheck.translate(collideCheck.collides(unit).getMinPenetration().scale(2));
+								if(collideCheck.getHealth() <= 0) {
+									deadUnit.add(collideCheck);
+								}
 								
 							}
 						}
 					}
 				}
-				if(unit.collides(swg.gameMap.getEnemyHQ()) != null) {
+				if(unit.collides(swg.gameMap.getEnemyHQ()) != null && unit.getTeam() == 0) {
 					deadUnit.add(unit);
 					swg.gameMap.getEnemyHQ().damageArmor();
 				}
-				if(unit.collides(swg.gameMap.getEnemyEastTower()) != null) {
+				if(unit.collides(swg.gameMap.getEnemyEastTower()) != null && unit.getTeam() == 0) {
 					deadUnit.add(unit);
 					swg.gameMap.getEnemyEastTower().damageArmor();
 				}
-				if(unit.collides(swg.gameMap.getEnemySouthTower()) != null) {
+				if(unit.collides(swg.gameMap.getEnemySouthTower()) != null && unit.getTeam() == 0) {
 					deadUnit.add(unit);
 					swg.gameMap.getEnemySouthTower().damageArmor();
 				}
@@ -583,6 +587,18 @@ public class PlayingState extends BasicGameState {
 				if(unit.collides(player) != null && unit.getTeam() == 1) {
 					player.takeDamage(2);
 					player.translate(player.collides(unit).getMinPenetration().scale(delta*4));
+					if (player.getX()-(gameView.getCameraX()*64) > 512 && gameView.getCameraX() < swg.gameMap.getWidthInTiles()) {
+						gameView.moveCameraX(1, delta*4);
+					}
+					if (player.getY()-(gameView.getCameraY()*64) > 512 && gameView.getCameraY() < swg.gameMap.getHeightInTiles()) {
+						gameView.moveCameraY(1, delta*4);
+					}
+					if (player.getX()-(gameView.getCameraX()*64) < 512 && gameView.getCameraX() > 0) {
+						gameView.moveCameraX(-1, delta*4);
+					}
+					if (player.getY()-(gameView.getCameraY()*64) < 512 && gameView.getCameraY() > 0) {
+						gameView.moveCameraY(-1, delta*4);
+					}
 				}
 				
 			unit.update(delta);
@@ -612,10 +628,13 @@ public class PlayingState extends BasicGameState {
 		prevPlayerPostion = player.getPosition();
 		System.out.println(delta);
 		if(player.getHealth() <= 0) {
+			((GameOverState)game.getState(SoulWarsGame.GAMEOVERSTATE)).setEndState(2);
+			game.enterState(SoulWarsGame.GAMEOVERSTATE);
 			
 		}
 		if(swg.gameMap.getEnemyHQ().getHealth() <= 0) {
-			
+			((GameOverState)game.getState(SoulWarsGame.GAMEOVERSTATE)).setEndState(1);
+			game.enterState(SoulWarsGame.GAMEOVERSTATE);
 		}
 	}
 

@@ -23,11 +23,16 @@ public class PlayingState extends BasicGameState {
 
 	public SoulWarsCamera gameView;
 	private ArrayList<SoulWarsUnit> selectedList;
-	private Path testPath;
+	private Path pathToTarget;
 	private Rectangle selector;
 	private SoulWarsGame swg;
 	private Stack<Collision> collisions;
 	private WizardCharacter player;
+	private Vector prevPlayerPostion;
+	private boolean playerPosChange;
+	private boolean unitsFollow;
+	private boolean unitsDismiss;
+	private boolean unitsAttack;
 	
 	private boolean dragged;
 	int sMouseX = -1;
@@ -45,6 +50,9 @@ public class PlayingState extends BasicGameState {
 		SoulWarsGame swg = (SoulWarsGame)game;
 		gameView = new SoulWarsCamera(swg.gameMap);
 		collisions = new Stack<Collision>();
+		unitsFollow = true;
+		unitsDismiss = false;
+		unitsAttack = false;
 		
 	}
 	
@@ -54,8 +62,7 @@ public class PlayingState extends BasicGameState {
 		swg = (SoulWarsGame)game;
 		selectedList = new ArrayList<SoulWarsUnit>(100);
 		//swg.gameMap.printMapArray();
-		swg.spawnUnit((1 * 64)+32 , (1 * 64)+32, 0, 0);
-		swg.spawnPlayer((2*64)+32, (2*64)+32);
+		swg.spawnPlayer((6*64)+32, (6*64)+32);
 		//selected = swg.gameMap.getUnit(0,0);
 		player = swg.gameMap.getPlayer();
 	}
@@ -132,7 +139,12 @@ public class PlayingState extends BasicGameState {
 		Input input = container.getInput();
 		float mouseTileX;
 		float mouseTileY;
-		
+		ArrayList<SoulWarsSoul> soulList = swg.gameMap.getSoulList();
+		ArrayList<SoulWarsSoul> collectedSoul = new ArrayList<SoulWarsSoul>(100);
+		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
+		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
+		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
+		ArrayList<SoulWarsUnit> deadUnit = new ArrayList<SoulWarsUnit>(units.size());
 		
 		
 	
@@ -141,14 +153,16 @@ public class PlayingState extends BasicGameState {
 		//unit test controls
 		if(input.isKeyDown(Input.KEY_LSHIFT)){
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				if(player.castFireBall()) {
-					Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
-					Vector playerPos = player.getPosition();
-					double shotAngle = playerPos.angleTo(mouseVec);
-					Projectile fireball = new Projectile(playerPos.getX() ,playerPos.getY(), Vector.getVector(shotAngle, 2f), 1);
-					fireball.rotate(180);
-					fireball.rotate(shotAngle);
-					swg.gameMap.addProjectile(fireball);
+				if(player.fireballCooldownCheck()) {
+					if(player.castFireball()) {
+						Vector mouseVec = new Vector(input.getMouseX()+ gameView.getCameraX()*64 ,input.getMouseY() + gameView.getCameraY()*64);
+						Vector playerPos = player.getPosition();
+						double shotAngle = playerPos.angleTo(mouseVec);
+						Projectile fireball = new Projectile(playerPos.getX() ,playerPos.getY(), Vector.getVector(shotAngle, 2f), 1);
+						fireball.rotate(180);
+						fireball.rotate(shotAngle);
+						swg.gameMap.addProjectile(fireball);
+					}
 				}
 			}
 		}
@@ -207,21 +221,26 @@ public class PlayingState extends BasicGameState {
 		
 		if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
 			System.out.println("attempting to path");
-			if(selectedList != null) {
+			if(units != null) {
 				mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 				mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
-				swg.gameMap.clearVisited();
-				for(SoulWarsUnit selected : selectedList) {
-					selected.clearPath();
-					selected.update(delta);
+				for(SoulWarsUnit unit : units) {
 					
-					testPath = swg.APather.findPath(selected, selected.getMapPosX(), selected.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
-					if(testPath != null) {
-						for (int i = 0; i < testPath.getLength(); i++) {
-							System.out.println(testPath.getX(i) + "," + testPath.getY(i));
+					if(unit.getTeam() == 0) {
+						unitsFollow = false;
+						unitsDismiss = false;
+						unitsAttack = true;
+						swg.gameMap.clearVisited();
+						unit.clearPath();
+						unit.update(delta);
+						pathToTarget = swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY);
+						if(pathToTarget != null) {
+							for (int i = 0; i < pathToTarget.getLength(); i++) {
+								System.out.println(pathToTarget.getX(i) + "," + pathToTarget.getY(i));
+							}
 						}
+						unit.setPath(pathToTarget);
 					}
-					selected.setPath(testPath);
 				}
 			}
 		}
@@ -265,13 +284,22 @@ public class PlayingState extends BasicGameState {
 			
 		}
 		
-				
+		if(input.isKeyPressed(Input.KEY_E)) {
+			unitsDismiss = false;
+			unitsAttack = false;
+			unitsFollow = true;
+		}
+		
+		if(input.isKeyPressed(Input.KEY_Q)) {
+			unitsAttack = false;
+			unitsFollow = false;
+			unitsDismiss = true;
+		}
 		
 		//Pathing test controls
 		if(input.isKeyDown(Input.KEY_N)) {
 			mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 			mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
-			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 			for (SoulWarsUnit unit : units) {
 					if(selectedList.size() == 1) {
 						if(unit.getHash() != selectedList.get(0).getHash())
@@ -292,7 +320,6 @@ public class PlayingState extends BasicGameState {
 		if(input.isKeyPressed(Input.KEY_C)) {
 			mouseTileX = (input.getMouseX() / swg.gameMap.getTileWidth()) + gameView.getCameraX();
 			mouseTileY = (input.getMouseY() / swg.gameMap.getTileHeight()) + gameView.getCameraY();
-			ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
 			for (SoulWarsUnit unit : units) {
 				unit.clearPath();
 				unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), (int)mouseTileX, (int)mouseTileY));
@@ -308,12 +335,7 @@ public class PlayingState extends BasicGameState {
 		
 		
 		
-		ArrayList<SoulWarsSoul> soulList = swg.gameMap.getSoulList();
-		ArrayList<SoulWarsSoul> collectedSoul = new ArrayList<SoulWarsSoul>(100);
-		ArrayList<Projectile> projectiles = swg.gameMap.getProjectiles();
-		ArrayList<SoulWarsUnit> units = swg.gameMap.getUnits();
-		ArrayList<Projectile> deadProject = new ArrayList<Projectile>(projectiles.size());
-		ArrayList<SoulWarsUnit> deadUnit = new ArrayList<SoulWarsUnit>(units.size());
+		
 		if(soulList != null) {
 			for(SoulWarsSoul soul : soulList) {
 				if(player.collides(soul) != null) {
@@ -331,6 +353,17 @@ public class PlayingState extends BasicGameState {
 		
 		if(units.size() != 0) {
 			for(SoulWarsUnit unit : units) {
+				if(unit.getTeam() == 0) {
+					if(unitsFollow) {
+						if(!unit.getPosition().epsilonEquals(player.getPosition(), 128)) {
+							unit.clearPath();
+							unit.setPath(swg.APather.findPath(unit, unit.getMapPosX(), unit.getMapPosY(), player.getMapPosX(), player.getMapPosY()));
+						}else {
+							unit.clearPath();
+						}
+					}
+					
+				}
 				for(SoulWarsTile tile : swg.gameMap.getCollideList()) {
 					if(unit.collides(tile) != null) {
 						unit.translate(unit.collides(tile).getMinPenetration().scale(delta/4));
@@ -377,6 +410,9 @@ public class PlayingState extends BasicGameState {
 			projectile.update(delta);
 		}
 		projectiles.removeAll(deadProject);
+		player.update(delta);
+		prevPlayerPostion = player.getPosition();
+		System.out.println(delta);
 	}
 
 	

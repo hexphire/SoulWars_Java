@@ -89,23 +89,25 @@ public class SoulWarsCamera {
 		
 		
 		g.drawString("Spells: Mana & Soul cost", 1050, 200);
-		if(player.getMana() < 10) {
+		if(player.getMana() < 10 && !player.fireballCooldownCheck()) {
 			g.setColor(Color.white);
 		}
 		g.drawString("Fireball: 10 & 0", 1050, 220);
 		g.setColor(Color.black);
-		if(player.getMana() < 15) {
+		if(player.getMana() < 15 && !player.hasteCooldownCheck()) {
 			g.setColor(Color.white);
 		}
 		g.drawString("Haste: 15 & 0", 1050, 240);
 		g.setColor(Color.black);
 		if(player.getMana() < 25 || player.getSoulCount() < 5) {
-			g.setColor(Color.white);
+			if(!player.hasteCooldownCheck())
+				g.setColor(Color.white);
 		}
 		g.drawString("Heal: 25 & at least 5", 1050, 260);
 		g.setColor(Color.black);
 		if(player.getMana() < 50 || player.getSoulCount() < 1) {
-			g.setColor(Color.white);
+			if(!player.summonCooldownCheck())
+				g.setColor(Color.white);
 		}
 		g.drawString("Summon Unit: 50 & 1", 1050, 280);
 		g.setColor(Color.black);

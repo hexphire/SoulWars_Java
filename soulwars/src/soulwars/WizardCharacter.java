@@ -20,6 +20,13 @@ public class WizardCharacter extends Entity{
 	private int mana;
 	private int soulCount;
 	private int attack;
+	private int fireballCooldown;
+	private int healCooldown;
+	private int hasteCooldown;
+	private int summonCooldown;
+	private int manaRegenTick;
+	private float manaRegenMult;
+	
 	private SpriteSheet moveSheet;
 	private SpriteSheet attackSheet;
 	
@@ -34,8 +41,14 @@ public class WizardCharacter extends Entity{
 		this.addImageWithBoundingBox(moveSheet.getSprite(0, 0));
 		this.maxHealth = 100;
 		this.maxMana = 100;
-		this.health = 50;
+		this.health = 100;
 		this.mana = 100;
+		this.manaRegenMult = .01f;
+		this.fireballCooldown = 0;
+		this.healCooldown = 0;
+		this.hasteCooldown = 0;
+		this.summonCooldown = 0;
+		this.manaRegenTick = 0;
 	}
 	
 	public Vector getVelocity() {
@@ -84,9 +97,22 @@ public class WizardCharacter extends Entity{
 		health = health - dmg;
 	}
 	
-	public boolean castFireBall() {
+	public void heal(int amount) {
+		health += amount;
+				
+	}
+	
+	public boolean castFireball() {
 		if(mana >= 10) {
 			mana -= 10;
+			fireballCooldown = 250;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean fireballCooldownCheck() {
+		if(fireballCooldown <= 0) {
 			return true;
 		}
 		return false;
@@ -95,22 +121,47 @@ public class WizardCharacter extends Entity{
 	public boolean castHaste() {
 		if(mana >= 15) {
 			mana -= 15;
+			hasteCooldown = 60000;
 			return true;
 		}
 		return false;		
 	}
 	
-	public boolean castHeal() {
-		if(mana >= 25) {
-			mana -= 25;
+	public boolean hasteCooldownCheck() {
+		if(hasteCooldown <= 0) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean castMageArmor() {
-		if(mana >= 50) {
+	public boolean castHeal() {
+		if(mana >= 25 && soulCount > 5) {
+			mana -= 25;
+			healCooldown = 50000;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean healCooldownCheck() {
+		if(healCooldown <= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean summonUnit() {
+		if(mana >= 50 && soulCount >= 1) {
+			soulCount -= 1;
 			mana -= 50;
+			summonCooldown = 30000;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean summonCooldownCheck() {
+		if(summonCooldown <= 0) {
 			return true;
 		}
 		return false;
@@ -121,6 +172,22 @@ public class WizardCharacter extends Entity{
 	}
 	
 	public void update(final int delta) {
+		fireballCooldown -= delta;
+		healCooldown -= delta;
+		hasteCooldown -= delta;
+		summonCooldown -= delta;
+		manaRegenTick -= delta;
+		if(manaRegenTick <= 0) {
+			manaRegenTick = 250;
+			if(mana < maxMana) {
+				mana += maxMana * manaRegenMult;
+				if(mana > maxMana) {
+					mana = maxMana;
+				}
+			}
+		}
+		
+		
 	
 	}
 	

@@ -253,6 +253,11 @@ public class SoulWarsMap implements TileBasedMap{
 			}
 		}
 		
+		units.add(new SoulWarsUnit(4*tileWidth,4*tileHeight, 1, 0));
+		units.add(new SoulWarsUnit((4*tileWidth)-16,(3*tileHeight)+16, 1, 0));
+		units.add(new SoulWarsUnit((3*tileWidth)+16,(4*tileHeight)+16, 1, 0));
+		
+		
 		
 	}
 	

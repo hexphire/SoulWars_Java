@@ -156,6 +156,11 @@ public class SoulWarsUnit extends Entity implements Mover {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+
+	public int getTeam() {
+		
+		return this.team;
+	}
 	
 	
 	

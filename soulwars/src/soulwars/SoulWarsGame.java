@@ -21,6 +21,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final int SPLASHSCREENSTATE = 0;
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYINGSTATE = 2;
+	public static final int GAMEOVERSTATE = 3;
 	
 	//Tile Identifiers
 	public static final String TILE_RSC_59 = "soulwars/resources/medievalTile_15.png";
@@ -76,6 +77,7 @@ public class SoulWarsGame extends StateBasedGame {
 		addState(new StartSplashState());
 		addState(new MainMenuState());
 		addState(new PlayingState());
+		addState(new GameOverState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		ResourceManager.loadImage(TILE_RSC_59);
 		ResourceManager.loadImage(TILE_RSC_101);
@@ -161,6 +163,10 @@ public class SoulWarsGame extends StateBasedGame {
 		} catch(SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void resetMap() {
+		map = null;
 	}
 	
 	

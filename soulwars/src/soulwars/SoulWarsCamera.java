@@ -334,5 +334,10 @@ public class SoulWarsCamera {
 		}
 		
 	}
+	public void resetCamera() {
+		// TODO Auto-generated method stub
+		xOffSet = 0;
+		yOffSet = 0;		
+	}
 	
 }

@@ -1,5 +1,7 @@
 package soulwars;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
 import jig.Entity;
@@ -13,6 +15,8 @@ public class Projectile extends Entity {
 	int damage;
 	Vector velocity;
 	SpriteSheet sheet;
+	Animation projectileAnim;
+	Image baseImage;
 	
 	public Projectile(float PosX, float PosY, Vector shot, int type) {
 		super(PosX,PosY);
@@ -31,8 +35,13 @@ public class Projectile extends Entity {
 		if (this.type == 0) {
 			this.addImageWithBoundingBox(ResourceManager.getImage(SoulWarsGame.TWR_ARW_RSC));
 		}else if(this.type == 1) {
-			sheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.SPELL_RSC_FRBL), 60, 60, 4, 0);
-			this.addImageWithBoundingBox(sheet.getSprite(3, 0).getScaledCopy(.4f));
+			sheet = new SpriteSheet(ResourceManager.getImage(SoulWarsGame.SPELL_RSC_FRBL).getScaledCopy(.5f), 32, 32, 0, 0);
+			baseImage = sheet.getSprite(3, 0);
+			this.projectileAnim = new Animation(sheet, 3, 0, 6, 0, true, 30, true);
+			this.projectileAnim.setSpeed(projectileAnim.getSpeed()/4);
+			this.addImageWithBoundingBox(baseImage);
+			this.removeImage(baseImage);
+			this.addAnimation(projectileAnim);
 		}
 	}
 	

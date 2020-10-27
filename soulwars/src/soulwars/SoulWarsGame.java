@@ -50,6 +50,7 @@ public class SoulWarsGame extends StateBasedGame {
 	public static final String UI_4KEY_RSC = "soulwars/resources/4_Key_Light.png";
 	public static final String TITLE_RSC = "soulwars/resources/Title.png";
 	public static final String GAMEOVER_RSC = "soulwars/resources/GameOver.png";
+	public static final String INFO_RSC = "soulwars/resources/info.png";
 	
 	
 	//App properties
@@ -108,6 +109,7 @@ public class SoulWarsGame extends StateBasedGame {
 		ResourceManager.loadImage(UNIT_RSC_WDMN);
 		ResourceManager.loadImage(TITLE_RSC);
 		ResourceManager.loadImage(GAMEOVER_RSC);
+		ResourceManager.loadImage(INFO_RSC);
 		
 		
 		rndm = new Random();

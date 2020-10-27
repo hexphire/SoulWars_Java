@@ -35,9 +35,12 @@ public class MainMenuState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
 		SoulWarsGame swg = (SoulWarsGame)game;
+		Image info;
 		Image title;
 		title = ResourceManager.getImage(SoulWarsGame.TITLE_RSC);
+		info = ResourceManager.getImage(SoulWarsGame.INFO_RSC);
 		title.draw(150,250);
+		info.draw(175, 550);
 		g.setColor(Color.white);
 		g.drawString("press space to begin", swg.screenWidth/2 - 100, swg.screenHeight/2);
 		g.setColor(Color.black);

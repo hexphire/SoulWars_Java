@@ -318,11 +318,14 @@ public class PlayingState extends BasicGameState {
 				}
 			}
 			if(currentSpellSummon) {
-				if(player.summonCooldownCheck()) {
-					if(player.summonUnit()) {
-						mouseTileX = (input.getMouseX() + gameView.getCameraX()*swg.gameMap.getTileWidth());
-						mouseTileY = (input.getMouseY() + gameView.getCameraY()*swg.gameMap.getTileHeight());
-						swg.spawnUnit(mouseTileX, mouseTileY, 1, 0, 0);												
+				mouseTileX = (input.getMouseX() + gameView.getCameraX()*swg.gameMap.getTileWidth());
+				mouseTileY = (input.getMouseY() + gameView.getCameraY()*swg.gameMap.getTileHeight());
+				if(!swg.gameMap.blocked(null, (int)mouseTileX/64, (int)mouseTileY/64)) {;
+					if(player.summonCooldownCheck()) {
+						if(player.summonUnit()) {
+							if(!swg.gameMap.blocked(null, (int)mouseTileX/64, (int)mouseTileY/64));
+								swg.spawnUnit(mouseTileX, mouseTileY, 1, 0, 0);												
+						}
 					}
 				}
 			}

@@ -148,7 +148,7 @@ public class SoulWarsGame extends StateBasedGame {
 	}
 	
 	public void loadMap() throws SlickException {
-		map = new TiledMap("src/soulwars/resources/smallTestmap64px.tmx", false);
+		map = new TiledMap("soulwars/resources/smallTestmap64px.tmx", false);
 		mapReady = true;
 	}
 	

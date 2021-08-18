@@ -1,5 +1,5 @@
 #SoulWars
-## A simple 2D Action game(with a litte RTS)
+## A simple 2D Action game(with a litte RTS) built using the Java Instructional Gaming Engine and Slick 2D
 
 ####Welcome to SoulWars!
 You don't need to read this to play as the game has some descriptions and the HUD shows the controls. But for those of you who may want to know a little more here you go!
@@ -56,7 +56,7 @@ Both sides with be player controlled. (unmet, changed to singlePlayer)
 
 * Enemy health based behavior.
 
-## Liscencing
+## Licensing
 
 * All artwork used under CC0 1.0 or Public Domain and obtained from OpenGameArt.org and www.Kenney.nl
 

@@ -1,0 +1,64 @@
+#SoulWars
+## A simple 2D Action game(with a litte RTS)
+
+####Welcome to SoulWars!
+You don't need to read this to play as the game has some descriptions and the HUD shows the controls. But for those of you who may want to know a little more here you go!
+
+
+## Premise
+
+You are an angry wizard, some may call you a necromancer, but lets not split hairs. The local kingdom has decided you and your machinations are a blight on their beautiful countryside and have decided to amass a force against you.
+Seeing through their cleverly hidden plans, you begin to gather the spells and equipment neccessary to wipe them out. Combined with your magic and knowledge of summoning using the souls of the dead, it's time to remind this kingdom why you're the wizard and they aren't!.
+
+## Controls
+
+You can move your wizard around using WASD, select spells to cast with the 1 2 3 and 4 keys, dimiss units to base with Q and set units to follow with E. Right clicking on the screen with tell your units to path to that location if possible.
+
+**Debug**
+ Holding left crtl and pressing insert will activate debug mode. During this mode all units current paths will be painted on the screen on their respective squares. Note: some unit's paths may over lap, this can be seen by the appearance of bolder X's on tiles.
+
+## How to win
+
+Victory in SoulWars is achieved by destroying the enemy base, to destroy any enemy structure, path your units into to in order to sacrifice them to lower the structures armor. Once the armor is down, the structure will be weak to your fireball and vulnerable to destruction. To make this easier for you, collect as many souls from the enemy units and wildmen as you can. The more souls you have the faster your mana will regen and the more units you can summon.
+
+
+# Project Notes
+
+## Original Complexity
+
+Units (Met partially, two unit types: wildmen and warriors)
+
+* Preferably 2 but at least one unit that can path to where the player tells it to. Pick up souls the players paths it to and will attack enemies the player paths it to.
+
+One map (met)
+
+* A basic map that provides enough room for both sides to gather some neutral souls, build an initial force and then enter conflict.
+
+Basic UI (met)
+
+* A view of the map that gives the player a view of the whole world and readout showing HQ,  health and unit summon hotkeys.
+
+Basic Keyboard controls (met)
+
+* The player will move their cursor, make selections, give orders, and summon units with the keyboard keys.
+
+Both sides with be player controlled. (unmet, changed to singlePlayer)
+* No basic opponent AI, both sides will be controlled by players.
+
+
+## Additional Goals Reached
+
+* Scrolling camera
+
+* Mulitple spells for character.
+
+* Enemy chase behavior.
+
+* Enemy health based behavior.
+
+## Liscencing
+
+* All artwork used under CC0 1.0 or Public Domain and obtained from OpenGameArt.org and www.Kenney.nl
+
+* SoulWars and it's source code are under CC0 1.0, feel free to share it, attribution is appreciated but not nesseccary.
+
